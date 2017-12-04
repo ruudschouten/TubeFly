@@ -1,0 +1,29 @@
+package main.ui.client.view;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import main.ui.client.controllers.loginController;
+
+import java.io.IOException;
+
+public class LoginView extends Application {
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/main/resources/login.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        primaryStage.setTitle("login");
+        loginController controller = loader.getController();
+        controller.setStage(primaryStage);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+}

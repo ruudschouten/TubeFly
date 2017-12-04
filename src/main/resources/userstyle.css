@@ -1,0 +1,96 @@
+.root{
+	-fx-focus-color: #A50825;
+	-fx-faint-focus-color: transparent;
+}
+
+.textbox {
+	-fx-background-radius: 50;
+	-fx-border-radius: 50;
+	-fx-text-fill: #2D0012;
+}
+
+.text-area {
+	-fx-text-fill: #2D0012;
+	-fx-focus-color: #CCCCCC;
+	-fx-faint-focus-color: transparent;
+	-fx-focus-traversable: false;
+}
+
+.button {
+	-fx-padding: 4 16 4 16;
+	-fx-background-radius: 50;
+	-fx-border-radius: 50;	
+	-fx-background-color: #B1A2C1;
+	-fx-text-fill: #FFFFFF;
+	-fx-cursor: hand;
+}
+
+.deletebutton {
+	-fx-padding: 6 12 6 12;
+	-fx-background-radius: 50;
+	-fx-border-radius: 50;	
+	-fx-background-color: #3D000E;
+	-fx-text-fill: #FFFFFF;
+	-fx-cursor: hand;	
+}
+
+.musicbutton {
+	-fx-padding: 5 8 5 8;
+	-fx-background-radius: 50;
+	-fx-border-radius: 50;	
+	-fx-background-color: #3D000E;
+	-fx-text-fill: #FFFFFF;
+	-fx-cursor: hand;	
+	-fx-alignment: center;
+	-fx-text-alignment: center;
+}
+
+.label {
+	-fx-text-fill: #630017;	
+}
+
+.clickableLabel {
+	-fx-underline: true;
+	-fx-text-fill: #9E6984;
+	-fx-cursor: hand;
+}
+
+.playlist {
+	-fx-background-radius: 50;
+	-fx-border-radius: 50;	
+	-fx-background-color: #D8B1B8;
+	-fx-padding: 10;
+}
+
+.scroll-pane{	
+    -fx-background-color: transparent;
+}
+
+.barbutton {
+	-fx-background-radius: 50;
+	-fx-border-radius: 50;	
+	-fx-background-color: #3D000E;
+	-fx-text-fill: #FFFFFF;
+	-fx-cursor: hand;	
+	-fx-alignment: center;
+	-fx-text-alignment: center;
+	-fx-font-size:18px;
+}
+
+.progressbar{
+	-fx-accent: #2D0012;
+}
+
+#bottombar {
+	-fx-background-color: #D8B1B8;	
+}
+
+#background {
+	-fx-background-color: #F9F9F9;
+}
+
+#title{
+	-fx-text-fill: #3D000E;
+	-fx-font-size: 40px;
+	-fx-alignment: center;
+}
