@@ -1,5 +1,6 @@
 package main.play;
 
+import main.api.Youtube;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.Serializable;
@@ -14,6 +15,7 @@ public class Song implements ISong, Serializable {
 
     public Song(String youtubeURL) {
         this.youtubeURL = youtubeURL;
+        name = Youtube.getTitle(youtubeURL);
     }
 
     @Override
