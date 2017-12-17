@@ -47,15 +47,16 @@ public class Song implements ISong, Serializable {
         return isPaused;
     }
 
-    public void Play() {
-        throw new NotImplementedException();
-    }
-
-    public void Pause() {
-        throw new NotImplementedException();
-    }
-
-    public void Stop() {
-        throw new NotImplementedException();
-    }
+//    Move this to Playlist
+//    public void Play() {
+//        throw new NotImplementedException();
+//    }
+//
+//    public void Pause() {
+//        throw new NotImplementedException();
+//    }
+//
+//    public void Stop() {
+//        throw new NotImplementedException();
+//    }
 }
