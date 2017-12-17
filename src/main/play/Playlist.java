@@ -3,9 +3,10 @@ package main.play;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.UUID;
 
 public class Playlist extends UnicastRemoteObject implements Serializable {
-    private int id;
+    private UUID id;
     private String name;
     private String description;
     private User creator;
@@ -13,15 +14,20 @@ public class Playlist extends UnicastRemoteObject implements Serializable {
     private boolean shuffle;
     private boolean loop;
 
-    public Playlist(String name) throws RemoteException {
+    public Playlist(String name, User creator) throws RemoteException {
         setName(name);
-    }
-    public Playlist(String name, String description) throws RemoteException {
-        setName(name);
-        setDescription(description);
+        this.creator = creator;
+        id = UUID.randomUUID();
     }
 
-    public int getId() {
+    public Playlist(String name, String description, User creator) throws RemoteException {
+        setName(name);
+        setDescription(description);
+        id = UUID.randomUUID();
+        this.creator = creator;
+    }
+
+    public UUID getId() {
         return id;
     }
 
@@ -49,11 +55,19 @@ public class Playlist extends UnicastRemoteObject implements Serializable {
         return creator;
     }
 
-    public void ToggleShuffle() {
+    public boolean isShuffling() {
+        return shuffle;
+    }
+
+    public boolean isLooping() {
+        return loop;
+    }
+
+    public void toggleShuffle() {
         shuffle = !shuffle;
     }
 
-    public void ToggleLoop() {
+    public void toggleLoop() {
         loop = !loop;
     }
 }
