@@ -1,9 +1,10 @@
 package main.play;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 public class User implements Serializable {
-    private int id;
+    private UUID id;
     private String name;
     private String password;
     private String address;
@@ -17,7 +18,7 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 
