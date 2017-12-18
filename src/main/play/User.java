@@ -19,6 +19,14 @@ public class User implements Serializable {
         id = UUID.randomUUID();
     }
 
+    public User(String id, String name, String password, String address, Gender gender) {
+        this.name = name;
+        this.password = password;
+        this.address = address;
+        this.gender = gender;
+        this.id = UUID.fromString(id);
+    }
+
     public UUID getId() {
         return id;
     }

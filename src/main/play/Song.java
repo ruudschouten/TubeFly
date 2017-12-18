@@ -5,6 +5,7 @@ import main.api.YouTube;
 import java.io.Serializable;
 
 public class Song implements ISong, Serializable {
+    private int id;
     private String youtubeURL;
     private String name;
     private String artist;
@@ -16,9 +17,20 @@ public class Song implements ISong, Serializable {
         artist = youTube.getArtist();
     }
 
+    public Song(int id, String youtubeURL, String name, String artist) {
+        this.id = id;
+        this.youtubeURL = youtubeURL;
+        this.name = name;
+        this.artist = artist;
+    }
+
     @Override
     public String getURL() {
         return youtubeURL;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
