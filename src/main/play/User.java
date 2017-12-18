@@ -16,6 +16,7 @@ public class User implements Serializable {
         this.password = password;
         this.address = address;
         this.gender = gender;
+        id = UUID.randomUUID();
     }
 
     public UUID getId() {
