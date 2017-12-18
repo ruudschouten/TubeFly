@@ -11,30 +11,28 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 public class Database {
-    private Logger logger;
-    private Properties props;
-    private Connection con;
+    private static Properties props;
+    private static Connection con;
 
-    public Database() {
-        logger = new Logger("Database", Level.SEVERE, Level.SEVERE);
-        try {
-            setupProperty();
-            initConnection();
-        } catch (IOException | SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+    public static Connection getCon() {
+        if(con == null) {
+            Logger logger = new Logger("Database", Level.SEVERE, Level.SEVERE);
+            try {
+                setupProperty();
+                initConnection();
+            } catch (IOException | SQLException e) {
+                logger.log(Level.SEVERE, e.toString());
+            }
         }
-    }
-
-    public Connection getCon() {
         return con;
     }
 
-    private void setupProperty() throws IOException {
+    private static void setupProperty() throws IOException {
         props = new Properties();
         props.load(new FileInputStream("db.properties"));
     }
 
-    private void initConnection() throws SQLException {
+    private static void initConnection() throws SQLException {
         String dbUrl = props.getProperty("dbUrl");
         String dbTable = props.getProperty("dbTable");
         String dbReconnect = props.getProperty("reconnect");
