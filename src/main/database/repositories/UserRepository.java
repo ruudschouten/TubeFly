@@ -2,30 +2,66 @@ package main.database.repositories;
 
 import main.database.data.IUserContext;
 import main.database.logic.UserContext;
+import main.log.Logger;
 import main.play.User;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class UserRepository implements IUserContext {
-    UserContext context = new UserContext();
+    private Logger logger;
+    private IUserContext context;
+
+    public UserRepository(IUserContext context) {
+        this.context = context;
+        logger = new Logger(context.getClass().getName(), Level.ALL, Level.ALL);
+    }
+
     @Override
     public User getById(UUID id) {
-        return context.getById(id);
+        try {
+            return context.getById(id);
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 
     @Override
     public List<User> getAll() {
-        return context.getAll();
+        try {
+            return context.getAll();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 
     @Override
-    public void insert(User user) {
-        context.insert(user);
+    public boolean insert(User user) {
+        try {
+            return context.insert(user);
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return false;
     }
 
     @Override
-    public void delete(UUID id) {
-        context.delete(id);
+    public boolean delete(UUID id) {
+        try {
+            return context.delete(id);
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return false;
+    }
+
+    @Override
+    public User getFromResultSet(ResultSet rs) throws SQLException {
+        return context.getFromResultSet(rs);
     }
 }
