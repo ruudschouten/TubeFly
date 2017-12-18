@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import main.play.User;
 
-public class editPlaylistController {
+public class EditPlaylistController {
     @FXML private TextField tbSearch;
     @FXML private TextField tbSong;
 

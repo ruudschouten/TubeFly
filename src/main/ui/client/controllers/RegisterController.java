@@ -9,7 +9,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import main.play.User;
 
-public class registerController {
+public class RegisterController {
     @FXML private TextField tbName;
     @FXML private ToggleGroup genderGroup;
     @FXML private RadioButton rbMale;

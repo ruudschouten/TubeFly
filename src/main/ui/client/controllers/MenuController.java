@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import main.play.User;
 
-public class menuController {
+public class MenuController {
     @FXML private TextField tbSearch;
 
     private User user;

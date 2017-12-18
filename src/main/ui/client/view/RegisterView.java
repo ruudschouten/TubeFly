@@ -16,7 +16,7 @@ public class RegisterView {
         Parent root = loader.load();
         Scene scene = new Scene(root);
         primaryStage.setTitle("Register");
-        menuController controller = loader.getController();
+        MenuController controller = loader.getController();
         controller.setStage(primaryStage);
         controller.setUser(user);
         primaryStage.setScene(scene);

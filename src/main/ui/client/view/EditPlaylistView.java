@@ -5,7 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import main.play.User;
-import main.ui.client.controllers.editPlaylistController;
+import main.ui.client.controllers.EditPlaylistController;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ public class EditPlaylistView {
         Parent root = loader.load();
         Scene scene = new Scene(root);
         primaryStage.setTitle("Register");
-        editPlaylistController controller = loader.getController();
+        EditPlaylistController controller = loader.getController();
         controller.setStage(primaryStage);
         controller.setUser(user);
         primaryStage.setScene(scene);

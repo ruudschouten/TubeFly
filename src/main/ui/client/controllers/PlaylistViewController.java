@@ -13,7 +13,7 @@ import main.play.User;
 
 import java.io.IOException;
 
-public class playlistViewController {
+public class PlaylistViewController {
     @FXML private TextField tbSearch;
     @FXML private Label lbSongInfo;
     @FXML private Label lbSongTime;

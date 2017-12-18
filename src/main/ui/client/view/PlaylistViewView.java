@@ -5,7 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import main.play.User;
-import main.ui.client.controllers.playlistViewController;
+import main.ui.client.controllers.PlaylistViewController;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ public class PlaylistViewView {
         Parent root = loader.load();
         Scene scene = new Scene(root);
         primaryStage.setTitle("Playlist View");
-        playlistViewController controller = loader.getController();
+        PlaylistViewController controller = loader.getController();
         controller.setStage(primaryStage);
         controller.setUser(user);
         primaryStage.setScene(scene);

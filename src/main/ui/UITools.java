@@ -1,6 +1,7 @@
 package main.ui;
 
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

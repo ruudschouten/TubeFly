@@ -13,7 +13,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0"
             prefWidth="600.0" stylesheets="@userstyle.css" xmlns="http://javafx.com/javafx/8.0.111"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="main.ui.client.controllers.menuController">
+            fx:controller="main.ui.client.controllers.MenuController">
     <children>
         <Label id="title" stylesheets="@userstyle.css" text="TubeFly" AnchorPane.leftAnchor="10.0"
                AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0"/>
