@@ -66,13 +66,11 @@ public class UITools
             catch (IOException e) {
                 e.printStackTrace();
             }
-            Font.loadFont(getClass().getResourceAsStream("Wicked.otf"), 10);
-            root.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
             currentRoot = root;
             Scene scene = new Scene(root);
             if(stage == null){
                 stage = new Stage();
-                stage.setTitle("Drawingo");
+                stage.setTitle("Window");
                 stage.setScene(scene);
                 stage.show();
                 stage.setResizable(false);
