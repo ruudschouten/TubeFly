@@ -3,13 +3,17 @@ package main.database.data;
 import main.play.Playlist;
 import main.play.User;
 
+import java.rmi.RemoteException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
 public interface IPlaylistContext {
-    Playlist getById(UUID id);
-    List<Playlist> getAll();
-    List<Playlist> getFromCreator(User user);
-    void insert(Playlist playlist);
-    void delete(UUID id);
+    Playlist getById(UUID id) throws SQLException, RemoteException;
+    List<Playlist> getAll() throws SQLException, RemoteException;
+    List<Playlist> getFromCreator(User user) throws SQLException, RemoteException;
+    boolean insert(Playlist playlist) throws SQLException;
+    boolean delete(UUID id) throws SQLException;
+    Playlist getFromResultSet(ResultSet rs) throws SQLException, RemoteException;
 }
