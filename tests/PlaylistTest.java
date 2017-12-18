@@ -2,6 +2,7 @@
 
 import main.play.Gender;
 import main.play.Playlist;
+import main.play.Song;
 import main.play.User;
 import org.junit.Assert;
 import org.junit.Before;
@@ -141,5 +142,18 @@ public class PlaylistTest {
         Assert.assertEquals(p.isLooping(), false);
         p.toggleLoop();
         Assert.assertEquals(p.isLooping(), true);
+    }
+
+    /**
+     * Adds a song and gets size
+     *
+     * @throws RemoteException the exception which can be thrown by RMI
+     */
+    @Test
+    public void addAndGetSong() throws RemoteException {
+        Playlist p = new Playlist(name, creator);
+        Song s = new Song("https://www.youtube.com/watch?v=eu2I72CrLl4");
+        p.addSong(s);
+        Assert.assertEquals(p.getSongs().size(), 1);
     }
 }
