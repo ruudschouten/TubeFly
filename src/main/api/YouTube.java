@@ -15,6 +15,8 @@ public class YouTube {
 
     private static final String SEPERATOR = "-";
 
+    //TODO: Replace this with YouTube Data API
+    //TODO: Add libs somewhere so they can be imported
     public YouTube(String url) {
         Logger logger = new Logger("YouTube", Level.SEVERE, Level.SEVERE);
         try {
