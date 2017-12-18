@@ -83,4 +83,12 @@ public class Playlist extends UnicastRemoteObject implements Serializable {
     public void toggleLoop() {
         loop = !loop;
     }
+
+    public ArrayList<Song> getSongs() {
+        return songs;
+    }
+
+    public void addSong(Song song) {
+        songs.add(song);
+    }
 }
