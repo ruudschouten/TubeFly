@@ -1,7 +1,6 @@
 package main.play;
 
-import main.api.Youtube;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import main.api.YouTube;
 
 import java.io.Serializable;
 
@@ -10,12 +9,14 @@ public class Song implements ISong, Serializable {
     private String name;
     private String artist;
 
-    private boolean isPlaying;
-    private boolean isPaused;
+//    private boolean isPlaying;
+//    private boolean isPaused;
 
     public Song(String youtubeURL) {
         this.youtubeURL = youtubeURL;
-        name = Youtube.getTitle(youtubeURL);
+        YouTube youTube = new YouTube(youtubeURL);
+        name = youTube.getName();
+        artist = youTube.getArtist();
     }
 
     @Override
@@ -39,13 +40,13 @@ public class Song implements ISong, Serializable {
         this.artist = artist;
     }
 
-    public boolean isPlaying() {
-        return isPlaying;
-    }
-
-    public boolean isPaused() {
-        return isPaused;
-    }
+//    public boolean isPlaying() {
+//        return isPlaying;
+//    }
+//
+//    public boolean isPaused() {
+//        return isPaused;
+//    }
 
 //    Move this to Playlist
 //    public void Play() {
