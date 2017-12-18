@@ -9,9 +9,6 @@ import java.net.URL;
 import java.util.logging.Level;
 
 public class YouTube {
-    private Logger logger;
-
-    private String url;
     private String title;
     private String artist;
     private String name;
@@ -19,8 +16,7 @@ public class YouTube {
     private static final String SEPERATOR = "-";
 
     public YouTube(String url) {
-        logger = new Logger("YouTube", Level.SEVERE, Level.SEVERE);
-        this.url = url;
+        Logger logger = new Logger("YouTube", Level.SEVERE, Level.SEVERE);
         try {
             title = getTitleFromURL(url);
             assert title != null;

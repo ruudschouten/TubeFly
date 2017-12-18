@@ -7,7 +7,7 @@ import main.ui.UITools;
 import main.ui.client.controllers.loginController;
 
 public class TubeClient extends Application {
-    public ClientContainer container;
+    ClientContainer container;
 
     @Override
     public void start(Stage primaryStage) throws Exception {

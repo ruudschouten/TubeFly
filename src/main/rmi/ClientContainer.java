@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientContainer extends UnicastRemoteObject implements IPlaylistContainer, INotifier, IAccountManager {
-    public User user;
+    User user;
 
     protected ClientContainer() throws RemoteException {
 

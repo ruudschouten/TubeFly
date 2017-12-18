@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 import main.rmi.ClientContainer;
 
 public class TubeAdminClient extends Application {
-    public ClientContainer container;
+    ClientContainer container;
 
     @Override
     public void start(Stage primaryStage) throws Exception {

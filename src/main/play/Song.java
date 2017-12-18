@@ -9,9 +9,6 @@ public class Song implements ISong, Serializable {
     private String name;
     private String artist;
 
-//    private boolean isPlaying;
-//    private boolean isPaused;
-
     public Song(String youtubeURL) {
         this.youtubeURL = youtubeURL;
         YouTube youTube = new YouTube(youtubeURL);
@@ -39,25 +36,5 @@ public class Song implements ISong, Serializable {
     public void setArtist(String artist) {
         this.artist = artist;
     }
-
-//    public boolean isPlaying() {
-//        return isPlaying;
-//    }
-//
-//    public boolean isPaused() {
-//        return isPaused;
-//    }
-
-//    Move this to Playlist
-//    public void Play() {
-//        throw new NotImplementedException();
-//    }
-//
-//    public void Pause() {
-//        throw new NotImplementedException();
-//    }
-//
-//    public void Stop() {
-//        throw new NotImplementedException();
-//    }
+    
 }
