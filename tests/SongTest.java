@@ -5,6 +5,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class SongTest {
     private String youtubeURL = "https://www.youtube.com/watch?v=eu2I72CrLl4"; //Emmanuel & The Fear - Jimme's Song
+    private String youtubeTitle = "Emmanuel & The Fear - Jimme's Song";
     private String name = "name";
     private String artist = "artist";
     @Test
@@ -15,8 +16,9 @@ public class SongTest {
 
     @Test
     public void getName() {
-        //TODO: Get youtubelink parsing working before testing
-        throw new NotImplementedException();
+        Song song = new Song(youtubeURL);
+        String name = "Jimme's Song";
+        Assert.assertEquals(song.getName(), name);
     }
 
     @Test
@@ -28,7 +30,9 @@ public class SongTest {
 
     @Test
     public void getArtist() {
-        throw new NotImplementedException();
+        Song song = new Song(youtubeURL);
+        String artist = "Emmanuel & The Fear";
+        Assert.assertEquals(song.getArtist(), artist);
     }
 
     @Test
@@ -36,17 +40,5 @@ public class SongTest {
         Song song = new Song(youtubeURL);
         song.setArtist(artist);
         Assert.assertEquals(song.getArtist(), artist);
-    }
-
-    @Test
-    public void isPlaying() {
-        Song song = new Song(youtubeURL);
-        Assert.assertEquals(song.isPlaying(), false);
-    }
-
-    @Test
-    public void isPaused() {
-        Song song = new Song(youtubeURL);
-        Assert.assertEquals(song.isPaused(), false);
     }
 }
