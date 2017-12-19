@@ -25,8 +25,8 @@
         <Label layoutX="456.0" layoutY="20.0" onMouseClicked="#showRegUser" styleClass="clickableLabel"
                stylesheets="@userstyle.css" text="Create one here" AnchorPane.rightAnchor="10.0"
                AnchorPane.topAnchor="28.0"/>
-        <TextArea editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textarea"
-                  stylesheets="@userstyle.css" text="[INFO] Server running" AnchorPane.bottomAnchor="10.0"
+        <TextArea fx:id="taLog" editable="false" prefHeight="200.0" prefWidth="200.0" styleClass="textarea"
+                  stylesheets="@userstyle.css" AnchorPane.bottomAnchor="10.0"
                   AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="150.0"/>
     </children>
 </AnchorPane>
