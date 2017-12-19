@@ -1,7 +1,6 @@
 package main.database.data;
 
 import main.play.Song;
-import main.play.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

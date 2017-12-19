@@ -11,6 +11,9 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 public class Database {
+
+    private Database() { }
+
     private static Properties props;
     private static Connection con;
 

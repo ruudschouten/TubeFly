@@ -4,13 +4,11 @@ import main.database.data.Database;
 import main.database.data.IPlaylistContext;
 import main.database.repositories.SongRepository;
 import main.database.repositories.UserRepository;
-import main.play.Gender;
 import main.play.Playlist;
 import main.play.Song;
 import main.play.User;
 
 import java.rmi.RemoteException;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

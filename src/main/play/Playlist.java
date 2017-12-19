@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Playlist extends UnicastRemoteObject implements Serializable {
@@ -12,7 +13,7 @@ public class Playlist extends UnicastRemoteObject implements Serializable {
     private String description;
     private User creator;
 
-    private ArrayList<Song> songs;
+    private List<Song> songs;
 
     private boolean shuffle;
     private boolean loop;
@@ -32,7 +33,7 @@ public class Playlist extends UnicastRemoteObject implements Serializable {
         songs = new ArrayList<>();
     }
 
-    public Playlist(String id, String name, String description, User creator, ArrayList<Song> songs) throws RemoteException {
+    public Playlist(String id, String name, String description, User creator, List<Song> songs) throws RemoteException {
         setName(name);
         setDescription(description);
         this.id = UUID.fromString(id);
@@ -84,11 +85,21 @@ public class Playlist extends UnicastRemoteObject implements Serializable {
         loop = !loop;
     }
 
-    public ArrayList<Song> getSongs() {
+    public List<Song> getSongs() {
         return songs;
     }
 
     public void addSong(Song song) {
         songs.add(song);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Playlist && ((Playlist) obj).id == this.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

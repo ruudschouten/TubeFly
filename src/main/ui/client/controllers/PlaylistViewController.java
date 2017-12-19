@@ -2,16 +2,11 @@ package main.ui.client.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import main.play.User;
-
-import java.io.IOException;
 
 public class PlaylistViewController {
     @FXML private TextField tbSearch;

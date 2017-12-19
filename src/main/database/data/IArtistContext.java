@@ -4,7 +4,6 @@ import main.play.User;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.UUID;
 
 public interface IArtistContext {
     String getFromId(int id) throws SQLException;

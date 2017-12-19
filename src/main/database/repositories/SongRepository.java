@@ -1,12 +1,12 @@
 package main.database.repositories;
 
 import main.database.data.ISongContext;
-import main.database.logic.SongContext;
 import main.log.Logger;
 import main.play.Song;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -42,7 +42,7 @@ public class SongRepository implements ISongContext {
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.toString());
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -57,7 +57,7 @@ public class SongRepository implements ISongContext {
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.toString());
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Override

@@ -5,7 +5,6 @@ import main.database.data.ISongContext;
 import main.database.repositories.ArtistRepository;
 import main.play.Song;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -7,7 +7,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import main.play.User;
 import main.ui.UITools;
 
 public class LoginController {

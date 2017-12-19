@@ -1,7 +1,6 @@
 package main.database.repositories;
 
 import main.database.data.IPlaylistContext;
-import main.database.logic.PlaylistContext;
 import main.log.Logger;
 import main.play.Playlist;
 import main.play.User;
@@ -9,6 +8,7 @@ import main.play.User;
 import java.rmi.RemoteException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -39,7 +39,7 @@ public class PlaylistRepository implements IPlaylistContext {
         } catch (SQLException | RemoteException e) {
             logger.log(Level.SEVERE, e.toString());
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class PlaylistRepository implements IPlaylistContext {
         } catch (SQLException | RemoteException e) {
             logger.log(Level.SEVERE, e.toString());
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Override

@@ -1,12 +1,11 @@
 package main.database.repositories;
 
 import main.database.data.IArtistContext;
-import main.database.data.IUserContext;
-import main.database.logic.ArtistContext;
 import main.log.Logger;
 import main.play.User;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -36,7 +35,7 @@ public class ArtistRepository implements IArtistContext {
         } catch (SQLException e) {
             logger.log(Level.SEVERE, e.toString());
         }
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
