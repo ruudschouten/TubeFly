@@ -18,11 +18,17 @@ public class SongContext implements ISongContext {
     public Song getById(int id) throws SQLException {
         Song song = null;
         Connection con = Database.getCon();
-        PreparedStatement statement = con.prepareStatement("SELECT * FROM Song s WHERE s.ID = ?");
-        statement.setInt(1, id);
-        ResultSet rs = statement.executeQuery();
-        if (rs.next()) {
-            song = getFromResultSet(rs);
+        PreparedStatement statement = null;
+        try {
+            statement = con.prepareStatement("SELECT * FROM Song s WHERE s.ID = ?");
+            statement.setInt(1, id);
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    song = getFromResultSet(rs);
+                }
+            }
+        } finally {
+            if (statement != null) statement.close();
         }
         return song;
     }
@@ -31,11 +37,17 @@ public class SongContext implements ISongContext {
     public Song getByName(String name) throws SQLException {
         Song song = null;
         Connection con = Database.getCon();
-        PreparedStatement statement = con.prepareStatement("SELECT * FROM Song s WHERE s.Name = ?");
-        statement.setString(1, name);
-        ResultSet rs = statement.executeQuery();
-        if (rs.next()) {
-            song = getFromResultSet(rs);
+        PreparedStatement statement = null;
+        try {
+            statement = con.prepareStatement("SELECT * FROM Song s WHERE s.Name = ?");
+            statement.setString(1, name);
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    song = getFromResultSet(rs);
+                }
+            }
+        } finally {
+            if (statement != null) statement.close();
         }
         return song;
     }
@@ -44,11 +56,17 @@ public class SongContext implements ISongContext {
     public Song getByURL(String url) throws SQLException {
         Song song = null;
         Connection con = Database.getCon();
-        PreparedStatement statement = con.prepareStatement("SELECT * FROM Song s WHERE s.URL = ?");
-        statement.setString(1, url);
-        ResultSet rs = statement.executeQuery();
-        if (rs.next()) {
-            song = getFromResultSet(rs);
+        PreparedStatement statement = null;
+        try {
+            statement = con.prepareStatement("SELECT * FROM Song s WHERE s.URL = ?");
+            statement.setString(1, url);
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    song = getFromResultSet(rs);
+                }
+            }
+        } finally {
+            if (statement != null) statement.close();
         }
         return song;
     }
@@ -57,10 +75,16 @@ public class SongContext implements ISongContext {
     public List<Song> getAll() throws SQLException {
         ArrayList<Song> songs = new ArrayList<>();
         Connection con = Database.getCon();
-        PreparedStatement statement = con.prepareStatement("SELECT * FROM Song s ");
-        ResultSet rs = statement.executeQuery();
-        if (rs.next()) {
-            songs.add(getFromResultSet(rs));
+        PreparedStatement statement = null;
+        try {
+            statement = con.prepareStatement("SELECT * FROM Song s ");
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    songs.add(getFromResultSet(rs));
+                }
+            }
+        } finally {
+            if (statement != null) statement.close();
         }
         return songs;
     }
@@ -69,12 +93,18 @@ public class SongContext implements ISongContext {
     public List<Song> getAllFromPlaylist(UUID id) throws SQLException {
         ArrayList<Song> songs = new ArrayList<>();
         Connection con = Database.getCon();
-        PreparedStatement statement = con.prepareStatement("SELECT * FROM Song s " +
-                "INNER JOIN playlist_song ps on s.ID = ps.SongID" +
-                "INNER JOIN playlist p on p.ID = ps.PlaylistID");
-        ResultSet rs = statement.executeQuery();
-        if (rs.next()) {
-            songs.add(getFromResultSet(rs));
+        PreparedStatement statement = null;
+        try {
+            statement = con.prepareStatement("SELECT * FROM Song s " +
+                    "INNER JOIN playlist_song ps ON s.ID = ps.SongID" +
+                    "INNER JOIN playlist p ON p.ID = ps.PlaylistID");
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    songs.add(getFromResultSet(rs));
+                }
+            }
+        } finally {
+            if (statement != null) statement.close();
         }
         return songs;
     }
@@ -83,11 +113,17 @@ public class SongContext implements ISongContext {
     public List<Song> getByArtist(String artist) throws SQLException {
         ArrayList<Song> songs = new ArrayList<>();
         Connection con = Database.getCon();
-        PreparedStatement statement = con.prepareStatement("SELECT * FROM Song s WHERE ArtistID = ?");
-        statement.setString(1, artist);
-        ResultSet rs = statement.executeQuery();
-        if (rs.next()) {
-            songs.add(getFromResultSet(rs));
+        PreparedStatement statement = null;
+        try {
+            statement = con.prepareStatement("SELECT * FROM Song s WHERE ArtistID = ?");
+            statement.setString(1, artist);
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    songs.add(getFromResultSet(rs));
+                }
+            }
+        } finally {
+            if (statement != null) statement.close();
         }
         return songs;
     }
@@ -95,18 +131,23 @@ public class SongContext implements ISongContext {
     @Override
     public boolean insert(Song song) throws SQLException {
         ArtistRepository artistRepository = new ArtistRepository(new ArtistContext());
-        if(artistRepository.getFromName(song.getArtist()) == 0) {
+        if (artistRepository.getFromName(song.getArtist()) == 0) {
             artistRepository.insert(song.getArtist());
         }
 
         boolean success;
         Connection con = Database.getCon();
-        PreparedStatement statement = con.prepareStatement("INSERT INTO song (ID, ArtistID, URL, Name) values (?, ?, ? ,?)");
-        statement.setInt(1, song.getId());
-        statement.setInt(2, artistRepository.getFromName(song.getName()));
-        statement.setString(3, song.getURL());
-        statement.setString(4, song.getName());
-        success = statement.execute();
+        PreparedStatement statement = null;
+        try {
+            statement = con.prepareStatement("INSERT INTO song (ID, ArtistID, URL, Name) VALUES (?, ?, ? ,?)");
+            statement.setInt(1, song.getId());
+            statement.setInt(2, artistRepository.getFromName(song.getName()));
+            statement.setString(3, song.getURL());
+            statement.setString(4, song.getName());
+            success = statement.execute();
+        } finally {
+            if (statement != null) statement.close();
+        }
         return success;
     }
 
@@ -114,9 +155,14 @@ public class SongContext implements ISongContext {
     public boolean delete(int id) throws SQLException {
         boolean success;
         Connection con = Database.getCon();
-        PreparedStatement statement = con.prepareStatement("DELETE FROM song WHERE ID = ?");
-        statement.setInt(1, id);
-        success = statement.execute();
+        PreparedStatement statement = null;
+        try {
+            statement = con.prepareStatement("DELETE FROM song WHERE ID = ?");
+            statement.setInt(1, id);
+            success = statement.execute();
+        } finally {
+            if (statement != null) statement.close();
+        }
         return success;
     }
 
@@ -126,6 +172,6 @@ public class SongContext implements ISongContext {
         String artist = new ArtistRepository(new ArtistContext()).getFromId(rs.getInt("ArtistID"));
         String url = rs.getString("URL");
         String name = rs.getString("Name");
-        return new Song(id,url, name, artist);
+        return new Song(id, url, name, artist);
     }
 }

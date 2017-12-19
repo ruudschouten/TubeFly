@@ -18,11 +18,17 @@ public class UserContext implements IUserContext {
     public User getById(UUID id) throws SQLException {
         User user = null;
         Connection con = Database.getCon();
-        PreparedStatement statement = con.prepareStatement("SELECT * FROM User u WHERE u.ID = ?");
-        statement.setString(1, id.toString());
-        ResultSet rs = statement.executeQuery();
-        if (rs.next()) {
-            user = getFromResultSet(rs);
+        PreparedStatement statement = null;
+        try {
+            statement = con.prepareStatement("SELECT * FROM User u WHERE u.ID = ?");
+            statement.setString(1, id.toString());
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    user = getFromResultSet(rs);
+                }
+            }
+        } finally {
+            if (statement != null) statement.close();
         }
         return user;
     }
@@ -31,10 +37,16 @@ public class UserContext implements IUserContext {
     public List<User> getAll() throws SQLException {
         List<User> users = new ArrayList<>();
         Connection con = Database.getCon();
-        PreparedStatement statement = con.prepareStatement("SELECT * FROM User");
-        ResultSet rs = statement.executeQuery();
-        if (rs.next()) {
-            users.add(getFromResultSet(rs));
+        PreparedStatement statement = null;
+        try {
+            statement = con.prepareStatement("SELECT * FROM User");
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    users.add(getFromResultSet(rs));
+                }
+            }
+        } finally {
+            if (statement != null) statement.close();
         }
         return users;
     }
@@ -43,13 +55,18 @@ public class UserContext implements IUserContext {
     public boolean insert(User user) throws SQLException {
         boolean success;
         Connection con = Database.getCon();
-        PreparedStatement statement = con.prepareStatement("INSERT INTO user (ID, Name, Password, Address, Gender) values (?, ?, ? ,?, ?)");
-        statement.setString(1, user.getId().toString());
-        statement.setString(2, user.getName());
-        statement.setString(3, user.getPassword()); //TODO: Hash this
-        statement.setString(4, user.getAddress());
-        statement.setString(5, user.getGender().toString());
-        success = statement.execute();
+        PreparedStatement statement = null;
+        try {
+            statement = con.prepareStatement("INSERT INTO user (ID, Name, Password, Address, Gender) VALUES (?, ?, ? ,?, ?)");
+            statement.setString(1, user.getId().toString());
+            statement.setString(2, user.getName());
+            statement.setString(3, user.getPassword()); //TODO: Hash this
+            statement.setString(4, user.getAddress());
+            statement.setString(5, user.getGender().toString());
+            success = statement.execute();
+        } finally {
+            if (statement != null) statement.close();
+        }
         return success;
     }
 
@@ -57,9 +74,14 @@ public class UserContext implements IUserContext {
     public boolean delete(UUID id) throws SQLException {
         boolean success;
         Connection con = Database.getCon();
-        PreparedStatement statement = con.prepareStatement("DELETE FROM user WHERE ID = ?");
-        statement.setString(1, id.toString());
-        success = statement.execute();
+        PreparedStatement statement = null;
+        try {
+            statement = con.prepareStatement("DELETE FROM user WHERE ID = ?");
+            statement.setString(1, id.toString());
+            success = statement.execute();
+        } finally {
+            if (statement != null) statement.close();
+        }
         return success;
     }
 
