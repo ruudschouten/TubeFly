@@ -14,6 +14,25 @@ import java.util.UUID;
 
 public class UserContext implements IUserContext {
     @Override
+    public User login(String name, String pass) throws SQLException {
+        User user = null;
+        PreparedStatement statement = null;
+        try {
+            statement = Database.getCon().prepareStatement("SELECT * FROM User u WHERE u.Name = ? AND u.Password = ?");
+            statement.setString(1, name);
+            statement.setString(2, pass);
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    user = getFromResultSet(rs);
+                }
+            }
+        } finally {
+            if (statement != null) statement.close();
+        }
+        return user;
+    }
+
+    @Override
     public User getById(UUID id) throws SQLException {
         User user = null;
         PreparedStatement statement = null;
@@ -84,9 +103,10 @@ public class UserContext implements IUserContext {
     public User getFromResultSet(ResultSet rs) throws SQLException {
         String id = rs.getString("ID");
         String name = rs.getString("Name");
+        String mail = rs.getString("Mail");
         String password = rs.getString("Password");
         String address = rs.getString("Address");
         Gender gender = Gender.valueOf(rs.getString("Gender").toUpperCase());
-        return new User(id, name, password, address, gender);
+        return new User(id, mail, name, password, address, gender);
     }
 }

@@ -21,6 +21,11 @@ public class UserRepository implements IUserContext {
     }
 
     @Override
+    public User login(String name, String password) throws SQLException {
+        return context.login(name, password);
+    }
+
+    @Override
     public User getById(UUID id) {
         try {
             return context.getById(id);
