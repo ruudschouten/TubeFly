@@ -1,9 +1,9 @@
 
 
-import main.play.Gender;
-import main.play.Playlist;
-import main.play.Song;
-import main.play.User;
+import play.Gender;
+import play.Playlist;
+import play.Song;
+import play.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

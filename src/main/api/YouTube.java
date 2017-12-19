@@ -1,6 +1,6 @@
-package main.api;
+package api;
 
-import main.log.Logger;
+import log.Logger;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 

@@ -1,6 +1,6 @@
-package main.play;
+package play;
 
-import main.api.YouTube;
+import api.YouTube;
 
 import java.io.Serializable;
 

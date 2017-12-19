@@ -1,6 +1,6 @@
-package main.database.data;
+package database.data;
 
-import main.play.User;
+import play.User;
 
 import java.sql.SQLException;
 import java.util.List;

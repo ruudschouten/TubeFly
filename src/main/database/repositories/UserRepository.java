@@ -1,8 +1,8 @@
-package main.database.repositories;
+package database.repositories;
 
-import main.database.data.IUserContext;
-import main.log.Logger;
-import main.play.User;
+import database.data.IUserContext;
+import log.Logger;
+import play.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,11 +1,11 @@
-package main.ui.client.view;
+package ui.client.view;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import main.play.User;
-import main.ui.client.controllers.PlaylistViewController;
+import play.User;
+import ui.client.controllers.PlaylistViewController;
 
 import java.io.IOException;
 

@@ -1,8 +1,8 @@
-package main.database.repositories;
+package database.repositories;
 
-import main.database.data.IArtistContext;
-import main.log.Logger;
-import main.play.User;
+import database.data.IArtistContext;
+import log.Logger;
+import play.User;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

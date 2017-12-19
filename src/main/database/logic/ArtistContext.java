@@ -1,9 +1,9 @@
-package main.database.logic;
+package database.logic;
 
-import main.database.data.Database;
-import main.database.data.IArtistContext;
-import main.database.repositories.UserRepository;
-import main.play.User;
+import database.data.Database;
+import database.data.IArtistContext;
+import database.repositories.UserRepository;
+import play.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

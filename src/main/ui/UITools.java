@@ -1,4 +1,4 @@
-package main.ui;
+package ui;
 
 import javafx.animation.*;
 import javafx.beans.property.*;
@@ -13,7 +13,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import main.log.Logger;
+import log.Logger;
 
 import java.io.IOException;
 import java.util.Map;

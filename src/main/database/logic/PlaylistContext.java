@@ -1,12 +1,12 @@
-package main.database.logic;
+package database.logic;
 
-import main.database.data.Database;
-import main.database.data.IPlaylistContext;
-import main.database.repositories.SongRepository;
-import main.database.repositories.UserRepository;
-import main.play.Playlist;
-import main.play.Song;
-import main.play.User;
+import database.data.Database;
+import database.data.IPlaylistContext;
+import database.repositories.SongRepository;
+import database.repositories.UserRepository;
+import play.Playlist;
+import play.Song;
+import play.User;
 
 import java.rmi.RemoteException;
 import java.sql.PreparedStatement;

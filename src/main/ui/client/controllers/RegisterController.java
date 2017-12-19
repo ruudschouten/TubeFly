@@ -1,4 +1,4 @@
-package main.ui.client.controllers;
+package ui.client.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,7 +7,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
-import main.play.User;
+import play.User;
 
 public class RegisterController {
     @FXML private TextField tbName;

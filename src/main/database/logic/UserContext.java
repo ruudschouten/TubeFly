@@ -1,9 +1,9 @@
-package main.database.logic;
+package database.logic;
 
-import main.database.data.Database;
-import main.database.data.IUserContext;
-import main.play.Gender;
-import main.play.User;
+import database.data.Database;
+import database.data.IUserContext;
+import play.Gender;
+import play.User;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

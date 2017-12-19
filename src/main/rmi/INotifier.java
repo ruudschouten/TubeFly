@@ -1,6 +1,6 @@
-package main.rmi;
+package rmi;
 
-import main.play.User;
+import play.User;
 
 import java.rmi.Remote;
 

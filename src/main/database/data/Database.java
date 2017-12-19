@@ -1,6 +1,6 @@
-package main.database.data;
+package database.data;
 
-import main.log.Logger;
+import log.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;

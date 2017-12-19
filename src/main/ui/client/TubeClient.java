@@ -1,16 +1,17 @@
-package main.ui.client;
+package ui.client;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import main.rmi.ClientContainer;
-import main.ui.UITools;
-import main.ui.client.controllers.LoginController;
+import rmi.ClientContainer;
+import ui.UITools;
+import ui.client.controllers.LoginController;
 
 public class TubeClient extends Application {
     ClientContainer container;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        primaryStage.close();
         UITools.UIManager uiManager = new UITools.UIManager();
         uiManager.loadFXML("/main/resources/login.fxml", "Login");
         LoginController loginController = (LoginController) uiManager.getController();

@@ -1,7 +1,7 @@
-package main.ui.client.controllers;
+package ui.client.controllers;
 
 import javafx.stage.Stage;
-import main.play.User;
+import play.User;
 
 public class PlaylistCollectionController {
 

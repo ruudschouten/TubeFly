@@ -1,5 +1,5 @@
-import main.play.Gender;
-import main.play.User;
+import play.Gender;
+import play.User;
 import org.junit.Assert;
 import org.junit.Test;
 

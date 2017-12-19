@@ -1,4 +1,4 @@
-package main.ui.client.controllers;
+package ui.client.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,13 +7,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import main.database.data.Database;
-import main.database.logic.UserContext;
-import main.database.repositories.UserRepository;
-import main.log.Logger;
-import main.play.User;
-import main.ui.Message;
-import main.ui.UITools;
+import database.data.Database;
+import database.logic.UserContext;
+import database.repositories.UserRepository;
+import log.Logger;
+import play.User;
+import ui.Message;
+import ui.UITools;
 
 import java.sql.SQLException;
 import java.util.logging.Level;

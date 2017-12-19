@@ -1,9 +1,9 @@
-package main.database.repositories;
+package database.repositories;
 
-import main.database.data.IPlaylistContext;
-import main.log.Logger;
-import main.play.Playlist;
-import main.play.User;
+import database.data.IPlaylistContext;
+import log.Logger;
+import play.Playlist;
+import play.User;
 
 import java.rmi.RemoteException;
 import java.sql.ResultSet;

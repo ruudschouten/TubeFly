@@ -1,8 +1,8 @@
-package main.database.repositories;
+package database.repositories;
 
-import main.database.data.ISongContext;
-import main.log.Logger;
-import main.play.Song;
+import database.data.ISongContext;
+import log.Logger;
+import play.Song;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,6 +1,6 @@
-package main.ui.server;
+package ui.server;
 
-import main.rmi.ServerContainer;
+import rmi.ServerContainer;
 
 public class TubeServer {
     ServerContainer container;

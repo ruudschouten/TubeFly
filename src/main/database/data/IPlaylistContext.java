@@ -1,7 +1,7 @@
-package main.database.data;
+package database.data;
 
-import main.play.Playlist;
-import main.play.User;
+import play.Playlist;
+import play.User;
 
 import java.rmi.RemoteException;
 import java.sql.ResultSet;

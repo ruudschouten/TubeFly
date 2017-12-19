@@ -1,7 +1,7 @@
-package main.rmi;
+package rmi;
 
-import main.play.Playlist;
-import main.play.User;
+import play.Playlist;
+import play.User;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

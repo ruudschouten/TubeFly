@@ -1,4 +1,4 @@
-package main.play;
+package play;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;

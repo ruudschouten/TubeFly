@@ -1,10 +1,10 @@
-package main.ui.client.controllers;
+package ui.client.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import main.play.User;
+import play.User;
 
 public class MenuController {
     @FXML private TextField tbSearch;
