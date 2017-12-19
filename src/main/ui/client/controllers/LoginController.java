@@ -47,9 +47,9 @@ public class LoginController {
             User user = userRepository.login(mail, pass);
             if(user != null) {
                 UITools.UIManager uiManager = new UITools.UIManager();
-                uiManager.loadFXML("/main/resources/playlistcollection.fxml", "Playlists");
+                uiManager.loadFXML("menu.fxml", "Menu");
             } else {
-                Message.Show("Invalid login", "Username and password did not match\nPlease try again.");
+                Message.show("Invalid login", "Username and password did not match\nPlease try again.");
                 logger.log(Level.WARNING, "Username and password did not match");
             }
         } catch (SQLException e) {
@@ -59,6 +59,6 @@ public class LoginController {
 
     public void showRegUser(MouseEvent mouseEvent) {
         UITools.UIManager uiManager = new UITools.UIManager();
-        uiManager.loadFXML("/main/resources/register.fxml", "Playlists");
+        uiManager.loadFXML("register.fxml", "Register");
     }
 }

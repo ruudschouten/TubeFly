@@ -14,6 +14,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import log.Logger;
+import rmi.ClientContainer;
 
 import java.io.IOException;
 import java.util.Map;
@@ -60,6 +61,11 @@ public class UITools {
         private FXMLLoader loader = null;
 
         /**
+         * Not actually related to UI but eh
+         */
+        private ClientContainer container = null;
+
+        /**
          * Loads the next FXML into the current BorderPane.
          *
          * @param resource   The FXML FileName that needs to be loaded
@@ -67,10 +73,9 @@ public class UITools {
          */
         public void loadFXML(String resource, String windowName) {
             Logger logger = new Logger("UIManager", Level.SEVERE, Level.SEVERE);
-            loader = new FXMLLoader(getClass().getResource(resource));
+            loader = new FXMLLoader(getClass().getClassLoader().getResource(resource));
             Pane root = null;
             try {
-                //Crasht hierop
                 root = loader.load();
             } catch (IOException e) {
                 logger.log(Level.SEVERE, e.toString());
@@ -100,6 +105,14 @@ public class UITools {
             if (currentRoot.getClass() == BorderPane.class) {
                 ((BorderPane) currentRoot).setCenter(node);
             }
+        }
+
+        public void setContainer(ClientContainer container) {
+            this.container = container;
+        }
+
+        public ClientContainer getContainer() {
+            return container;
         }
 
         /**

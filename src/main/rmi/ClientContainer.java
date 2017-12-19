@@ -1,28 +1,40 @@
 package rmi;
 
+import fontyspublisher.IRemotePropertyListener;
+import log.Logger;
 import play.Playlist;
 import play.User;
 
+import java.beans.PropertyChangeEvent;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientContainer extends UnicastRemoteObject implements IPlaylistContainer, INotifier, IAccountManager {
-    User user;
+public class ClientContainer extends UnicastRemoteObject implements IRemotePropertyListener, IPlaylistContainer, INotifier, IAccountManager {
+    private Logger logger;
+    private IRemotePropertyListener publisher;
+    private ServerContainer server;
+    private User user;
 
-    protected ClientContainer() throws RemoteException {
+    public ClientContainer(IRemotePropertyListener publisher, ServerContainer server) throws RemoteException {
+        this.publisher = publisher;
+        this.server = server;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
 
     }
 
     @Override
     public boolean register(User user) {
-        return false;
+        return server.register(user);
     }
 
     @Override
     public boolean login(User user) {
-        return false;
+        return server.login(user);
     }
 
     @Override
