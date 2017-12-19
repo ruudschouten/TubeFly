@@ -1,7 +1,6 @@
 package main.ui;
 
 import javafx.animation.*;
-import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -71,6 +70,7 @@ public class UITools {
             loader = new FXMLLoader(getClass().getResource(resource));
             Pane root = null;
             try {
+                //Crasht hierop
                 root = loader.load();
             } catch (IOException e) {
                 logger.log(Level.SEVERE, e.toString());
@@ -97,7 +97,7 @@ public class UITools {
         public void loadCenter(String resource) throws IOException {
             FXMLLoader loader2 = new FXMLLoader(getClass().getResource("resource"));
             Node node = loader2.load();
-            if (currentRoot.getClass() == new BorderPane().getClass()) {
+            if (currentRoot.getClass() == BorderPane.class) {
                 ((BorderPane) currentRoot).setCenter(node);
             }
         }
@@ -135,7 +135,7 @@ public class UITools {
          * @return a Map of String and Object, String being the fx:id and Object being the Node.
          * Can throw a NullPointerException when there is no FXML File
          */
-        public Map<String, Object> getNamespace() throws NullPointerException {
+        public Map<String, Object> getNamespace() {
             return loader.getNamespace();
         }
 
