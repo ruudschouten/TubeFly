@@ -6,21 +6,23 @@ import java.util.UUID;
 public class User implements Serializable {
     private UUID id;
     private String name;
+    private String mail;
     private String password;
     private String address;
     private Gender gender;
 
-    public User(String name, String password, String address, Gender gender) {
-        //Randomly generate id
+    public User(String name, String mail, String password, String address, Gender gender) {
         this.name = name;
+        this.mail = mail;
         this.password = password;
         this.address = address;
         this.gender = gender;
         id = UUID.randomUUID();
     }
 
-    public User(String id, String name, String password, String address, Gender gender) {
+    public User(String id, String mail, String name, String password, String address, Gender gender) {
         this.name = name;
+        this.mail = mail;
         this.password = password;
         this.address = address;
         this.gender = gender;
@@ -33,6 +35,10 @@ public class User implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public String getMail() {
+        return mail;
     }
 
     public String getPassword() {
