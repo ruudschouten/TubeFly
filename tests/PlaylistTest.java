@@ -25,7 +25,7 @@ public class PlaylistTest {
      */
     @Before
     public void setUp() {
-        creator = new User("Creator", "Yes", "Address", Gender.MALE);
+        creator = new User("Creator", "mail@mail.com", "Yes", "Address", Gender.MALE);
     }
 
     /**

@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public class UserTest {
     private String name = "Name";
+    private String mail = "Mail@mail.com";
     private String pass = "Pass";
     private String address = "Address";
     private Gender gender = Gender.MALE;
@@ -18,7 +19,7 @@ public class UserTest {
      */
     @Test
     public void getId() {
-        User u = new User(name, pass, address, gender);
+        User u = new User(name, mail, pass, address, gender);
         Assert.assertNotEquals(u.getId(), UUID.randomUUID());
     }
 
@@ -27,15 +28,24 @@ public class UserTest {
      */
     @Test
     public void getName() {
-        User u = new User(name, pass, address, gender);
+        User u = new User(name, mail, pass, address, gender);
         Assert.assertEquals(u.getName(), name);
     }
+    /**
+     * Gets mail from user
+     */
+    @Test
+    public void getMail() {
+        User u = new User(name, mail, pass, address, gender);
+        Assert.assertEquals(u.getMail(), mail);
+    }
+
     /**
      * Gets password from user
      */
     @Test
     public void getPassword() {
-        User u = new User(name, pass, address, gender);
+        User u = new User(name, mail, pass, address, gender);
         Assert.assertEquals(u.getPassword(), pass);
     }
 
@@ -44,7 +54,7 @@ public class UserTest {
      */
     @Test
     public void getAddress() {
-        User u = new User(name, pass, address, gender);
+        User u = new User(name, mail, pass, address, gender);
         Assert.assertEquals(u.getAddress(), address);
     }
 
@@ -53,7 +63,7 @@ public class UserTest {
      */
     @Test
     public void getGender() {
-        User u = new User(name, pass, address, gender);
+        User u = new User(name, mail, pass, address, gender);
         Assert.assertEquals(u.getGender(), gender);
     }
 }
