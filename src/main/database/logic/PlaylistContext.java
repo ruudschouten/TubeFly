@@ -22,10 +22,9 @@ public class PlaylistContext implements IPlaylistContext {
     @Override
     public Playlist getById(UUID id) throws SQLException, RemoteException {
         Playlist playlist = null;
-        Connection con = Database.getCon();
         PreparedStatement statement = null;
         try {
-            statement = con.prepareStatement("SELECT * FROM playlist p WHERE p.ID = ?");
+            statement = Database.getCon().prepareStatement("SELECT * FROM playlist p WHERE p.ID = ?");
             statement.setString(1, id.toString());
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
@@ -41,10 +40,9 @@ public class PlaylistContext implements IPlaylistContext {
     @Override
     public List<Playlist> getAll() throws SQLException, RemoteException {
         ArrayList<Playlist> playlists = new ArrayList<>();
-        Connection con = Database.getCon();
         PreparedStatement statement = null;
         try {
-            statement = con.prepareStatement("SELECT * FROM playlist p");
+            statement = Database.getCon().prepareStatement("SELECT * FROM playlist p");
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     playlists.add(getFromResultSet(rs));
@@ -59,10 +57,9 @@ public class PlaylistContext implements IPlaylistContext {
     @Override
     public List<Playlist> getFromCreator(User user) throws SQLException, RemoteException {
         ArrayList<Playlist> playlists = new ArrayList<>();
-        Connection con = Database.getCon();
         PreparedStatement statement = null;
         try {
-            statement = con.prepareStatement("SELECT * FROM playlist p WHERE CreatorID = ?");
+            statement = Database.getCon().prepareStatement("SELECT * FROM playlist p WHERE CreatorID = ?");
             statement.setString(1, user.getId().toString());
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
@@ -78,10 +75,9 @@ public class PlaylistContext implements IPlaylistContext {
     @Override
     public boolean insert(Playlist playlist) throws SQLException {
         boolean success;
-        Connection con = Database.getCon();
         PreparedStatement statement = null;
         try {
-            statement = con.prepareStatement("INSERT INTO playlist (ID, CreatorID, Name, Description) VALUES (?, ?, ? ,?)");
+            statement = Database.getCon().prepareStatement("INSERT INTO playlist (ID, CreatorID, Name, Description) VALUES (?, ?, ? ,?)");
             statement.setString(1, playlist.getId().toString());
             statement.setString(2, playlist.getCreator().getId().toString());
             statement.setString(3, playlist.getName());
@@ -96,10 +92,9 @@ public class PlaylistContext implements IPlaylistContext {
     @Override
     public boolean delete(UUID id) throws SQLException {
         boolean success;
-        Connection con = Database.getCon();
         PreparedStatement statement = null;
         try {
-            statement = con.prepareStatement("DELETE FROM playlist WHERE ID = ?");
+            statement = Database.getCon().prepareStatement("DELETE FROM playlist WHERE ID = ?");
             statement.setString(1, id.toString());
             success = statement.execute();
         } finally {

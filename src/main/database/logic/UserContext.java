@@ -17,10 +17,9 @@ public class UserContext implements IUserContext {
     @Override
     public User getById(UUID id) throws SQLException {
         User user = null;
-        Connection con = Database.getCon();
         PreparedStatement statement = null;
         try {
-            statement = con.prepareStatement("SELECT * FROM User u WHERE u.ID = ?");
+            statement = Database.getCon().prepareStatement("SELECT * FROM User u WHERE u.ID = ?");
             statement.setString(1, id.toString());
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
@@ -36,10 +35,9 @@ public class UserContext implements IUserContext {
     @Override
     public List<User> getAll() throws SQLException {
         List<User> users = new ArrayList<>();
-        Connection con = Database.getCon();
         PreparedStatement statement = null;
         try {
-            statement = con.prepareStatement("SELECT * FROM User");
+            statement = Database.getCon().prepareStatement("SELECT * FROM User");
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
                     users.add(getFromResultSet(rs));
@@ -54,10 +52,9 @@ public class UserContext implements IUserContext {
     @Override
     public boolean insert(User user) throws SQLException {
         boolean success;
-        Connection con = Database.getCon();
         PreparedStatement statement = null;
         try {
-            statement = con.prepareStatement("INSERT INTO user (ID, Name, Password, Address, Gender) VALUES (?, ?, ? ,?, ?)");
+            statement = Database.getCon().prepareStatement("INSERT INTO user (ID, Name, Password, Address, Gender) VALUES (?, ?, ? ,?, ?)");
             statement.setString(1, user.getId().toString());
             statement.setString(2, user.getName());
             statement.setString(3, user.getPassword()); //TODO: Hash this
@@ -73,10 +70,9 @@ public class UserContext implements IUserContext {
     @Override
     public boolean delete(UUID id) throws SQLException {
         boolean success;
-        Connection con = Database.getCon();
         PreparedStatement statement = null;
         try {
-            statement = con.prepareStatement("DELETE FROM user WHERE ID = ?");
+            statement = Database.getCon().prepareStatement("DELETE FROM user WHERE ID = ?");
             statement.setString(1, id.toString());
             success = statement.execute();
         } finally {

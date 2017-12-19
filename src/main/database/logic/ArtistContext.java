@@ -5,7 +5,6 @@ import main.database.data.IArtistContext;
 import main.database.repositories.UserRepository;
 import main.play.User;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,10 +15,9 @@ public class ArtistContext implements IArtistContext {
     @Override
     public String getFromId(int id) throws SQLException {
         String name = "";
-        Connection con = Database.getCon();
         PreparedStatement statement = null;
         try {
-            statement = con.prepareStatement("SELECT Name FROM artist WHERE ID = ?");
+            statement = Database.getCon().prepareStatement("SELECT Name FROM artist WHERE ID = ?");
             statement.setInt(1, id);
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
@@ -35,10 +33,9 @@ public class ArtistContext implements IArtistContext {
     @Override
     public int getFromName(String name) throws SQLException {
         int id = 0;
-        Connection con = Database.getCon();
         PreparedStatement statement = null;
         try {
-            statement = con.prepareStatement("SELECT Name FROM artist WHERE Name LIKE ?");
+            statement = Database.getCon().prepareStatement("SELECT Name FROM artist WHERE Name LIKE ?");
             statement.setString(1, name);
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
@@ -54,10 +51,9 @@ public class ArtistContext implements IArtistContext {
     @Override
     public List<User> getSubscribersAll(String artist) throws SQLException {
         ArrayList<User> users = new ArrayList<>();
-        Connection con = Database.getCon();
         PreparedStatement statement = null;
         try {
-            statement = con.prepareStatement("SELECT u.* FROM user_subscribed us " +
+            statement = Database.getCon().prepareStatement("SELECT u.* FROM user_subscribed us " +
                     "INNER JOIN user u ON u.ID = us.UserID " +
                     "INNER JOIN artist a ON a.ID = us.ArtistID " +
                     "WHERE a.Name LIKE ?");
@@ -76,10 +72,9 @@ public class ArtistContext implements IArtistContext {
     @Override
     public boolean insert(String artistName) throws SQLException {
         boolean success;
-        Connection con = Database.getCon();
         PreparedStatement statement = null;
         try {
-            statement = con.prepareStatement("INSERT INTO artist (Name) VALUES (?)");
+            statement = Database.getCon().prepareStatement("INSERT INTO artist (Name) VALUES (?)");
             statement.setString(1, artistName);
             success = statement.execute();
         } finally {
@@ -91,10 +86,9 @@ public class ArtistContext implements IArtistContext {
     @Override
     public boolean delete(String artistName) throws SQLException {
         boolean success;
-        Connection con = Database.getCon();
         PreparedStatement statement = null;
         try {
-            statement = con.prepareStatement("DELETE FROM artist WHERE Name = ?");
+            statement = Database.getCon().prepareStatement("DELETE FROM artist WHERE Name = ?");
             statement.setString(1, artistName);
             success = statement.execute();
         } finally {
