@@ -52,4 +52,9 @@ public class User implements Serializable {
     public Gender getGender() {
         return gender;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return getId() == ((User) obj).getId();
+    }
 }
