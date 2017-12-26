@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface IUserContext {
-    User login(String name, String password) throws SQLException;
+    User login(String mail, String password) throws SQLException;
     User getById(UUID id) throws SQLException;
     List<User> getAll() throws SQLException;
     boolean insert(User user) throws SQLException;

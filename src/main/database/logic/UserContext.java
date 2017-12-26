@@ -14,12 +14,12 @@ import java.util.UUID;
 
 public class UserContext implements IUserContext {
     @Override
-    public User login(String name, String pass) throws SQLException {
+    public User login(String mail, String pass) throws SQLException {
         User user = null;
         PreparedStatement statement = null;
         try {
-            statement = Database.getCon().prepareStatement("SELECT * FROM User u WHERE u.Name = ? AND u.Password = ?");
-            statement.setString(1, name);
+            statement = Database.getCon().prepareStatement("SELECT * FROM User u WHERE u.Mail = ? AND u.Password = ?");
+            statement.setString(1, mail);
             statement.setString(2, pass);
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {

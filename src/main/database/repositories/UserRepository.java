@@ -21,8 +21,8 @@ public class UserRepository implements IUserContext {
     }
 
     @Override
-    public User login(String name, String password) throws SQLException {
-        return context.login(name, password);
+    public User login(String mail, String password) throws SQLException {
+        return context.login(mail, password);
     }
 
     @Override
