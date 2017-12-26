@@ -7,6 +7,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import play.User;
+import ui.UITools;
 
 public class PlaylistViewController {
     @FXML private TextField tbSearch;
@@ -15,15 +16,10 @@ public class PlaylistViewController {
     @FXML private Label currentSongInfo;
     @FXML private ProgressBar songTimeProgress;
 
-    private User user;
-    private Stage stage;
+    private UITools.UIManager uiManager;
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void initialize() {
+        uiManager = new UITools.UIManager();
     }
 
     public void filterSongs(ActionEvent actionEvent) {

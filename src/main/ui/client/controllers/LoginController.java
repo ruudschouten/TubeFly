@@ -21,11 +21,10 @@ public class LoginController {
     @FXML private TextField tbMail;
     @FXML private PasswordField tbPassword;
 
-    private Logger logger;
     private UITools.UIManager uiManager;
 
     public void initialize() {
-        logger = new Logger("LoginController", Level.SEVERE, Level.SEVERE);
+        uiManager = new UITools.UIManager();
         if (Database.getCon() != null) {
             taLog.setText(taLog.getText() + "[INFO] Server is online\n");
         } else {
@@ -45,7 +44,7 @@ public class LoginController {
             uiManager.loadFXML("menu.fxml", "Menu");
         } else {
             Message.show("Invalid login", "Username and password did not match\nPlease try again.");
-            logger.log(Level.WARNING, "Username and password did not match");
+            ResourceHandler.getLogger().log(Level.WARNING, "Username and password did not match");
         }
     }
 

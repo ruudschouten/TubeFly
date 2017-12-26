@@ -5,20 +5,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import play.User;
+import ui.UITools;
 
 public class EditPlaylistController {
     @FXML private TextField tbSearch;
     @FXML private TextField tbSong;
 
-    private User user;
-    private Stage stage;
+    private UITools.UIManager uiManager;
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void initialize() {
+        uiManager = new UITools.UIManager();
     }
 
     public void addSong(ActionEvent actionEvent) {

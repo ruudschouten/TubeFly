@@ -2,17 +2,12 @@ package ui.client.controllers;
 
 import javafx.stage.Stage;
 import play.User;
+import ui.UITools;
 
 public class PlaylistCollectionController {
+    private UITools.UIManager uiManager;
 
-    private User user;
-    private Stage stage;
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void initialize() {
+        uiManager = new UITools.UIManager();
     }
 }
