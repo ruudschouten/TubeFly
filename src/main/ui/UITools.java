@@ -60,10 +60,6 @@ public class UITools {
          */
         private FXMLLoader loader = null;
 
-        /**
-         * Not actually related to UI but eh
-         */
-        private ClientContainer container = null;
 
         /**
          * Loads the next FXML into the current BorderPane.
@@ -107,13 +103,6 @@ public class UITools {
             }
         }
 
-        public void setContainer(ClientContainer container) {
-            this.container = container;
-        }
-
-        public ClientContainer getContainer() {
-            return container;
-        }
 
         /**
          * Returns the current controller from the FXMLLoader.
