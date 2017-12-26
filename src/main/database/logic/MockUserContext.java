@@ -18,6 +18,7 @@ public class MockUserContext implements IUserContext {
 
     private void initialize() {
         users.add(new User("Blappole", "real@mail.com", "pass", "Address", Gender.MALE));
+        users.add(new User("yes", "yes", "yes", "yes", Gender.MALE));
         initialized = true;
     }
 

@@ -25,7 +25,11 @@ public class MockPlaylistContext implements IPlaylistContext {
         UUID id = UUID.randomUUID();
         User user = new User("Henk", "Henk@mail.com", "12345", "Address", Gender.MALE);
         Playlist p = new Playlist(id.toString(), "Best", "Songs I like", user, songs);
+        Playlist p2 = new Playlist(id.toString(), "Neh", "Songs I like", user, songs);
+        Playlist p3 = new Playlist(id.toString(), "Berry", "Songs I like", user, songs);
         playlists.add(p);
+        playlists.add(p2);
+        playlists.add(p3);
         initialized = true;
     }
 
