@@ -1,9 +1,10 @@
 package rmi;
 
-import database.logic.PlaylistContext;
-import database.logic.UserContext;
+import database.logic.MockPlaylistContext;
+import database.logic.MockUserContext;
 import database.repositories.PlaylistRepository;
 import database.repositories.UserRepository;
+import fontyspublisher.RemotePublisher;
 import log.Logger;
 import play.Playlist;
 import play.Song;
@@ -19,6 +20,8 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public class ServerContainer extends UnicastRemoteObject implements IContainer {
+    private RemotePublisher publisher;
+
     Logger logger;
 
     UserRepository userRepo;
@@ -27,10 +30,12 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     ArrayList<User> activeUsers = new ArrayList<>();
     List<Playlist> playlists = null;
 
-    protected ServerContainer() throws RemoteException {
+    public ServerContainer(RemotePublisher publisher) throws RemoteException {
+        this.publisher = publisher;
         logger = new Logger("ServerContainer", Level.ALL, Level.ALL);
-        userRepo = new UserRepository(new UserContext());
-        playlistRepo = new PlaylistRepository(new PlaylistContext());
+//        Change this to DatabaseContext
+        userRepo = new UserRepository(new MockUserContext());
+        playlistRepo = new PlaylistRepository(new MockPlaylistContext());
         playlists = playlistRepo.getAll();
     }
 
@@ -40,11 +45,14 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     }
 
     @Override
-    public User login(String mail, String password) throws SQLException {
+    public User login(String mail, String password) throws SQLException, RemoteException {
         User u = userRepo.login(mail, password);
         if (u != null) {
+            publisher.registerProperty(Properties.USER_PROPERTY);
             logger.log(Level.FINE, String.format("Added %s to activeUsers", u.getName()));
             activeUsers.add(u);
+            //TODO: Check if this works
+            publisher.inform(Properties.USER_PROPERTY, null, u);
             return u;
         }
         logger.log(Level.INFO, String.format("User with %s - %s not found in database", mail, password));
@@ -57,6 +65,7 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
             logger.log(Level.FINE, String.format("Removed %s from activeUsers", user.getName()));
             return activeUsers.remove(user);
         }
+        logger.log(Level.INFO, String.format("Couldn't find $s in activeUsers", user.getName()));
         return false;
     }
 

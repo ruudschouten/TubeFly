@@ -6,11 +6,13 @@ import log.Logger;
 import play.Playlist;
 import play.Song;
 import play.User;
+import ui.client.controllers.IController;
 
 import java.beans.PropertyChangeEvent;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -20,7 +22,9 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
     private IRemotePublisherForListener publisher;
 
     IContainer server;
+    IController controller;
 
+    private ArrayList<Playlist> playlists;
     private User user;
 
     private boolean loggedIn = false;
@@ -33,37 +37,62 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
-        //TODO: Figure out what to use this for
+        switch (evt.getPropertyName()) {
+            case Properties.USER_PROPERTY:
+                //Handle login
+                break;
+            case Properties.ARTIST_PROPERTY:
+                //Handle new artist upload
+                break;
+            case Properties.PLAYLIST_PROPERTY:
+                playlists = (ArrayList<Playlist>) evt.getNewValue();
+                break;
+        }
+
+        if (controller != null) controller.update();
+    }
+
+    public void setController(IController controller) {
+        this.controller = controller;
     }
 
     public User register(User user) {
-        if (server.register(user)) {
-            login(user.getMail(), user.getPassword());
+        try {
+            if (server.register(user)) {
+                login(user.getMail(), user.getPassword());
+                return user;
+            }
+        } catch (RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
         }
-        return user;
+        return null;
     }
 
     public User login(String mail, String password) {
         try {
             user = server.login(mail, password);
-            if (user != null)  {
+            if (user != null) {
                 loggedIn = true;
                 logger.log(Level.FINE, String.format("%s logged in", user.getName()));
             } else {
                 logger.log(Level.WARNING, "Login details don't match");
             }
-        } catch (SQLException e) {
+        } catch (SQLException | RemoteException e) {
             logger.log(Level.SEVERE, e.toString());
         }
         return user;
     }
 
     public boolean logout() {
-        if (loggedIn) {
-            logger.log(Level.FINE, String.format("%s logged out", user.getName()));
-            return server.logout(user);
+        try {
+            if (loggedIn) {
+                logger.log(Level.FINE, String.format("%s logged out", user.getName()));
+                return server.logout(user);
+            }
+            logger.log(Level.WARNING, "User isn't logged in");
+        } catch (RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
         }
-        logger.log(Level.WARNING, "User isn't logged in");
         return false;
     }
 
@@ -75,39 +104,84 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
 
     //TODO: Figure out how to call this
     public boolean notifyUser() {
-        return server.notifyUser();
+        try {
+            return server.notifyUser();
+        } catch (RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return false;
     }
 
     public List<Playlist> getPlaylists() {
-        return server.getPlaylists();
+        try {
+            return server.getPlaylists();
+        } catch (RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 
     public List<Playlist> getPlaylists(int limit) {
-        return server.getPlaylists(limit);
+        try {
+            return server.getPlaylists(limit);
+        } catch (RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 
     public Playlist getPlaylist(UUID id) {
-        return server.getPlaylist(id);
+        try {
+            return server.getPlaylist(id);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public Playlist getPlaylist(String searchCriteria) {
-        return server.getPlaylist(searchCriteria);
+        try {
+            return server.getPlaylist(searchCriteria);
+        } catch (RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 
     public boolean uploadPlaylist(Playlist playlist) {
-        return server.uploadPlaylist(playlist);
+        try {
+            return server.uploadPlaylist(playlist);
+        } catch (RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return false;
     }
 
     public boolean updatePlaylist(String name, String description) {
-        return server.updatePlaylist(name, description);
+        try {
+            return server.updatePlaylist(name, description);
+        } catch (RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return false;
     }
 
     public boolean addSong(Playlist playlist, Song song) {
-        return server.addSong(playlist, song);
+        try {
+            return server.addSong(playlist, song);
+        } catch (RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return false;
     }
 
     public boolean removeSong(Playlist playlist, Song song) {
-        return server.removeSong(playlist, song);
+        try {
+            return server.removeSong(playlist, song);
+        } catch (RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return false;
     }
 
     public boolean follow(Playlist playlist) throws RemoteException {
