@@ -86,6 +86,7 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
 
     @Override
     public List<Playlist> getPlaylists(int limit) {
+        if(limit >= playlists.size()) return getPlaylists();
         return playlists.subList(playlists.size() - limit, playlists.size());
     }
 
