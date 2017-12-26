@@ -1,3 +1,5 @@
+package play;
+
 import play.Song;
 import org.junit.Assert;
 import org.junit.Test;

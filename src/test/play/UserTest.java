@@ -1,3 +1,5 @@
+package play;
+
 import play.Gender;
 import play.User;
 import org.junit.Assert;

@@ -1,9 +1,5 @@
+package play;
 
-
-import play.Gender;
-import play.Playlist;
-import play.Song;
-import play.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
