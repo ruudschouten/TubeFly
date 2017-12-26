@@ -19,8 +19,9 @@ public class UserTest {
      */
     @Test
     public void getId() {
-        User u = new User(name, mail, pass, address, gender);
-        Assert.assertNotEquals(u.getId(), UUID.randomUUID());
+        UUID id = UUID.randomUUID();
+        User u = new User(id.toString(), name, mail, pass, address, gender);
+        Assert.assertEquals(u.getId(), id);
     }
 
     /**

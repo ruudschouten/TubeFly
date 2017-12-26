@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -77,7 +78,7 @@ public class PlaylistTest {
      */
     @Test(expected = IllegalArgumentException.class)
     public void setLongName() throws RemoteException, IllegalArgumentException {
-        Playlist p = new Playlist("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        new Playlist("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
                 creator);
     }
 
@@ -155,5 +156,16 @@ public class PlaylistTest {
         Song s = new Song("https://www.youtube.com/watch?v=eu2I72CrLl4");
         p.addSong(s);
         Assert.assertEquals(p.getSongs().size(), 1);
+    }
+
+    @Test
+    public void addWithSongs() throws RemoteException {
+        ArrayList<Song> songs = new ArrayList<>();
+        songs.add(new Song("https://www.youtube.com/watch?v=eu2I72CrLl4"));
+        UUID id = UUID.randomUUID();
+        Playlist p = new Playlist(id.toString(), name, desc, creator, songs);
+        Assert.assertEquals(p.getId(), id);
+        Assert.assertEquals(p.getCreator(), creator);
+        Assert.assertEquals(p.getSongs(), songs);
     }
 }

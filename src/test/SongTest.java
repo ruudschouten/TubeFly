@@ -40,4 +40,11 @@ public class SongTest {
         song.setArtist(artist);
         Assert.assertEquals(song.getArtist(), artist);
     }
+    @Test
+    public void getId() {
+        Song song = new Song(2, youtubeURL, name, artist);
+        Assert.assertEquals(song.getId(), 2);
+        Assert.assertEquals(song.getName(), name);
+        Assert.assertEquals(song.getArtist(), artist);
+    }
 }

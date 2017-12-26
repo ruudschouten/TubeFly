@@ -92,14 +92,4 @@ public class Playlist extends UnicastRemoteObject implements Serializable {
     public void addSong(Song song) {
         songs.add(song);
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof Playlist && ((Playlist) obj).id == this.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }
