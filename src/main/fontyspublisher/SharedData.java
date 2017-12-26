@@ -11,10 +11,13 @@ import java.util.logging.Level;
 public class SharedData {
     private static Logger logger;
     private static Properties prop;
-    private static final int PORT = 1099;
 
     public static int getPort() {
-        return PORT;
+        if (prop == null) {
+            initprop();
+        }
+        if (prop != null) return Integer.parseInt(prop.getProperty("rmiport"));
+        return 0;
     }
 
     public static String getRegistryName() {
