@@ -56,7 +56,7 @@ public class PlaylistRepository implements IPlaylistContext {
     public boolean insert(Playlist playlist) {
         try {
             return context.insert(playlist);
-        } catch (SQLException e) {
+        } catch (SQLException | RemoteException e) {
             logger.log(Level.SEVERE, e.toString());
         }
         return false;
@@ -66,7 +66,7 @@ public class PlaylistRepository implements IPlaylistContext {
     public boolean delete(UUID id) {
         try {
             return context.delete(id);
-        } catch (SQLException e) {
+        } catch (SQLException | RemoteException e) {
             logger.log(Level.SEVERE, e.toString());
         }
         return false;

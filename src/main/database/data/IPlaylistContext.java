@@ -13,7 +13,7 @@ public interface IPlaylistContext {
     Playlist getById(UUID id) throws SQLException, RemoteException;
     List<Playlist> getAll() throws SQLException, RemoteException;
     List<Playlist> getFromCreator(User user) throws SQLException, RemoteException;
-    boolean insert(Playlist playlist) throws SQLException;
-    boolean delete(UUID id) throws SQLException;
+    boolean insert(Playlist playlist) throws SQLException, RemoteException;
+    boolean delete(UUID id) throws SQLException, RemoteException;
     Playlist getFromResultSet(ResultSet rs) throws SQLException, RemoteException;
 }

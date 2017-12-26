@@ -1,7 +1,7 @@
 package database;
 
 import database.data.IArtistContext;
-import database.logic.ArtistContext;
+import database.logic.DatabaseArtistContext;
 import database.repositories.ArtistRepository;
 import org.junit.Before;
 
@@ -11,7 +11,7 @@ public class ArtistRepositoryTest {
 
     @Before
     public void createRepo() {
-        context = new ArtistContext();
+        context = new DatabaseArtistContext();
         repo = new ArtistRepository(context);
     }
 }

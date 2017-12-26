@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class SongContext implements ISongContext {
+public class DatabaseSongContext implements ISongContext {
     @Override
     public Song getById(int id) throws SQLException {
         Song song = null;
@@ -123,7 +123,7 @@ public class SongContext implements ISongContext {
 
     @Override
     public boolean insert(Song song) throws SQLException {
-        ArtistRepository artistRepository = new ArtistRepository(new ArtistContext());
+        ArtistRepository artistRepository = new ArtistRepository(new DatabaseArtistContext());
         if (artistRepository.getFromName(song.getArtist()) == 0) {
             artistRepository.insert(song.getArtist());
         }
@@ -160,7 +160,7 @@ public class SongContext implements ISongContext {
     @Override
     public Song getFromResultSet(ResultSet rs) throws SQLException {
         int id = rs.getInt("ID");
-        String artist = new ArtistRepository(new ArtistContext()).getFromId(rs.getInt("ArtistID"));
+        String artist = new ArtistRepository(new DatabaseArtistContext()).getFromId(rs.getInt("ArtistID"));
         String url = rs.getString("URL");
         String name = rs.getString("Name");
         return new Song(id, url, name, artist);

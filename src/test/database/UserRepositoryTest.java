@@ -1,10 +1,7 @@
 package database;
 
-import database.data.IPlaylistContext;
 import database.data.IUserContext;
-import database.logic.PlaylistContext;
-import database.logic.UserContext;
-import database.repositories.PlaylistRepository;
+import database.logic.DatabaseUserContext;
 import database.repositories.UserRepository;
 import org.junit.Before;
 
@@ -14,7 +11,7 @@ public class UserRepositoryTest {
 
     @Before
     public void createRepo() {
-        context = new UserContext();
+        context = new DatabaseUserContext();
         repo = new UserRepository(context);
     }
 }

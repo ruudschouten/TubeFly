@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class PlaylistContext implements IPlaylistContext {
+public class DatabasePlaylistContext implements IPlaylistContext {
     @Override
     public Playlist getById(UUID id) throws SQLException, RemoteException {
         Playlist playlist = null;
@@ -106,8 +106,8 @@ public class PlaylistContext implements IPlaylistContext {
         String id = rs.getString("ID");
         String name = rs.getString("Name");
         String description = rs.getString("Description");
-        User creator = new UserRepository(new UserContext()).getById(UUID.fromString(rs.getString("CreatorID")));
-        ArrayList<Song> songs = (ArrayList<Song>) new SongRepository(new SongContext()).getAllFromPlaylist(UUID.fromString(id));
+        User creator = new UserRepository(new DatabaseUserContext()).getById(UUID.fromString(rs.getString("CreatorID")));
+        ArrayList<Song> songs = (ArrayList<Song>) new SongRepository(new DatabaseSongContext()).getAllFromPlaylist(UUID.fromString(id));
         return new Playlist(id, name, description, creator, songs);
     }
 }

@@ -1,7 +1,7 @@
 package database;
 
 import database.data.IPlaylistContext;
-import database.logic.PlaylistContext;
+import database.logic.DatabasePlaylistContext;
 import database.repositories.PlaylistRepository;
 import org.junit.Before;
 
@@ -11,7 +11,7 @@ public class PlaylistRepositoryTest {
 
     @Before
     public void createRepo() {
-        context = new PlaylistContext();
+        context = new DatabasePlaylistContext();
         repo = new PlaylistRepository(context);
     }
 }

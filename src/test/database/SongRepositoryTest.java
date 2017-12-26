@@ -1,7 +1,7 @@
 package database;
 
 import database.data.ISongContext;
-import database.logic.SongContext;
+import database.logic.DatabaseSongContext;
 import database.repositories.SongRepository;
 import org.junit.Before;
 
@@ -11,7 +11,7 @@ public class SongRepositoryTest {
 
     @Before
     public void createRepo() {
-        context = new SongContext();
+        context = new DatabaseSongContext();
         repo = new SongRepository(context);
     }
 }

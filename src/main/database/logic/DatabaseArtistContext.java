@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArtistContext implements IArtistContext {
+public class DatabaseArtistContext implements IArtistContext {
     @Override
     public String getFromId(int id) throws SQLException {
         String name = "";
@@ -60,7 +60,7 @@ public class ArtistContext implements IArtistContext {
             statement.setString(1, artist);
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
-                    users.add(new UserRepository(new UserContext()).getFromResultSet(rs));
+                    users.add(new UserRepository(new DatabaseUserContext()).getFromResultSet(rs));
                 }
             }
         } finally {

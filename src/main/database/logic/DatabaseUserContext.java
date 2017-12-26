@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class UserContext implements IUserContext {
+public class DatabaseUserContext implements IUserContext {
     @Override
     public User login(String mail, String pass) throws SQLException {
         User user = null;
