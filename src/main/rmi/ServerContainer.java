@@ -41,7 +41,7 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
 
     @Override
     public boolean register(User user) {
-        return false;
+        return userRepo.insert(user);
     }
 
     @Override
