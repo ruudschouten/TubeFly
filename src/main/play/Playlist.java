@@ -14,6 +14,7 @@ public class Playlist implements Serializable {
     private User creator;
 
     private List<Song> songs;
+    private List<User> followers;
 
     private boolean shuffle;
     private boolean loop;
@@ -23,6 +24,7 @@ public class Playlist implements Serializable {
         this.creator = creator;
         id = UUID.randomUUID();
         songs = new ArrayList<>();
+        followers = new ArrayList<>();
     }
 
     public Playlist(String name, String description, User creator) {
@@ -31,14 +33,16 @@ public class Playlist implements Serializable {
         id = UUID.randomUUID();
         this.creator = creator;
         songs = new ArrayList<>();
+        followers = new ArrayList<>();
     }
 
-    public Playlist(String id, String name, String description, User creator, List<Song> songs) {
+    public Playlist(String id, String name, String description, User creator, List<Song> songs, List<User> followers) {
         setName(name);
         setDescription(description);
         this.id = UUID.fromString(id);
         this.creator = creator;
         this.songs = songs;
+        this.followers = followers;
     }
 
     public UUID getId() {
@@ -104,5 +108,16 @@ public class Playlist implements Serializable {
         }
         if (songs.size() == 0) return this.songs;
         return songs;
+    }
+
+    public List<User> getFollowers() {
+        return followers;
+    }
+
+    public boolean addFollower(User user) {
+        return followers.add(user);
+    }
+    public boolean removeFollower(User user) {
+        return followers.remove(user);
     }
 }

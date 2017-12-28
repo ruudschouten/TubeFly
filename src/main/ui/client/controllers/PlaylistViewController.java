@@ -49,6 +49,10 @@ public class PlaylistViewController {
         container = ResourceHandler.getContainer();
         playlist = container.getSelectedPlaylist();
         playlistName.setText(playlist.getName());
+        //Admin
+        if(container.getUser() == null) {
+            btnFollow.setVisible(false);
+        }
         displayPlaylists();
     }
 
@@ -113,20 +117,16 @@ public class PlaylistViewController {
     }
 
     public void toggleFollow(ActionEvent actionEvent) {
-        try {
-            if (Objects.equals(btnFollow.getText(), "Follow")) {
-                if (container.follow(playlist)) {
-                    Message.show("Success", String.format("Successfully followed %s", playlist.getName()));
-                    btnFollow.setText("Unfollow");
-                }
-            } else {
-                if (container.unfollow(playlist)) {
-                    Message.show("Success", String.format("Successfully unfollowed %s", playlist.getName()));
-                    btnFollow.setText("Unfollow");
-                }
+        if (Objects.equals(btnFollow.getText(), "Follow")) {
+            if (container.follow(playlist)) {
+                Message.show("Success", String.format("Successfully followed %s", playlist.getName()));
+                btnFollow.setText("Unfollow");
             }
-        } catch (RemoteException e) {
-            ResourceHandler.getLogger().log(Level.SEVERE, e.toString());
+        } else {
+            if (container.unfollow(playlist)) {
+                Message.show("Success", String.format("Successfully unfollowed %s", playlist.getName()));
+                btnFollow.setText("Unfollow");
+            }
         }
     }
 }

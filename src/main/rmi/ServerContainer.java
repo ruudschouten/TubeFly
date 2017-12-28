@@ -71,7 +71,8 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     }
 
     @Override
-    public boolean subscribeToArtist(User user, String artist) {
+    public boolean subscribeToArtist(User user, String artist) throws RemoteException {
+        publisher.registerProperty(artist);
         throw new NotImplementedException();
     }
 
@@ -132,12 +133,17 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     }
 
     @Override
-    public boolean follow(Playlist playlist, User user) {
-        return false;
+    public boolean follow(Playlist playlist, User user) throws SQLException, RemoteException {
+        return playlistRepo.follow(playlist, user);
     }
 
     @Override
-    public boolean unfollow(Playlist playlist, User user) {
-        return false;
+    public boolean unfollow(Playlist playlist, User user) throws SQLException, RemoteException {
+        return playlistRepo.unfollow(playlist, user);
+    }
+
+    @Override
+    public void registerProperty(Playlist playlist) throws RemoteException {
+        publisher.registerProperty(playlist.getId().toString());
     }
 }

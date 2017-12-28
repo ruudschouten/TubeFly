@@ -53,6 +53,16 @@ public class PlaylistRepository implements IPlaylistContext {
     }
 
     @Override
+    public List<User> getFollowers(UUID id) throws SQLException, RemoteException {
+        try {
+            return context.getFollowers(id);
+        } catch (SQLException | RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
     public boolean insert(Playlist playlist) {
         try {
             return context.insert(playlist);
@@ -60,6 +70,16 @@ public class PlaylistRepository implements IPlaylistContext {
             logger.log(Level.SEVERE, e.toString());
         }
         return false;
+    }
+
+    @Override
+    public boolean follow(Playlist playlist, User user) throws SQLException, RemoteException {
+        return context.follow(playlist, user);
+    }
+
+    @Override
+    public boolean unfollow(Playlist playlist, User user) throws SQLException, RemoteException {
+        return context.unfollow(playlist, user);
     }
 
     @Override

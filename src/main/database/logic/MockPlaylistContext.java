@@ -26,9 +26,14 @@ public class MockPlaylistContext implements IPlaylistContext {
         songs.add(new Song("https://www.youtube.com/watch?v=PWgvGjAhvIw"));
         UUID id = UUID.randomUUID();
         User user = new User("Henk", "Henk@mail.com", "12345", "Address", Gender.MALE);
-        Playlist p = new Playlist(id.toString(), "Best", "Songs I like", user, songs);
-        Playlist p2 = new Playlist(id.toString(), "Neh", "Songs I like", user, songs);
-        Playlist p3 = new Playlist(id.toString(), "Berry", "Songs I like", user, songs);
+        User user2 = new User("Yes", "yes", "yes", "yes", Gender.MALE);
+        User user3 = new User("no", "no", "no", "no", Gender.MALE);
+        ArrayList<User> followers = new ArrayList<>();
+        followers.add(user2);
+        followers.add(user3);
+        Playlist p = new Playlist(id.toString(), "Best", "Songs I like", user, songs, new ArrayList<>());
+        Playlist p2 = new Playlist(id.toString(), "Neh", "Songs I like", user, songs, followers);
+        Playlist p3 = new Playlist(id.toString(), "Berry", "Songs I like", user, songs, followers);
         playlists.add(p);
         playlists.add(p2);
         playlists.add(p3);
@@ -61,13 +66,33 @@ public class MockPlaylistContext implements IPlaylistContext {
                 lists.add(p);
             }
         }
-        return null;
+        return lists;
+    }
+
+    @Override
+    public List<User> getFollowers(UUID id) throws SQLException, RemoteException {
+        for (Playlist p : playlists) {
+            if(p.getId().equals(id)) {
+                return p.getFollowers();
+            }
+        }
+        return new ArrayList<>();
     }
 
     @Override
     public boolean insert(Playlist playlist) throws SQLException, RemoteException {
         if(!initialized) initialize();
         return playlists.add(playlist);
+    }
+
+    @Override
+    public boolean follow(Playlist playlist, User user) throws SQLException, RemoteException {
+        return playlist.addFollower(user);
+    }
+
+    @Override
+    public boolean unfollow(Playlist playlist, User user) throws SQLException, RemoteException {
+        return playlist.removeFollower(user);
     }
 
     @Override

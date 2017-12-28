@@ -53,8 +53,17 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
         if (controller != null) controller.update();
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public void setSelectedPlaylist(Playlist playlist) {
-        this.selectedPlaylist = playlist;
+        try {
+            server.registerProperty(playlist);
+            this.selectedPlaylist = playlist;
+        } catch (RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
     }
 
     public Playlist getSelectedPlaylist() {
@@ -193,15 +202,25 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
         return false;
     }
 
-    public boolean follow(Playlist playlist) throws RemoteException {
-        publisher.subscribeRemoteListener(this, Properties.PLAYLIST_PROPERTY);
-        logger.log(Level.FINE, String.format("%s started following %s", user.getName(), playlist.getName()));
-        return server.follow(playlist, user);
+    public boolean follow(Playlist playlist) {
+        try {
+            publisher.subscribeRemoteListener(this, playlist.getId().toString());
+            logger.log(Level.FINE, String.format("%s started following %s", user.getName(), playlist.getName()));
+            return server.follow(playlist, user);
+        } catch (RemoteException | SQLException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return false;
     }
 
-    public boolean unfollow(Playlist playlist) throws RemoteException {
-        publisher.unsubscribeRemoteListener(this, Properties.PLAYLIST_PROPERTY);
-        logger.log(Level.FINE, String.format("%s stopped following %s", user.getName(), playlist.getName()));
-        return server.unfollow(playlist, user);
+    public boolean unfollow(Playlist playlist) {
+        try {
+            publisher.unsubscribeRemoteListener(this, playlist.getId().toString());
+            logger.log(Level.FINE, String.format("%s stopped following %s", user.getName(), playlist.getName()));
+            return server.unfollow(playlist, user);
+        } catch (RemoteException | SQLException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return false;
     }
 }

@@ -159,7 +159,7 @@ public class PlaylistTest {
         ArrayList<Song> songs = new ArrayList<>();
         songs.add(new Song("https://www.youtube.com/watch?v=eu2I72CrLl4"));
         UUID id = UUID.randomUUID();
-        Playlist p = new Playlist(id.toString(), name, desc, creator, songs);
+        Playlist p = new Playlist(id.toString(), name, desc, creator, songs, new ArrayList<>());
         Assert.assertEquals(p.getId(), id);
         Assert.assertEquals(p.getCreator(), creator);
         Assert.assertEquals(p.getSongs(), songs);

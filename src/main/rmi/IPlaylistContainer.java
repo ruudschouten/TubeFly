@@ -6,6 +6,7 @@ import play.User;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,7 +27,8 @@ public interface IPlaylistContainer extends Remote {
 
     public boolean removeSong(Playlist playlist, Song song) throws RemoteException;
 
-    public boolean follow(Playlist playlist, User user) throws RemoteException;
+    public boolean follow(Playlist playlist, User user) throws RemoteException, SQLException;
 
-    public boolean unfollow(Playlist playlist, User user) throws RemoteException;
+    public boolean unfollow(Playlist playlist, User user) throws RemoteException, SQLException;
+    public void registerProperty(Playlist playlist) throws RemoteException;
 }

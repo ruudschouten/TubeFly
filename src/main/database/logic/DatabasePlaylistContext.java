@@ -71,6 +71,12 @@ public class DatabasePlaylistContext implements IPlaylistContext {
     }
 
     @Override
+    public List<User> getFollowers(UUID id) throws SQLException, RemoteException {
+        //TODO: Implement
+        return null;
+    }
+
+    @Override
     public boolean insert(Playlist playlist) throws SQLException {
         boolean success;
         PreparedStatement statement = null;
@@ -85,6 +91,18 @@ public class DatabasePlaylistContext implements IPlaylistContext {
             if (statement != null) statement.close();
         }
         return success;
+    }
+
+    @Override
+    public boolean follow(Playlist playlist, User user) throws SQLException, RemoteException {
+        //TODO: Implement
+        return false;
+    }
+
+    @Override
+    public boolean unfollow(Playlist playlist, User user) throws SQLException, RemoteException {
+        //TODO: Implement
+        return false;
     }
 
     @Override
@@ -108,6 +126,7 @@ public class DatabasePlaylistContext implements IPlaylistContext {
         String description = rs.getString("Description");
         User creator = new UserRepository(new DatabaseUserContext()).getById(UUID.fromString(rs.getString("CreatorID")));
         ArrayList<Song> songs = (ArrayList<Song>) new SongRepository(new DatabaseSongContext()).getAllFromPlaylist(UUID.fromString(id));
-        return new Playlist(id, name, description, creator, songs);
+        ArrayList<User> followers = (ArrayList<User>) getFollowers(UUID.fromString(id));
+        return new Playlist(id, name, description, creator, songs, followers);
     }
 }
