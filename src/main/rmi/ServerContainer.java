@@ -13,6 +13,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,13 +92,20 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     }
 
     @Override
-    public Playlist getPlaylist(UUID id) {
-        return playlistRepo.getById(id);
+    public List<Playlist> getPlaylists(String searchCriteria) {
+        ArrayList<Playlist> playlists = new ArrayList<>();
+        for (Playlist p : this.playlists) {
+            if(p.getName().contains(searchCriteria)) {
+                playlists.add(p);
+            }
+        }
+        if(playlists.size() == 0) return this.playlists;
+        return playlists;
     }
 
     @Override
-    public Playlist getPlaylist(String searchCriteria) {
-        return null;
+    public Playlist getPlaylist(UUID id) {
+        return playlistRepo.getById(id);
     }
 
     @Override

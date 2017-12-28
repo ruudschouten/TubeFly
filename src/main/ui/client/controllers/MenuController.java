@@ -33,6 +33,12 @@ public class MenuController {
     }
 
     public void filterPlaylists(ActionEvent actionEvent) {
+        playlistContainer.getChildren().clear();
+        String searchCriteria = tbSearch.getText();
+        List<Playlist> playlists = container.getPlaylists(searchCriteria);
+        for (Playlist p : playlists) {
+            addPlaylistUI(p);
+        }
     }
 
     private void addPlaylistUI(Playlist playlist) {
