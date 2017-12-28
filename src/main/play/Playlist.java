@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class Playlist extends UnicastRemoteObject implements Serializable {
+public class Playlist implements Serializable {
     private UUID id;
     private String name;
     private String description;
@@ -18,14 +18,14 @@ public class Playlist extends UnicastRemoteObject implements Serializable {
     private boolean shuffle;
     private boolean loop;
 
-    public Playlist(String name, User creator) throws RemoteException {
+    public Playlist(String name, User creator){
         setName(name);
         this.creator = creator;
         id = UUID.randomUUID();
         songs = new ArrayList<>();
     }
 
-    public Playlist(String name, String description, User creator) throws RemoteException {
+    public Playlist(String name, String description, User creator) {
         setName(name);
         setDescription(description);
         id = UUID.randomUUID();
@@ -33,7 +33,7 @@ public class Playlist extends UnicastRemoteObject implements Serializable {
         songs = new ArrayList<>();
     }
 
-    public Playlist(String id, String name, String description, User creator, List<Song> songs) throws RemoteException {
+    public Playlist(String id, String name, String description, User creator, List<Song> songs) {
         setName(name);
         setDescription(description);
         this.id = UUID.fromString(id);
