@@ -61,6 +61,9 @@
 	-fx-background-color: #D8B1B8;
 	-fx-padding: 10;
 }
+.playlistContainer {
+	-fx-cursor: hand;
+}
 
 .scroll-pane{	
     -fx-background-color: transparent;
