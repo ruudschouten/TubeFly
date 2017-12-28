@@ -7,53 +7,55 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import play.Playlist;
-import play.User;
 import rmi.ClientContainer;
 import ui.ResourceHandler;
 import ui.UITools;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MenuController {
-    @FXML private VBox playlistContainer;
-    @FXML private TextField tbSearch;
+    @FXML
+    private VBox playlistContainer;
+    @FXML
+    private TextField tbSearch;
 
     private UITools.UIManager uiManager;
+    private ClientContainer container;
 
     public void initialize() {
         uiManager = new UITools.UIManager();
-        ClientContainer container = ResourceHandler.getContainer();
+        container = ResourceHandler.getContainer();
         List<Playlist> playlists = container.getPlaylists(10);
-        //TODO: figure out why this crashes [Can't cast sun ... to Playlist
-//        for(Playlist p :  playlists) {
-//            System.out.println(p.getName());
-//            addPlaylistUI(p);
-//        }
+        for (Playlist p : playlists) {
+            addPlaylistUI(p);
+        }
     }
 
     public void filterPlaylists(ActionEvent actionEvent) {
     }
 
     private void addPlaylistUI(Playlist playlist) {
-        /*
-        <HBox styleClass="playlist" stylesheets="@userstyle.css">
-            <children>
-                <Label text="Playlist name - Creator - Song amount"/>
-            </children>
-            <VBox.margin>
-                <Insets bottom="10.0"/>
-            </VBox.margin>
-        </HBox>
-         */
+        String songCountInfo = "";
+        int songCount = playlist.getSongs().size();
+        if (songCount == 1) { songCountInfo = "1 song"; }
+        else { songCountInfo = String.format("%s songs", songCount); }
+
         HBox root = new HBox();
-        root.getStylesheets().add("@userstyle.css");
+        VBox playlistInfo = new VBox();
+        HBox playlistInfoContainer = new HBox();
         root.getStyleClass().add("playlist");
-        Label playlistInfo = new Label(playlist.getName());
+        Label playlistName = new Label(String.format("%s ", playlist.getName()));
+        playlistName.setStyle("-fx-font-weight: bold; -fx-font-size: 16");
+        Label playlistCreatedBy = new Label("Created by: ");
+        Label playlistCreator = new Label(String.format("%s ", playlist.getCreator().getName()));
+        playlistCreator.setStyle("-fx-font-weight: bold");
+        Label playlistSongs = new Label(String.format("- %s", songCountInfo));
+        playlistInfoContainer.getChildren().addAll(playlistCreatedBy, playlistCreator, playlistSongs);
+        playlistInfo.getChildren().addAll(playlistName, playlistInfoContainer);
         root.getChildren().add(playlistInfo);
-        VBox.setMargin(root, new Insets(0,0,10,0));
+        HBox.setMargin(playlistInfo, new Insets(0, 0,0,6));
+        VBox.setMargin(root, new Insets(0, 0, 10, 0));
         playlistContainer.getChildren().add(root);
     }
 }
