@@ -16,17 +16,28 @@ import play.Playlist;
 import play.Song;
 import play.User;
 import rmi.ClientContainer;
+import ui.Message;
 import ui.ResourceHandler;
 import ui.UITools;
 
+import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Objects;
+import java.util.logging.Level;
 
 public class PlaylistViewController {
-    @FXML private VBox songContainer;
-    @FXML private Label playlistName;
-    @FXML private TextField tbSearch;
-    @FXML private Label currentSongInfo;
-    @FXML private ProgressBar songTimeProgress;
+    @FXML
+    private Button btnFollow;
+    @FXML
+    private VBox songContainer;
+    @FXML
+    private Label playlistName;
+    @FXML
+    private TextField tbSearch;
+    @FXML
+    private Label currentSongInfo;
+    @FXML
+    private ProgressBar songTimeProgress;
 
     private ClientContainer container;
     private UITools.UIManager uiManager;
@@ -66,7 +77,7 @@ public class PlaylistViewController {
         pane.getChildren().addAll(songInfo, songTime, playBtn);
         root.getChildren().add(pane);
         HBox.setHgrow(pane, Priority.ALWAYS);
-        VBox.setMargin(root, new Insets(10,0,10,0));
+        VBox.setMargin(root, new Insets(10, 0, 10, 0));
         songContainer.getChildren().add(root);
     }
 
@@ -99,5 +110,23 @@ public class PlaylistViewController {
 
     public void toMenu(ActionEvent actionEvent) {
         new UITools.UIManager().loadFXML("menu.fxml", "Menu");
+    }
+
+    public void toggleFollow(ActionEvent actionEvent) {
+        try {
+            if (Objects.equals(btnFollow.getText(), "Follow")) {
+                if (container.follow(playlist)) {
+                    Message.show("Success", String.format("Successfully followed %s", playlist.getName()));
+                    btnFollow.setText("Unfollow");
+                }
+            } else {
+                if (container.unfollow(playlist)) {
+                    Message.show("Success", String.format("Successfully unfollowed %s", playlist.getName()));
+                    btnFollow.setText("Unfollow");
+                }
+            }
+        } catch (RemoteException e) {
+            ResourceHandler.getLogger().log(Level.SEVERE, e.toString());
+        }
     }
 }
