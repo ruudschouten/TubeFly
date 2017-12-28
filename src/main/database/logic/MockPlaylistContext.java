@@ -22,6 +22,8 @@ public class MockPlaylistContext implements IPlaylistContext {
     private void initialize() throws RemoteException {
         ArrayList<Song> songs = new ArrayList<>();
         songs.add(new Song("https://www.youtube.com/watch?v=eu2I72CrLl4"));
+        songs.add(new Song("https://www.youtube.com/watch?v=L_jWHffIx5E"));
+        songs.add(new Song("https://www.youtube.com/watch?v=PWgvGjAhvIw"));
         UUID id = UUID.randomUUID();
         User user = new User("Henk", "Henk@mail.com", "12345", "Address", Gender.MALE);
         Playlist p = new Playlist(id.toString(), "Best", "Songs I like", user, songs);

@@ -18,7 +18,7 @@ public class Playlist implements Serializable {
     private boolean shuffle;
     private boolean loop;
 
-    public Playlist(String name, User creator){
+    public Playlist(String name, User creator) {
         setName(name);
         this.creator = creator;
         id = UUID.randomUUID();
@@ -91,5 +91,18 @@ public class Playlist implements Serializable {
 
     public void addSong(Song song) {
         songs.add(song);
+    }
+
+    public List<Song> getSongs(String searchCriteria) {
+        ArrayList<Song> songs = new ArrayList<>();
+        for (Song s : this.songs) {
+            if (s.getName().contains(searchCriteria)) {
+                songs.add(s);
+            } else if (s.getArtist().contains(searchCriteria)) {
+                songs.add(s);
+            }
+        }
+        if (songs.size() == 0) return this.songs;
+        return songs;
     }
 }

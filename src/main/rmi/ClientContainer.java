@@ -25,6 +25,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
     IController controller;
 
     private ArrayList<Playlist> playlists;
+    private Playlist selectedPlaylist;
     private User user;
 
     private boolean loggedIn = false;
@@ -50,6 +51,14 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
         }
 
         if (controller != null) controller.update();
+    }
+
+    public void setSelectedPlaylist(Playlist playlist) {
+        this.selectedPlaylist = playlist;
+    }
+
+    public Playlist getSelectedPlaylist() {
+        return selectedPlaylist;
     }
 
     public void setController(IController controller) {

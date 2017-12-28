@@ -1,6 +1,9 @@
 package play;
 
 import api.YouTube;
+import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
+import org.joda.time.format.DateTimeFormat;
 
 import java.io.Serializable;
 
@@ -9,6 +12,7 @@ public class Song implements ISong, Serializable {
     private String youtubeURL;
     private String name;
     private String artist;
+    private DateTime dateTime;
 
     public Song(String youtubeURL) {
         this.youtubeURL = youtubeURL;
@@ -22,6 +26,7 @@ public class Song implements ISong, Serializable {
         this.youtubeURL = youtubeURL;
         this.name = name;
         this.artist = artist;
+        dateTime = new DateTime(90);
     }
 
     @Override
@@ -48,5 +53,8 @@ public class Song implements ISong, Serializable {
     public void setArtist(String artist) {
         this.artist = artist;
     }
-    
+
+    public String getLength() {
+        return  DateTimeFormat.forPattern("mm:ss").print(dateTime);
+    }
 }
