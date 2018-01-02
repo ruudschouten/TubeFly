@@ -65,7 +65,7 @@ public class UITools {
          * Loads the next FXML into the current BorderPane.
          *
          * @param resource   The FXML FileName that needs to be loaded
-         * @param windowName The name the window should be given, if left empty it will be "Drawingo".
+         * @param windowName The name the window should be given, if left empty it will be "Window".
          */
         public void loadFXML(String resource, String windowName) {
             Logger logger = new Logger("UIManager", Level.SEVERE, Level.SEVERE);
@@ -103,6 +103,25 @@ public class UITools {
             }
         }
 
+        /**
+         * Loads FXML into a new window
+         * @param resource   The FXML FileName that needs to be loaded
+         * @param windowName The name the window should be given.
+         */
+        public void openInNewWindow(String resource, String windowName) {
+            Logger logger = new Logger("UIManager", Level.SEVERE, Level.SEVERE);
+            Parent root;
+            try {
+                root = FXMLLoader.load(getClass().getClassLoader().getResource(resource));
+                Stage stage = new Stage();
+                stage.setTitle(windowName);
+                stage.setScene(new Scene(root));
+                stage.show();
+            }
+            catch (IOException e) {
+                logger.log(Level.SEVERE, e.toString());
+            }
+        }
 
         /**
          * Returns the current controller from the FXMLLoader.
