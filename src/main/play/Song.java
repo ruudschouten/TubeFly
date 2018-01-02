@@ -2,7 +2,6 @@ package play;
 
 import api.YouTube;
 import org.joda.time.DateTime;
-import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 
 import java.io.Serializable;
@@ -12,7 +11,8 @@ public class Song implements ISong, Serializable {
     private String youtubeURL;
     private String name;
     private String artist;
-    private DateTime dateTime;
+    private DateTime length;
+    private DateTime currentTime;
 
     public Song(String youtubeURL) {
         this.youtubeURL = youtubeURL;
@@ -26,7 +26,8 @@ public class Song implements ISong, Serializable {
         this.youtubeURL = youtubeURL;
         this.name = name;
         this.artist = artist;
-        dateTime = new DateTime(90);
+        length = new DateTime(90);
+        currentTime = new DateTime(0);
     }
 
     @Override
@@ -55,14 +56,23 @@ public class Song implements ISong, Serializable {
     }
 
     public String getLengthString() {
-        return DateTimeFormat.forPattern("mm:ss").print(dateTime);
+        return DateTimeFormat.forPattern("mm:ss").print(length);
     }
 
     public void setLength(DateTime dateTime) {
-        this.dateTime = dateTime;
+        this.length = dateTime;
     }
 
     public DateTime getLength() {
-        return dateTime;
+        return length;
+    }
+
+    public DateTime getCurrentTime() {
+        return currentTime;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return ((Song) obj).getId() == getId();
     }
 }

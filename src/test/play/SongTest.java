@@ -11,6 +11,7 @@ public class SongTest {
     private String youtubeTitle = "Emmanuel & The Fear - Jimme's Song";
     private String name = "name";
     private String artist = "artist";
+
     @Test
     public void getURL() {
         Song song = new Song(youtubeURL);
@@ -44,6 +45,7 @@ public class SongTest {
         song.setArtist(artist);
         Assert.assertEquals(song.getArtist(), artist);
     }
+
     @Test
     public void getId() {
         Song song = new Song(2, youtubeURL, name, artist);
@@ -51,6 +53,7 @@ public class SongTest {
         Assert.assertEquals(song.getName(), name);
         Assert.assertEquals(song.getArtist(), artist);
     }
+
     @Test
     public void getLength() {
         DateTime d = new DateTime(90);
@@ -58,5 +61,20 @@ public class SongTest {
         song.setLength(d);
         Assert.assertEquals(song.getLength(), d);
         Assert.assertEquals(song.getLengthString(), DateTimeFormat.forPattern("mm:ss").print(d));
+    }
+
+    @Test
+    public void getCurrentTime() {
+        Song song = new Song(2, youtubeURL, name, artist);
+        Assert.assertEquals(song.getCurrentTime(), new DateTime(0));
+    }
+
+    @Test
+    public void getEquals() {
+        Song song = new Song(2, youtubeURL, name, artist);
+        Song song1 = new Song(1, youtubeURL, name, artist);
+        Song duplicate = new Song(2, youtubeURL, name, artist);
+        Assert.assertEquals(song.equals(song1), false);
+        Assert.assertEquals(song.equals(duplicate), true);
     }
 }
