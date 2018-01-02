@@ -96,8 +96,8 @@ public class Playlist implements Serializable {
         return songs;
     }
 
-    public void addSong(Song song) {
-        songs.add(song);
+    public boolean addSong(Song song) {
+        return songs.add(song);
     }
 
     public DateTime getLength() {
