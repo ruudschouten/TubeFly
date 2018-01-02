@@ -54,7 +54,15 @@ public class Song implements ISong, Serializable {
         this.artist = artist;
     }
 
-    public String getLength() {
-        return  DateTimeFormat.forPattern("mm:ss").print(dateTime);
+    public String getLengthString() {
+        return DateTimeFormat.forPattern("mm:ss").print(dateTime);
+    }
+
+    public void setLength(DateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public DateTime getLength() {
+        return dateTime;
     }
 }

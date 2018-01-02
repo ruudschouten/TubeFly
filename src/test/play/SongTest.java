@@ -1,5 +1,7 @@
 package play;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import play.Song;
 import org.junit.Assert;
 import org.junit.Test;
@@ -48,5 +50,13 @@ public class SongTest {
         Assert.assertEquals(song.getId(), 2);
         Assert.assertEquals(song.getName(), name);
         Assert.assertEquals(song.getArtist(), artist);
+    }
+    @Test
+    public void getLength() {
+        DateTime d = new DateTime(90);
+        Song song = new Song(2, youtubeURL, name, artist);
+        song.setLength(d);
+        Assert.assertEquals(song.getLength(), d);
+        Assert.assertEquals(song.getLengthString(), DateTimeFormat.forPattern("mm:ss").print(d));
     }
 }

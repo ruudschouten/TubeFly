@@ -1,5 +1,8 @@
 package play;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -95,6 +98,18 @@ public class Playlist implements Serializable {
 
     public void addSong(Song song) {
         songs.add(song);
+    }
+
+    public DateTime getLength() {
+        long time = 0;
+        for (Song s : this.songs) {
+             time += s.getLength().getMillis();
+        }
+        return new DateTime(time);
+    }
+
+    public String getLengthString() {
+        return DateTimeFormat.forPattern("mm:ss").print(getLength());
     }
 
     public List<Song> getSongs(String searchCriteria) {

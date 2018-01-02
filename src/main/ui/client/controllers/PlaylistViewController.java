@@ -11,33 +11,23 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import play.Playlist;
 import play.Song;
-import play.User;
 import rmi.ClientContainer;
 import ui.Message;
 import ui.ResourceHandler;
 import ui.UITools;
 
-import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
 
 public class PlaylistViewController {
-    @FXML
-    private Button btnFollow;
-    @FXML
-    private VBox songContainer;
-    @FXML
-    private Label playlistName;
-    @FXML
-    private TextField tbSearch;
-    @FXML
-    private Label currentSongInfo;
-    @FXML
-    private ProgressBar songTimeProgress;
+    @FXML private Button btnFollow;
+    @FXML private VBox songContainer;
+    @FXML private Label playlistName;
+    @FXML private TextField tbSearch;
+    @FXML private Label currentSongInfo;
+    @FXML private ProgressBar songTimeProgress;
 
     private ClientContainer container;
     private UITools.UIManager uiManager;
@@ -67,7 +57,7 @@ public class PlaylistViewController {
         root.getStyleClass().add("playlist");
         AnchorPane pane = new AnchorPane();
         Label songInfo = new Label(String.format("%s - %s", s.getName(), s.getArtist()));
-        Label songTime = new Label(String.format("%s", s.getLength()));
+        Label songTime = new Label(String.format("%s", s.getLengthString()));
         AnchorPane.setBottomAnchor(songInfo, 5.0);
         AnchorPane.setLeftAnchor(songInfo, 35.0);
         AnchorPane.setTopAnchor(songInfo, 5.0);

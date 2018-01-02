@@ -1,11 +1,14 @@
 package play;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -13,6 +16,8 @@ import java.util.UUID;
  */
 public class PlaylistTest {
     private User creator;
+    private Song song1;
+    private Song song2;
     private String name = "Name";
     private String desc = "Description";
 
@@ -23,6 +28,9 @@ public class PlaylistTest {
     @Before
     public void setUp() {
         creator = new User("Creator", "mail@mail.com", "Yes", "Address", Gender.MALE);
+
+        song1 = new Song("https://www.youtube.com/watch?v=eu2I72CrLl4"); //Emmanuel & The Fear - Jimme's Song
+        song2 = new Song("https://www.youtube.com/watch?v=FTQbiNvZqaY"); //Toto - Africa
     }
 
     /**
@@ -149,19 +157,49 @@ public class PlaylistTest {
     @Test
     public void addAndGetSong() throws RemoteException {
         Playlist p = new Playlist(name, creator);
-        Song s = new Song("https://www.youtube.com/watch?v=eu2I72CrLl4");
-        p.addSong(s);
+        p.addSong(song1);
         Assert.assertEquals(p.getSongs().size(), 1);
     }
 
     @Test
     public void addWithSongs() throws RemoteException {
         ArrayList<Song> songs = new ArrayList<>();
-        songs.add(new Song("https://www.youtube.com/watch?v=eu2I72CrLl4"));
+        songs.add(song1);
+        songs.add(song2);
         UUID id = UUID.randomUUID();
         Playlist p = new Playlist(id.toString(), name, desc, creator, songs, new ArrayList<>());
         Assert.assertEquals(p.getId(), id);
         Assert.assertEquals(p.getCreator(), creator);
         Assert.assertEquals(p.getSongs(), songs);
+        Assert.assertEquals(p.getSongs("Toto").get(0), song2);
+        Assert.assertEquals(p.getSongs("Jimme's").get(0), song1);
+    }
+
+    @Test
+    public void getLength() {
+        DateTime d = new DateTime(480);
+        ArrayList<Song> songs = new ArrayList<>();
+        song1.setLength(new DateTime(206));
+        song2.setLength(new DateTime(274));
+        songs.add(song1);
+        songs.add(song2);
+        UUID id = UUID.randomUUID();
+        Playlist p = new Playlist(id.toString(), name, desc, creator, songs, new ArrayList<>());
+        Assert.assertEquals(p.getLength(), d);
+        Assert.assertEquals(p.getLengthString(), DateTimeFormat.forPattern("mm:ss").print(d));
+    }
+
+
+    @Test
+    public void getFollowers() {
+        ArrayList<Song> songs = new ArrayList<>();
+        Song s1 = new Song("https://www.youtube.com/watch?v=eu2I72CrLl4");
+        songs.add(s1);
+        UUID id = UUID.randomUUID();
+        Playlist p = new Playlist(id.toString(), name, desc, creator, songs, new ArrayList<>());
+        p.addFollower(creator);
+        Assert.assertEquals(p.getFollowers().get(0), creator);
+        p.removeFollower(creator);
+        Assert.assertEquals(p.getFollowers().size(), 0);
     }
 }
