@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="200.0" prefWidth="350.0" stylesheets="@userstyle.css" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.client.controllers.SongController">
+    <children>
+        <Label stylesheets="@userstyle.css" text="URL" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="10.0"/>
+        <TextField fx:id="tbURL" minWidth="220.0" styleClass="textbox" stylesheets="@userstyle.css"
+                   AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="30.0"/>
+        <Label stylesheets="@userstyle.css" text="Artist" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="60.0"/>
+        <TextField fx:id="tbArtist" minWidth="220.0" styleClass="textbox" stylesheets="@userstyle.css"
+                   AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="80.0"/>
+        <Button mnemonicParsing="false" onAction="#generateInfo" stylesheets="@userstyle.css" text="Generate"
+                AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="30.0"/>
+        <TextField fx:id="tbSong" minWidth="220.0" styleClass="textbox" stylesheets="@userstyle.css"
+                   AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="130.0"/>
+        <Label stylesheets="@userstyle.css" text="Song" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="110.0"/>
+        <Button mnemonicParsing="false" onAction="#addSongToPlaylist" stylesheets="@userstyle.css" text="Add"
+                AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0"/>
+    </children>
+</AnchorPane>
