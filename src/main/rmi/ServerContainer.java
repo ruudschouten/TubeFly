@@ -123,8 +123,11 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     }
 
     @Override
-    public boolean addSong(Playlist playlist, Song song) {
-        return false;
+    public boolean addSong(Playlist playlist, Song song) throws RemoteException {
+        boolean success = playlist.addSong(song);
+        logger.log(Level.INFO, String.format("%s added to Playlist ID: %s", song.getName(), playlist.getId()));
+        publisher.inform(playlist.getId().toString(), null, playlist);
+        return success;
     }
 
     @Override

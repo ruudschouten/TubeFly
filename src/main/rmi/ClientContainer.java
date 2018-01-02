@@ -14,6 +14,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -49,7 +50,10 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
                 playlists = (ArrayList<Playlist>) evt.getNewValue();
                 break;
         }
-
+        if(Objects.equals(evt.getPropertyName(), selectedPlaylist.getId().toString())) {
+            selectedPlaylist = (Playlist) evt.getNewValue();
+        }
+        System.out.println("Updated RMI");
         if (controller != null) controller.update();
     }
 
@@ -60,6 +64,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
     public void setSelectedPlaylist(Playlist playlist) {
         try {
             server.registerProperty(playlist);
+            publisher.subscribeRemoteListener(this, playlist.getId().toString());
             this.selectedPlaylist = playlist;
         } catch (RemoteException e) {
             logger.log(Level.SEVERE, e.toString());

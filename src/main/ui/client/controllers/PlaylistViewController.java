@@ -1,5 +1,6 @@
 package ui.client.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -16,40 +17,72 @@ import play.Song;
 import rmi.ClientContainer;
 import ui.Message;
 import ui.ResourceHandler;
+import ui.SongButton;
 import ui.UITools;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class PlaylistViewController {
-    @FXML private Button btnFollow;
-    @FXML private VBox songContainer;
-    @FXML private Label playlistName;
-    @FXML private TextField tbSearch;
-    @FXML private Label currentSongInfo;
-    @FXML private ProgressBar songTimeProgress;
+public class PlaylistViewController implements IController {
+    @FXML
+    private Button btnFollow;
+    @FXML
+    private VBox songContainer;
+    @FXML
+    private Label playlistName;
+    @FXML
+    private TextField tbSearch;
+    @FXML
+    private Label currentSongInfo;
+    @FXML
+    private ProgressBar songTimeProgress;
 
     private ClientContainer container;
     private UITools.UIManager uiManager;
 
+    private Timer timer;
     private Playlist playlist;
+    private Song currentSong;
+
+    private boolean isPaused;
 
     public void initialize() {
         uiManager = new UITools.UIManager();
         container = ResourceHandler.getContainer();
+        container.setController(this);
         playlist = container.getSelectedPlaylist();
         playlistName.setText(playlist.getName());
         //Admin
-        if(container.getUser() == null) {
+        if (container.getUser() == null) {
             btnFollow.setVisible(false);
         }
-        displayPlaylists();
+        displaySongs();
     }
 
-    private void displayPlaylists() {
+    private void displaySongs() {
+        songContainer.getChildren().clear();
         for (Song s : playlist.getSongs()) {
             addSongUI(s);
         }
+    }
+
+    private void startSong(Song s) {
+        timer.cancel();
+        songTimeProgress.setProgress(0);
+        currentSongInfo.setText(s.getName());
+        setupTimer(s);
+    }
+
+    private void setupTimer(Song s) {
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                songTimeProgress.setProgress(s.getCurrentTime().getMillis() / 100);
+            }
+        }, 0, 1000);
     }
 
     private void addSongUI(Song s) {
@@ -64,7 +97,7 @@ public class PlaylistViewController {
         AnchorPane.setBottomAnchor(songTime, 5.0);
         AnchorPane.setRightAnchor(songTime, 0.0);
         AnchorPane.setTopAnchor(songTime, 5.0);
-        Button playBtn = new Button();
+        SongButton playBtn = new SongButton(s);
         playBtn.setOnAction(this::songPlayPause);
         playBtn.getStyleClass().add("musicbutton");
         playBtn.setText(" ▶ ");
@@ -85,6 +118,24 @@ public class PlaylistViewController {
     }
 
     public void songPlayPause(ActionEvent actionEvent) {
+        SongButton btn = (SongButton) actionEvent.getSource();
+        Song newSong = btn.getSong();
+        if(currentSong == null) {
+            currentSong = newSong;
+            startSong(currentSong);
+            isPaused = false;
+        }
+        if(currentSong.equals(newSong)) {
+            if(isPaused) {
+                btn.setText(" ▶ ");
+                isPaused = false;
+            } else {
+                btn.setText(" \u23F8 ");
+                isPaused = true;
+            }
+        } else {
+
+        }
     }
 
     public void previousSong(ActionEvent actionEvent) {
@@ -103,7 +154,7 @@ public class PlaylistViewController {
     }
 
     public void toMenu(ActionEvent actionEvent) {
-        new UITools.UIManager().loadFXML("menu.fxml", "Menu");
+        uiManager.loadFXML("menu.fxml", "Menu");
     }
 
     public void toggleFollow(ActionEvent actionEvent) {
@@ -115,8 +166,24 @@ public class PlaylistViewController {
         } else {
             if (container.unfollow(playlist)) {
                 Message.show("Success", String.format("Successfully unfollowed %s", playlist.getName()));
-                btnFollow.setText("Unfollow");
+                btnFollow.setText("Follow");
             }
         }
+    }
+
+    @Override
+    public void update() {
+        playlist = container.getSelectedPlaylist();
+        playlistName.setText(playlist.getName());
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                displaySongs();
+            }
+        });
+    }
+
+    public void showAddSong(ActionEvent actionEvent) {
+        uiManager.openInNewWindow("newsong.fxml", "Add Song");
     }
 }
