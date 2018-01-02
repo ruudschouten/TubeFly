@@ -17,7 +17,7 @@
                     </HBox.margin>
                     <children>
                         <Label stylesheets="@userstyle.css" text="Search" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0" />
-                        <HBox AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="20.0">
+                        <HBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0">
                             <children>
                                 <TextField fx:id="tbSearch" styleClass="textbox" stylesheets="@userstyle.css">
                                     <HBox.margin>
@@ -39,6 +39,7 @@
                                 <Insets left="5.0" right="5.0" />
                             </padding>
                         </ScrollPane>
+                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#showAddSong" text="Add" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0" />
                     </children>
                 </AnchorPane>
             </children>
