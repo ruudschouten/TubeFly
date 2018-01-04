@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -7,35 +11,32 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-            prefWidth="600.0" stylesheets="@userstyle.css" xmlns="http://javafx.com/javafx/8.0.111"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ui.client.controllers.PlaylistCollectionController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@userstyle.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.client.controllers.PlaylistCollectionController">
     <children>
-        <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0"
-                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+        <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
             <content>
                 <VBox stylesheets="@userstyle.css">
                     <children>
                         <HBox styleClass="playlist" stylesheets="@userstyle.css">
                             <children>
-                                <Label text="Playlist name - Creator - Song amount"/>
+                                <Label text="Playlist name - Creator - Song amount" />
                             </children>
                             <VBox.margin>
-                                <Insets bottom="10.0"/>
+                                <Insets bottom="10.0" />
                             </VBox.margin>
                         </HBox>
                         <HBox layoutX="10.0" layoutY="10.0" styleClass="playlist" stylesheets="@userstyle.css">
                             <children>
-                                <Label text="Playlist name - Creator - Song amount"/>
+                                <Label text="Playlist name - Creator - Song amount" />
                             </children>
                         </HBox>
                     </children>
                 </VBox>
             </content>
             <padding>
-                <Insets left="5.0" right="5.0"/>
+                <Insets left="5.0" right="5.0" />
             </padding>
         </ScrollPane>
+      <Button mnemonicParsing="false" onAction="#backToMenu" text="Back" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
     </children>
 </AnchorPane>
