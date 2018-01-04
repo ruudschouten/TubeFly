@@ -74,6 +74,16 @@ public class PlaylistRepository implements IPlaylistContext {
     }
 
     @Override
+    public boolean removeSong(Song song, UUID id) throws SQLException, RemoteException {
+        try {
+            return context.removeSong(song, id);
+        } catch (SQLException | RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return false;
+    }
+
+    @Override
     public boolean insert(Playlist playlist) {
         try {
             return context.insert(playlist);

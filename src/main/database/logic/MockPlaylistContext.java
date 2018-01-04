@@ -80,10 +80,19 @@ public class MockPlaylistContext implements IPlaylistContext {
 
     @Override
     public boolean addSong(Song song, UUID id) throws SQLException, RemoteException {
-        //TODO: Find out why this adds to all playlists
         for (Playlist p : playlists) {
             if(p.getId().equals(id)) {
                 return p.addSong(song);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean removeSong(Song song, UUID id) throws SQLException, RemoteException {
+        for (Playlist p : playlists) {
+            if(p.getId().equals(id)) {
+                return p.removeSong(song);
             }
         }
         return false;

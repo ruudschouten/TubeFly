@@ -83,6 +83,12 @@ public class DatabasePlaylistContext implements IPlaylistContext {
     }
 
     @Override
+    public boolean removeSong(Song song, UUID id) throws SQLException, RemoteException {
+        //TODO: Implement
+        return false;
+    }
+
+    @Override
     public boolean insert(Playlist playlist) throws SQLException {
         boolean success;
         PreparedStatement statement = null;

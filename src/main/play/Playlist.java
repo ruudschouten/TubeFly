@@ -100,6 +100,10 @@ public class Playlist implements Serializable {
         return songs.add(song);
     }
 
+    public boolean removeSong(Song song) {
+        return songs.remove(song);
+    }
+
     public DateTime getLength() {
         long time = 0;
         for (Song s : this.songs) {

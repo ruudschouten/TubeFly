@@ -16,6 +16,7 @@ public interface IPlaylistContext {
     List<Playlist> getFromCreator(User user) throws SQLException, RemoteException;
     List<User> getFollowers(UUID id) throws SQLException, RemoteException;
     boolean addSong(Song song, UUID id) throws SQLException, RemoteException;
+    boolean removeSong(Song song, UUID id) throws SQLException, RemoteException;
     boolean insert(Playlist playlist) throws SQLException, RemoteException;
     boolean follow(Playlist playlist, User user) throws SQLException, RemoteException;
     boolean unfollow(Playlist playlist, User user) throws SQLException, RemoteException;
