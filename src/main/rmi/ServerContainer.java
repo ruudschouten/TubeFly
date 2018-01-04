@@ -131,8 +131,11 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     }
 
     @Override
-    public boolean removeSong(Playlist playlist, Song song) {
-        return false;
+    public boolean removeSong(Playlist playlist, Song song) throws RemoteException, SQLException {
+        boolean success = playlistRepo.removeSong(song, playlist.getId());
+        logger.log(Level.INFO, String.format("%s added to Playlist ID: %s", song.getName(), playlist.getId()));
+        publisher.inform(playlist.getId().toString(), null, playlistRepo.getById(playlist.getId()));
+        return success;
     }
 
     @Override
