@@ -3,6 +3,7 @@ package database.repositories;
 import database.data.IPlaylistContext;
 import log.Logger;
 import play.Playlist;
+import play.Song;
 import play.User;
 
 import java.rmi.RemoteException;
@@ -60,6 +61,16 @@ public class PlaylistRepository implements IPlaylistContext {
             logger.log(Level.SEVERE, e.toString());
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public boolean addSong(Song song, UUID id) throws SQLException, RemoteException {
+        try {
+            return context.addSong(song, id);
+        } catch (SQLException | RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return false;
     }
 
     @Override

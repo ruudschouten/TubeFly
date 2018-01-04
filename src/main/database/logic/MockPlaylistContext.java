@@ -24,16 +24,15 @@ public class MockPlaylistContext implements IPlaylistContext {
         songs.add(new Song("https://www.youtube.com/watch?v=eu2I72CrLl4"));
         songs.add(new Song("https://www.youtube.com/watch?v=L_jWHffIx5E"));
         songs.add(new Song("https://www.youtube.com/watch?v=PWgvGjAhvIw"));
-        UUID id = UUID.randomUUID();
         User user = new User("Henk", "Henk@mail.com", "12345", "Address", Gender.MALE);
         User user2 = new User("Yes", "yes", "yes", "yes", Gender.MALE);
         User user3 = new User("no", "no", "no", "no", Gender.MALE);
         ArrayList<User> followers = new ArrayList<>();
         followers.add(user2);
         followers.add(user3);
-        Playlist p = new Playlist(id.toString(), "Best", "Songs I like", user, songs, new ArrayList<>());
-        Playlist p2 = new Playlist(id.toString(), "Neh", "Songs I like", user, songs, followers);
-        Playlist p3 = new Playlist(id.toString(), "Berry", "Songs I like", user, songs, followers);
+        Playlist p = new Playlist(UUID.randomUUID().toString(), "Best", "Songs I like", user, songs, new ArrayList<>());
+        Playlist p2 = new Playlist(UUID.randomUUID().toString(), "Neh", "Songs I like", user, songs, followers);
+        Playlist p3 = new Playlist(UUID.randomUUID().toString(), "Berry", "Songs I like", user, songs, followers);
         playlists.add(p);
         playlists.add(p2);
         playlists.add(p3);
@@ -77,6 +76,17 @@ public class MockPlaylistContext implements IPlaylistContext {
             }
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public boolean addSong(Song song, UUID id) throws SQLException, RemoteException {
+        //TODO: Find out why this adds to all playlists
+        for (Playlist p : playlists) {
+            if(p.getId().equals(id)) {
+                return p.addSong(song);
+            }
+        }
+        return false;
     }
 
     @Override
