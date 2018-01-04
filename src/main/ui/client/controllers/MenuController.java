@@ -31,6 +31,7 @@ public class MenuController implements IController {
     }
 
     private void displayPlaylists() {
+        playlistContainer.getChildren().clear();
         List<Playlist> playlists = container.getPlaylists(10);
         for (Playlist p : playlists) {
             addPlaylistUI(p);

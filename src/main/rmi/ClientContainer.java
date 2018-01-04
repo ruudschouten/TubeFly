@@ -192,7 +192,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
     public boolean addSong(Playlist playlist, Song song) {
         try {
             return server.addSong(playlist, song);
-        } catch (RemoteException e) {
+        } catch (RemoteException | SQLException e) {
             logger.log(Level.SEVERE, e.toString());
         }
         return false;

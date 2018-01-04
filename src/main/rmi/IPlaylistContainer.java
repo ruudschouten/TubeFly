@@ -23,7 +23,7 @@ public interface IPlaylistContainer extends Remote {
 
     public boolean updatePlaylist(String name, String description) throws RemoteException;
 
-    public boolean addSong(Playlist playlist, Song song) throws RemoteException;
+    public boolean addSong(Playlist playlist, Song song) throws RemoteException, SQLException;
 
     public boolean removeSong(Playlist playlist, Song song) throws RemoteException;
 
