@@ -182,8 +182,8 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
 
     public boolean updatePlaylist(String name, String description) {
         try {
-            return server.updatePlaylist(name, description);
-        } catch (RemoteException e) {
+            return server.updatePlaylist(selectedPlaylist, name, description);
+        } catch (RemoteException | SQLException e) {
             logger.log(Level.SEVERE, e.toString());
         }
         return false;

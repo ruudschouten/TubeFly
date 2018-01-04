@@ -17,6 +17,7 @@ import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.logging.Level;
 
@@ -118,7 +119,12 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     }
 
     @Override
-    public boolean updatePlaylist(String name, String description) {
+    public boolean updatePlaylist(Playlist playlist, String name, String description) throws RemoteException, SQLException {
+        if(name != null && !Objects.equals(name, "")) {
+            playlistRepo.update(playlist.getId(), name, description);
+            publisher.inform(playlist.getId().toString(), null, playlistRepo.getById(playlist.getId()));
+            return true;
+        }
         return false;
     }
 

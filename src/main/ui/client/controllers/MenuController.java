@@ -1,5 +1,6 @@
 package ui.client.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -31,14 +32,20 @@ public class MenuController {
         if(container.getUser() == null) {
             btnCreatePlaylist.setVisible(false);
         }
-        displayPlaylists();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                displayPlaylists();
+            }
+        });
     }
 
     private void displayPlaylists() {
         playlistContainer.getChildren().clear();
         List<Playlist> playlists = container.getPlaylists(10);
         for (Playlist p : playlists) {
-            addPlaylistUI(p);
+            //This is done to not let new playlists appear in the menu
+            if(!p.getName().equals("")) addPlaylistUI(p);
         }
     }
 
