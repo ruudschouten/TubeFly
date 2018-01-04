@@ -105,6 +105,18 @@ public class MockPlaylistContext implements IPlaylistContext {
     }
 
     @Override
+    public boolean update(UUID id, String name, String description) throws SQLException, RemoteException {
+        for (Playlist p : playlists) {
+            if(p.getId().equals(id)) {
+                p.setName(name);
+                p.setDescription(description);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public boolean follow(Playlist playlist, User user) throws SQLException, RemoteException {
         return playlist.addFollower(user);
     }

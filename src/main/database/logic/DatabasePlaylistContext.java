@@ -106,6 +106,12 @@ public class DatabasePlaylistContext implements IPlaylistContext {
     }
 
     @Override
+    public boolean update(UUID id, String name, String description) throws SQLException, RemoteException {
+        //TODO: Implement
+        return false;
+    }
+
+    @Override
     public boolean follow(Playlist playlist, User user) throws SQLException, RemoteException {
         //TODO: Implement
         return false;

@@ -94,6 +94,16 @@ public class PlaylistRepository implements IPlaylistContext {
     }
 
     @Override
+    public boolean update(UUID id, String name, String description) throws SQLException, RemoteException {
+        try {
+            return context.update(id, name, description);
+        } catch (SQLException | RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return false;
+    }
+
+    @Override
     public boolean follow(Playlist playlist, User user) throws SQLException, RemoteException {
         return context.follow(playlist, user);
     }
