@@ -73,6 +73,7 @@ public class Song implements ISong, Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        return ((Song) obj).getId() == getId();
+        Song song = (Song) obj;
+        return song != null && song.getId() == getId();
     }
 }

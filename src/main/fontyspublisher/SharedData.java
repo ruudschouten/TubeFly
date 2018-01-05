@@ -3,7 +3,6 @@ package fontyspublisher;
 import log.Logger;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -11,6 +10,9 @@ import java.util.logging.Level;
 public class SharedData {
     private static Logger logger;
     private static Properties prop;
+
+    private SharedData() {
+    }
 
     public static int getPort() {
         if (prop == null) {

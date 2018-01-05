@@ -4,6 +4,9 @@ import log.Logger;
 import rmi.ClientContainer;
 
 public class ResourceHandler {
+    private ResourceHandler() {
+    }
+
     private static ClientContainer container = null;
     private static Logger logger = null;
 

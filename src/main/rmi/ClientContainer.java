@@ -19,13 +19,12 @@ import java.util.UUID;
 import java.util.logging.Level;
 
 public class ClientContainer extends UnicastRemoteObject implements IRemotePropertyListener {
-    private Logger logger;
-    private IRemotePublisherForListener publisher;
+    private transient Logger logger;
+    private transient IRemotePublisherForListener publisher;
 
-    IContainer server;
-    IController controller;
+    transient IContainer server;
+    transient IController controller;
 
-    private ArrayList<Playlist> playlists;
     private Playlist selectedPlaylist;
     private User user;
 
@@ -39,21 +38,9 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
-        switch (evt.getPropertyName()) {
-            case Properties.USER_PROPERTY:
-                //Handle login
-                break;
-            case Properties.ARTIST_PROPERTY:
-                //Handle new artist upload
-                break;
-            case Properties.PLAYLIST_PROPERTY:
-                playlists = (ArrayList<Playlist>) evt.getNewValue();
-                break;
-        }
         if(Objects.equals(evt.getPropertyName(), selectedPlaylist.getId().toString())) {
             selectedPlaylist = (Playlist) evt.getNewValue();
         }
-        System.out.println("Updated RMI");
         if (controller != null) controller.update();
     }
 
@@ -125,7 +112,6 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
         return server.subscribeToArtist(user, artist);
     }
 
-    //TODO: Figure out how to call this
     public boolean notifyUser() {
         try {
             return server.notifyUser();
@@ -141,7 +127,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
         } catch (RemoteException e) {
             logger.log(Level.SEVERE, e.toString());
         }
-        return null;
+        return new ArrayList<>();
     }
 
     public List<Playlist> getPlaylists(int limit) {
@@ -150,14 +136,14 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
         } catch (RemoteException e) {
             logger.log(Level.SEVERE, e.toString());
         }
-        return null;
+        return new ArrayList<>();
     }
 
     public Playlist getPlaylist(UUID id) {
         try {
             return server.getPlaylist(id);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, e.toString());
         }
         return null;
     }
@@ -168,7 +154,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
         } catch (RemoteException e) {
             logger.log(Level.SEVERE, e.toString());
         }
-        return null;
+        return new ArrayList<>();
     }
 
     public boolean uploadPlaylist(Playlist playlist) {

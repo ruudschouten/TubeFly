@@ -37,6 +37,7 @@ public class RegisterController {
     }
 
     public void register(ActionEvent actionEvent) {
+        String errorTitle = "Error";
         if (notNullOrEmpty(tbName) || notNullOrEmpty(tbMail) || notNullOrEmpty(tbAdress) || notNullOrEmpty(tbPassword)
                 || notNullOrEmpty(tbPasswordConfirm)) {
             if (Objects.equals(tbPassword.getText(), tbPasswordConfirm.getText())) {
@@ -45,17 +46,17 @@ public class RegisterController {
                     UITools.UIManager uiManager = new UITools.UIManager();
                     uiManager.loadFXML("menu.fxml", "Menu");
                 } else {
-                    Message.show("Error", "Unable to register account");
+                    Message.show(errorTitle, "Unable to register account");
                 }
             } else {
-                Message.show("Error", "Passwords don't match");
+                Message.show(errorTitle, "Passwords don't match");
             }
         } else {
-            Message.show("Error", "Not all fields were filled in");
+            Message.show(errorTitle, "Not all fields were filled in");
         }
     }
 
     private boolean notNullOrEmpty(TextField field) {
-        return field.getText() != null || field.getText() != "";
+        return field.getText() != null || !Objects.equals(field.getText(), "");
     }
 }

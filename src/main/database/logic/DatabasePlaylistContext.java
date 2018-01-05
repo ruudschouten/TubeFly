@@ -73,7 +73,7 @@ public class DatabasePlaylistContext implements IPlaylistContext {
     @Override
     public List<User> getFollowers(UUID id) throws SQLException, RemoteException {
         //TODO: Implement
-        return null;
+        return new ArrayList<>();
     }
 
     @Override

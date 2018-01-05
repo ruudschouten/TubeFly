@@ -120,21 +120,18 @@ public class PlaylistViewController implements IController {
     public void songPlayPause(ActionEvent actionEvent) {
         SongButton btn = (SongButton) actionEvent.getSource();
         Song newSong = btn.getSong();
-        if(currentSong == null) {
+        if (currentSong == null || !currentSong.equals(newSong)) {
             currentSong = newSong;
             startSong(currentSong);
             isPaused = false;
-        }
-        if(currentSong.equals(newSong)) {
-            if(isPaused) {
+        } else {
+            if (isPaused) {
                 btn.setText(" ▶ ");
                 isPaused = false;
             } else {
                 btn.setText(" \u23F8 ");
                 isPaused = true;
             }
-        } else {
-
         }
     }
 
@@ -175,12 +172,7 @@ public class PlaylistViewController implements IController {
     public void update() {
         playlist = container.getSelectedPlaylist();
         playlistName.setText(playlist.getName());
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                displaySongs();
-            }
-        });
+        Platform.runLater(this::displaySongs);
     }
 
     public void showAddSong(ActionEvent actionEvent) {

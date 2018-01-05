@@ -13,7 +13,6 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +23,13 @@ import java.util.logging.Level;
 public class ServerContainer extends UnicastRemoteObject implements IContainer {
     private RemotePublisher publisher;
 
-    Logger logger;
+    transient Logger logger;
 
-    UserRepository userRepo;
-    PlaylistRepository playlistRepo;
+    transient UserRepository userRepo;
+    transient PlaylistRepository playlistRepo;
 
-    ArrayList<User> activeUsers = new ArrayList<>();
-    List<Playlist> playlists = null;
+    private ArrayList<User> activeUsers = new ArrayList<>();
+    private List<Playlist> playlists = null;
 
     public ServerContainer(RemotePublisher publisher) throws RemoteException {
         this.publisher = publisher;
@@ -53,7 +52,6 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
             publisher.registerProperty(Properties.USER_PROPERTY);
             logger.log(Level.FINE, String.format("Added %s to activeUsers", u.getName()));
             activeUsers.add(u);
-            //TODO: Check if this works
             publisher.inform(Properties.USER_PROPERTY, null, u);
             return u;
         }
@@ -67,7 +65,7 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
             logger.log(Level.FINE, String.format("Removed %s from activeUsers", user.getName()));
             return activeUsers.remove(user);
         }
-        logger.log(Level.INFO, String.format("Couldn't find $s in activeUsers", user.getName()));
+        logger.log(Level.INFO, String.format("Couldn't find %s in activeUsers", user.getName()));
         return false;
     }
 
@@ -89,20 +87,20 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
 
     @Override
     public List<Playlist> getPlaylists(int limit) {
-        if(limit >= playlists.size()) return getPlaylists();
+        if (limit >= playlists.size()) return getPlaylists();
         return playlists.subList(playlists.size() - limit, playlists.size());
     }
 
     @Override
     public List<Playlist> getPlaylists(String searchCriteria) {
-        ArrayList<Playlist> playlists = new ArrayList<>();
-        for (Playlist p : this.playlists) {
-            if(p.getName().contains(searchCriteria)) {
-                playlists.add(p);
+        ArrayList<Playlist> filteredPlaylists = new ArrayList<>();
+        for (Playlist p : playlists) {
+            if (p.getName().contains(searchCriteria)) {
+                filteredPlaylists.add(p);
             }
         }
-        if(playlists.size() == 0) return this.playlists;
-        return playlists;
+        if (!filteredPlaylists.isEmpty()) return playlists;
+        return filteredPlaylists;
     }
 
     @Override
@@ -120,7 +118,7 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
 
     @Override
     public boolean updatePlaylist(Playlist playlist, String name, String description) throws RemoteException, SQLException {
-        if(name != null && !Objects.equals(name, "")) {
+        if (name != null && !Objects.equals(name, "")) {
             playlistRepo.update(playlist.getId(), name, description);
             publisher.inform(playlist.getId().toString(), null, playlistRepo.getById(playlist.getId()));
             return true;

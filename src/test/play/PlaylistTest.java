@@ -131,9 +131,9 @@ public class PlaylistTest {
     @Test
     public void toggleShuffle() throws RemoteException {
         Playlist p = new Playlist(name, creator);
-        Assert.assertEquals(p.isShuffling(), false);
+        Assert.assertEquals(false, p.isShuffling());
         p.toggleShuffle();
-        Assert.assertEquals(p.isShuffling(), true);
+        Assert.assertEquals(true, p.isShuffling());
     }
 
     /**
@@ -144,9 +144,9 @@ public class PlaylistTest {
     @Test
     public void toggleLoop() throws RemoteException {
         Playlist p = new Playlist(name, creator);
-        Assert.assertEquals(p.isLooping(), false);
+        Assert.assertEquals(false, p.isLooping());
         p.toggleLoop();
-        Assert.assertEquals(p.isLooping(), true);
+        Assert.assertEquals(true, p.isLooping());
     }
 
     /**
@@ -158,7 +158,7 @@ public class PlaylistTest {
     public void addAndGetSong() throws RemoteException {
         Playlist p = new Playlist(name, creator);
         p.addSong(song1);
-        Assert.assertEquals(p.getSongs().size(), 1);
+        Assert.assertEquals(1, p.getSongs().size());
     }
 
     @Test
@@ -200,6 +200,6 @@ public class PlaylistTest {
         p.addFollower(creator);
         Assert.assertEquals(p.getFollowers().get(0), creator);
         p.removeFollower(creator);
-        Assert.assertEquals(p.getFollowers().size(), 0);
+        Assert.assertEquals(0, p.getFollowers().size());
     }
 }

@@ -49,7 +49,6 @@ public class TubeServer {
             return true;
         } catch (RemoteException e) {
             logger.log(Level.WARNING, e.getMessage());
-            e.printStackTrace();
             return false;
         }
     }

@@ -32,7 +32,7 @@ class RmiClient {
         ResourceHandler.setLogger(logger);
     }
 
-    private void initSharedData() {
+    private static void initSharedData() {
         port = SharedData.getPort();
         registryName = SharedData.getRegistryName();
         serverName = SharedData.getServerName();

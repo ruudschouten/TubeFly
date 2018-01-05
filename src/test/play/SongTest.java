@@ -43,15 +43,15 @@ public class SongTest {
     public void setArtist() {
         Song song = new Song(youtubeURL);
         song.setArtist(artist);
-        Assert.assertEquals(song.getArtist(), artist);
+        Assert.assertEquals(artist, song.getArtist());
     }
 
     @Test
     public void getId() {
         Song song = new Song(2, youtubeURL, name, artist);
-        Assert.assertEquals(song.getId(), 2);
-        Assert.assertEquals(song.getName(), name);
-        Assert.assertEquals(song.getArtist(), artist);
+        Assert.assertEquals(2, song.getId());
+        Assert.assertEquals(name, song.getName());
+        Assert.assertEquals(artist, song.getArtist());
     }
 
     @Test
@@ -59,14 +59,14 @@ public class SongTest {
         DateTime d = new DateTime(90);
         Song song = new Song(2, youtubeURL, name, artist);
         song.setLength(d);
-        Assert.assertEquals(song.getLength(), d);
-        Assert.assertEquals(song.getLengthString(), DateTimeFormat.forPattern("mm:ss").print(d));
+        Assert.assertEquals(d, song.getLength());
+        Assert.assertEquals(DateTimeFormat.forPattern("mm:ss").print(d), song.getLengthString());
     }
 
     @Test
     public void getCurrentTime() {
         Song song = new Song(2, youtubeURL, name, artist);
-        Assert.assertEquals(song.getCurrentTime(), new DateTime(0));
+        Assert.assertEquals(new DateTime(0), song.getCurrentTime());
     }
 
     @Test
@@ -74,7 +74,7 @@ public class SongTest {
         Song song = new Song(2, youtubeURL, name, artist);
         Song song1 = new Song(1, youtubeURL, name, artist);
         Song duplicate = new Song(2, youtubeURL, name, artist);
-        Assert.assertEquals(song.equals(song1), false);
-        Assert.assertEquals(song.equals(duplicate), true);
+        Assert.assertEquals(false, song.equals(song1));
+        Assert.assertEquals(true, song.equals(duplicate));
     }
 }

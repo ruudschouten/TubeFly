@@ -32,12 +32,7 @@ public class MenuController {
         if(container.getUser() == null) {
             btnCreatePlaylist.setVisible(false);
         }
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                displayPlaylists();
-            }
-        });
+        Platform.runLater(this::displayPlaylists);
     }
 
     private void displayPlaylists() {

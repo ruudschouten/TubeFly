@@ -55,6 +55,7 @@ public class User implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        return getId() == ((User) obj).getId();
+        User user = (User) obj;
+        return user != null && user.getId() == getId();
     }
 }

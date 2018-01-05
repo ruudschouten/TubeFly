@@ -30,7 +30,6 @@ public class Publisher {
     /**
      * Local and remote property listeners subscribed to a property.
      */
-    // private final HashMap<String, Set<IPropertyListener>> propertyListeners;
     private final Map<String, List<IPropertyListener>> propertyListeners;
 
     /**

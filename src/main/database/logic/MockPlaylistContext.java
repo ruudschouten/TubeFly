@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 public class MockPlaylistContext implements IPlaylistContext {
@@ -31,8 +30,8 @@ public class MockPlaylistContext implements IPlaylistContext {
         followers.add(user2);
         followers.add(user3);
         Playlist p = new Playlist(UUID.randomUUID().toString(), "Best", "Songs I like", user, songs, new ArrayList<>());
-        Playlist p2 = new Playlist(UUID.randomUUID().toString(), "Neh", "Songs I like", user, songs, followers);
-        Playlist p3 = new Playlist(UUID.randomUUID().toString(), "Berry", "Songs I like", user, songs, followers);
+        Playlist p2 = new Playlist(UUID.randomUUID().toString(), "Neh", "Could be better tbqh fam", user, songs, followers);
+        Playlist p3 = new Playlist(UUID.randomUUID().toString(), "Berry", "Berry good", user, songs, followers);
         playlists.add(p);
         playlists.add(p2);
         playlists.add(p3);

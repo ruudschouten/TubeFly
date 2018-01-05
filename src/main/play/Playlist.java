@@ -4,8 +4,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import java.io.Serializable;
-import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -117,16 +115,14 @@ public class Playlist implements Serializable {
     }
 
     public List<Song> getSongs(String searchCriteria) {
-        ArrayList<Song> songs = new ArrayList<>();
-        for (Song s : this.songs) {
-            if (s.getName().contains(searchCriteria)) {
-                songs.add(s);
-            } else if (s.getArtist().contains(searchCriteria)) {
-                songs.add(s);
+        ArrayList<Song> filteredSongs = new ArrayList<>();
+        for (Song s : songs) {
+            if (s.getName().contains(searchCriteria) || s.getArtist().contains(searchCriteria)) {
+                filteredSongs.add(s);
             }
         }
-        if (songs.size() == 0) return this.songs;
-        return songs;
+        if (!filteredSongs.isEmpty()) return songs;
+        return filteredSongs;
     }
 
     public List<User> getFollowers() {

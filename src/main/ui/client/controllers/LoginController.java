@@ -7,7 +7,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import database.data.Database;
-import log.Logger;
 import play.User;
 import rmi.ClientContainer;
 import ui.Message;
@@ -40,7 +39,6 @@ public class LoginController {
         ClientContainer container = ResourceHandler.getContainer();
         User user = container.login(mail, pass);
         if (user != null) {
-            UITools.UIManager uiManager = new UITools.UIManager();
             uiManager.loadFXML("menu.fxml", "Menu");
         } else {
             Message.show("Invalid login", "Username and password did not match\nPlease try again.");
