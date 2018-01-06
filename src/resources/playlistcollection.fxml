@@ -15,23 +15,7 @@
     <children>
         <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
             <content>
-                <VBox stylesheets="@userstyle.css">
-                    <children>
-                        <HBox styleClass="playlist" stylesheets="@userstyle.css">
-                            <children>
-                                <Label text="Playlist name - Creator - Song amount" />
-                            </children>
-                            <VBox.margin>
-                                <Insets bottom="10.0" />
-                            </VBox.margin>
-                        </HBox>
-                        <HBox layoutX="10.0" layoutY="10.0" styleClass="playlist" stylesheets="@userstyle.css">
-                            <children>
-                                <Label text="Playlist name - Creator - Song amount" />
-                            </children>
-                        </HBox>
-                    </children>
-                </VBox>
+                <VBox fx:id="playlistContainer" stylesheets="@userstyle.css" />
             </content>
             <padding>
                 <Insets left="5.0" right="5.0" />

@@ -20,7 +20,7 @@ import java.util.logging.Level;
 
 public class ClientContainer extends UnicastRemoteObject implements IRemotePropertyListener {
     private transient Logger logger;
-    private transient IRemotePublisherForListener publisher;
+    private IRemotePublisherForListener publisher;
 
     transient IContainer server;
     transient IController controller;
@@ -38,7 +38,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
-        if(Objects.equals(evt.getPropertyName(), selectedPlaylist.getId().toString())) {
+        if (Objects.equals(evt.getPropertyName(), selectedPlaylist.getId().toString())) {
             selectedPlaylist = (Playlist) evt.getNewValue();
         }
         if (controller != null) controller.update();
@@ -50,9 +50,10 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
 
     public void setSelectedPlaylist(Playlist playlist) {
         try {
+            this.selectedPlaylist = playlist;
+            if(playlist == null) return;
             server.registerProperty(playlist);
             publisher.subscribeRemoteListener(this, playlist.getId().toString());
-            this.selectedPlaylist = playlist;
         } catch (RemoteException e) {
             logger.log(Level.SEVERE, e.toString());
         }
@@ -132,8 +133,10 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
 
     public List<Playlist> getPlaylists(int limit) {
         try {
-            return server.getPlaylists(limit);
+            List<Playlist> playlists = server.getPlaylists(limit);
+            return playlists;
         } catch (RemoteException e) {
+            e.printStackTrace();
             logger.log(Level.SEVERE, e.toString());
         }
         return new ArrayList<>();
@@ -151,6 +154,15 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
     public List<Playlist> getPlaylists(String searchCriteria) {
         try {
             return server.getPlaylists(searchCriteria);
+        } catch (RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return new ArrayList<>();
+    }
+
+    public List<Playlist> getPlaylistsByUser() {
+        try {
+            return server.getPlaylists(user);
         } catch (RemoteException e) {
             logger.log(Level.SEVERE, e.toString());
         }

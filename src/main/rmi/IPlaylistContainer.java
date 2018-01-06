@@ -15,6 +15,8 @@ public interface IPlaylistContainer extends Remote {
 
     public List<Playlist> getPlaylists(int limit) throws RemoteException;
 
+    public List<Playlist> getPlaylists(User user) throws RemoteException;
+
     public List<Playlist> getPlaylists(String searchCriteria) throws RemoteException;
 
     public Playlist getPlaylist(UUID id) throws RemoteException;

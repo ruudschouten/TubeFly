@@ -49,7 +49,7 @@
                                 <Insets bottom="5.0" top="65.0" />
                             </VBox.margin>
                         </Button>
-                        <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#managePlaylists" stylesheets="@userstyle.css" text="Manage playlists">
+                        <Button fx:id="btnManagePlaylist" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#managePlaylists" stylesheets="@userstyle.css" text="Manage playlists">
                             <VBox.margin>
                                 <Insets bottom="5.0" top="5.0" />
                             </VBox.margin>

@@ -19,6 +19,7 @@ import ui.UITools;
 import java.util.List;
 
 public class MenuController {
+    @FXML private Button btnManagePlaylist;
     @FXML private Button btnCreatePlaylist;
     @FXML private VBox playlistContainer;
     @FXML private TextField tbSearch;
@@ -29,8 +30,12 @@ public class MenuController {
     public void initialize() {
         uiManager = new UITools.UIManager();
         container = ResourceHandler.getContainer();
+        container.setSelectedPlaylist(null);
+
+        //Admin
         if(container.getUser() == null) {
             btnCreatePlaylist.setVisible(false);
+            btnManagePlaylist.setVisible(false);
         }
         Platform.runLater(this::displayPlaylists);
     }

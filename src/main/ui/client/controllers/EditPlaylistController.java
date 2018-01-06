@@ -33,10 +33,19 @@ public class EditPlaylistController implements IController {
     public void initialize() {
         uiManager = new UITools.UIManager();
         container = ResourceHandler.getContainer();
-        playlist = new Playlist("", container.getUser());
-        container.uploadPlaylist(playlist);
-        container.setSelectedPlaylist(playlist);
-        container.setController(this);
+        if(container.getSelectedPlaylist() == null) {
+            playlist = new Playlist("", container.getUser());
+            container.uploadPlaylist(playlist);
+            container.setSelectedPlaylist(playlist);
+            container.setController(this);
+        } else {
+            playlist = container.getSelectedPlaylist();
+            tbName.setText(playlist.getName());
+            tbDescription.setText(playlist.getDescription());
+            for (Song s : playlist.getSongs()) {
+                addSongUI(s);
+            }
+        }
     }
 
     public void addSong(ActionEvent actionEvent) {
@@ -64,7 +73,7 @@ public class EditPlaylistController implements IController {
         container.removeSong(playlist, song);
     }
 
-    private void addSong(Song s) {
+    private void addSongUI(Song s) {
         HBox root = new HBox();
         root.getStyleClass().add("playlist");
         AnchorPane pane = new AnchorPane();
@@ -87,18 +96,13 @@ public class EditPlaylistController implements IController {
     private void displaySongs() {
         songContainer.getChildren().clear();
         for (Song s : playlist.getSongs()) {
-            addSong(s);
+            addSongUI(s);
         }
     }
 
     @Override
     public void update() {
         playlist = container.getSelectedPlaylist();
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                displaySongs();
-            }
-        });
+        Platform.runLater(this::displaySongs);
     }
 }
