@@ -1,6 +1,7 @@
 package play;
 
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.UUID;
 
 public class User implements Serializable {
@@ -55,7 +56,14 @@ public class User implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        User user = (User) obj;
-        return user != null && user.getId() == getId();
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+        return ((User) obj).getId() == getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getId(), this.getName());
     }
 }

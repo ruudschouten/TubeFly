@@ -5,6 +5,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Song implements ISong, Serializable {
     private int id;
@@ -73,7 +74,14 @@ public class Song implements ISong, Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        Song song = (Song) obj;
-        return song != null && song.getId() == getId();
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+        return ((Song) obj).getId() == getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getId(), this.getName());
     }
 }
