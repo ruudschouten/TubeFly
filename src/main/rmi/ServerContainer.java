@@ -1,5 +1,7 @@
 package rmi;
 
+import database.logic.DatabasePlaylistContext;
+import database.logic.DatabaseUserContext;
 import database.logic.MockPlaylistContext;
 import database.logic.MockUserContext;
 import database.repositories.PlaylistRepository;
@@ -35,8 +37,8 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
         this.publisher = publisher;
         logger = new Logger("ServerContainer", Level.ALL, Level.ALL);
 //        Change this to DatabaseContext
-        userRepo = new UserRepository(new MockUserContext());
-        playlistRepo = new PlaylistRepository(new MockPlaylistContext());
+        userRepo = new UserRepository(new DatabaseUserContext());
+        playlistRepo = new PlaylistRepository(new DatabasePlaylistContext());
         playlists = playlistRepo.getAll();
     }
 
@@ -116,7 +118,8 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     @Override
     public boolean uploadPlaylist(Playlist playlist) {
         if (playlist != null) {
-            return playlists.add(playlist);
+            playlists.add(playlist);
+            return playlistRepo.insert(playlist);
         }
         return false;
     }

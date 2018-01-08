@@ -35,7 +35,7 @@ public class DatabaseArtistContext implements IArtistContext {
         int id = 0;
         PreparedStatement statement = null;
         try {
-            statement = Database.getCon().prepareStatement("SELECT Name FROM artist WHERE Name LIKE ?");
+            statement = Database.getCon().prepareStatement("SELECT * FROM artist WHERE Name LIKE ?");
             statement.setString(1, name);
             try (ResultSet rs = statement.executeQuery()) {
                 if (rs.next()) {
@@ -71,29 +71,27 @@ public class DatabaseArtistContext implements IArtistContext {
 
     @Override
     public boolean insert(String artistName) throws SQLException {
-        boolean success;
         PreparedStatement statement = null;
         try {
             statement = Database.getCon().prepareStatement("INSERT INTO artist (Name) VALUES (?)");
             statement.setString(1, artistName);
-            success = statement.execute();
+            statement.execute();
+            return true;
         } finally {
             if (statement != null) statement.close();
         }
-        return success;
     }
 
     @Override
     public boolean delete(String artistName) throws SQLException {
-        boolean success;
         PreparedStatement statement = null;
         try {
             statement = Database.getCon().prepareStatement("DELETE FROM artist WHERE Name = ?");
             statement.setString(1, artistName);
-            success = statement.execute();
+            statement.execute();
+            return true;
         } finally {
             if (statement != null) statement.close();
         }
-        return success;
     }
 }

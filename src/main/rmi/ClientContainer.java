@@ -69,7 +69,8 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
 
     public User register(User user) {
         try {
-            if (server.register(user)) {
+            Boolean success = server.register(user);
+            if (success) {
                 login(user.getMail(), user.getPassword());
                 return user;
             }
@@ -133,10 +134,8 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
 
     public List<Playlist> getPlaylists(int limit) {
         try {
-            List<Playlist> playlists = server.getPlaylists(limit);
-            return playlists;
+            return server.getPlaylists(limit);
         } catch (RemoteException e) {
-            e.printStackTrace();
             logger.log(Level.SEVERE, e.toString());
         }
         return new ArrayList<>();

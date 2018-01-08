@@ -94,39 +94,36 @@ public class DatabasePlaylistContext implements IPlaylistContext {
     @Override
     public boolean addSong(Song song, UUID id) throws SQLException, RemoteException {
         if (new SongRepository(new DatabaseSongContext()).insert(song)) {
-            boolean success;
             PreparedStatement statement = null;
             try {
                 statement = Database.getCon().prepareStatement("INSERT INTO playlist_song(SongURL, PlaylistID) VALUES(?, ?)");
                 statement.setString(1, song.getURL());
                 statement.setString(2, id.toString());
-                success = statement.execute();
+                statement.execute();
+                return true;
             } finally {
                 if (statement != null) statement.close();
             }
-            return success;
         }
         return false;
     }
 
     @Override
     public boolean removeSong(Song song, UUID id) throws SQLException, RemoteException {
-        boolean success;
         PreparedStatement statement = null;
         try {
             statement = Database.getCon().prepareStatement("DELETE FROM playlist_song WHERE SongURL = ? AND PlaylistID = ?");
             statement.setString(1, song.getURL());
             statement.setString(2, id.toString());
-            success = statement.execute();
+            statement.execute();
+            return true;
         } finally {
             if (statement != null) statement.close();
         }
-        return success;
     }
 
     @Override
     public boolean insert(Playlist playlist) throws SQLException {
-        boolean success;
         PreparedStatement statement = null;
         try {
             statement = Database.getCon().prepareStatement("INSERT INTO playlist (ID, CreatorID, Name, Description) VALUES (?, ?, ? ,?)");
@@ -134,70 +131,68 @@ public class DatabasePlaylistContext implements IPlaylistContext {
             statement.setString(2, playlist.getCreator().getId().toString());
             statement.setString(3, playlist.getName());
             statement.setString(4, playlist.getDescription());
-            success = statement.execute();
+            statement.execute();
+            return true;
         } finally {
             if (statement != null) statement.close();
         }
-        return success;
     }
 
     @Override
     public boolean update(UUID id, String name, String description) throws SQLException, RemoteException {
-        boolean success;
         PreparedStatement statement = null;
         try {
             statement = Database.getCon().prepareStatement("UPDATE playlist SET Name = ?, Description = ? WHERE ID = ?");
             statement.setString(1, name);
             statement.setString(2, description);
             statement.setString(3, id.toString());
-            success = statement.execute();
+            statement.execute();
+            return true;
         } finally {
             if (statement != null) statement.close();
         }
-        return success;
     }
 
     @Override
     public boolean follow(Playlist playlist, User user) throws SQLException, RemoteException {
-        boolean success;
         PreparedStatement statement = null;
         try {
             statement = Database.getCon().prepareStatement("INSERT INTO playlist_follower (PlaylistID,  UserID) VALUES (?, ?)");
             statement.setString(1, playlist.getId().toString());
             statement.setString(2, user.getId().toString());
-            success = statement.execute();
+            statement.execute();
+            return true;
         } finally {
             if (statement != null) statement.close();
         }
-        return success;
     }
 
     @Override
-    public boolean unfollow(Playlist playlist, User user) throws SQLException, RemoteException {boolean success;
+    public boolean unfollow(Playlist playlist, User user) throws SQLException, RemoteException {
+        boolean success;
         PreparedStatement statement = null;
         try {
             statement = Database.getCon().prepareStatement("DELETE FROM playlist_follower WHERE PlaylistID = ? AND USerID = ?");
             statement.setString(1, playlist.getId().toString());
             statement.setString(2, user.getId().toString());
-            success = statement.execute();
+            statement.execute();
+            return true;
         } finally {
             if (statement != null) statement.close();
         }
-        return success;
     }
 
     @Override
     public boolean delete(UUID id) throws SQLException {
-        boolean success;
         PreparedStatement statement = null;
         try {
             statement = Database.getCon().prepareStatement("DELETE FROM playlist WHERE ID = ?");
             statement.setString(1, id.toString());
-            success = statement.execute();
+            statement.execute();
+            return true;
         } finally {
             if (statement != null) statement.close();
         }
-        return success;
     }
 
     @Override

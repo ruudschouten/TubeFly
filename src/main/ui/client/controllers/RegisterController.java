@@ -15,13 +15,20 @@ import ui.UITools;
 import java.util.Objects;
 
 public class RegisterController {
-    @FXML private RadioButton rbMale;
-    @FXML private TextField tbName;
-    @FXML private ToggleGroup genderGroup;
-    @FXML private TextField tbMail;
-    @FXML private TextField tbAdress;
-    @FXML private PasswordField tbPassword;
-    @FXML private PasswordField tbPasswordConfirm;
+    @FXML
+    private RadioButton rbMale;
+    @FXML
+    private TextField tbName;
+    @FXML
+    private ToggleGroup genderGroup;
+    @FXML
+    private TextField tbMail;
+    @FXML
+    private TextField tbAdress;
+    @FXML
+    private PasswordField tbPassword;
+    @FXML
+    private PasswordField tbPasswordConfirm;
 
     private Gender gender;
 
@@ -31,7 +38,7 @@ public class RegisterController {
         genderGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             @Override
             public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-                RadioButton rb = (RadioButton)newValue;
+                RadioButton rb = (RadioButton) newValue;
                 gender = Gender.valueOf(rb.getText().toUpperCase());
             }
         });
@@ -42,8 +49,8 @@ public class RegisterController {
         if (notNullOrEmpty(tbName) || notNullOrEmpty(tbMail) || notNullOrEmpty(tbAdress) || notNullOrEmpty(tbPassword)
                 || notNullOrEmpty(tbPasswordConfirm)) {
             if (Objects.equals(tbPassword.getText(), tbPasswordConfirm.getText())) {
-                User user = new User(tbName.getText(), tbAdress.getText(), tbMail.getText(), Hash.SHA256(tbPassword.getText()), gender);
-                if (ResourceHandler.getContainer().register(user) != null) {
+                User user = ResourceHandler.getContainer().register(new User(tbName.getText(), tbMail.getText(), Hash.SHA256(tbPassword.getText()), tbAdress.getText(), gender));
+                if (user != null) {
                     UITools.UIManager uiManager = new UITools.UIManager();
                     uiManager.loadFXML("menu.fxml", "Menu");
                 } else {
