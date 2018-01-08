@@ -75,7 +75,7 @@ public class DatabaseUserContext implements IUserContext {
             statement = Database.getCon().prepareStatement("INSERT INTO user (ID, Name, Password, Address, Gender) VALUES (?, ?, ? ,?, ?)");
             statement.setString(1, user.getId().toString());
             statement.setString(2, user.getName());
-            statement.setString(3, user.getPassword()); //TODO: Hash this
+            statement.setString(3, user.getPassword());
             statement.setString(4, user.getAddress());
             statement.setString(5, user.getGender().toString());
             success = statement.execute();
