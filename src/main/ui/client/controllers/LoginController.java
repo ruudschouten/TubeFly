@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import database.data.Database;
 import play.User;
 import rmi.ClientContainer;
+import security.Hash;
 import ui.Message;
 import ui.ResourceHandler;
 import ui.UITools;
@@ -37,7 +38,7 @@ public class LoginController {
         String mail = tbMail.getText();
         String pass = tbPassword.getText();
         ClientContainer container = ResourceHandler.getContainer();
-        User user = container.login(mail, pass);
+        User user = container.login(mail, Hash.SHA256(pass));
         if (user != null) {
             uiManager.loadFXML("menu.fxml", "Menu");
         } else {

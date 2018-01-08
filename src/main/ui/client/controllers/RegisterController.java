@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import play.Gender;
 import play.User;
+import security.Hash;
 import ui.Message;
 import ui.ResourceHandler;
 import ui.UITools;
@@ -41,7 +42,7 @@ public class RegisterController {
         if (notNullOrEmpty(tbName) || notNullOrEmpty(tbMail) || notNullOrEmpty(tbAdress) || notNullOrEmpty(tbPassword)
                 || notNullOrEmpty(tbPasswordConfirm)) {
             if (Objects.equals(tbPassword.getText(), tbPasswordConfirm.getText())) {
-                User user = new User(tbName.getText(), tbAdress.getText(), tbMail.getText(), tbPassword.getText(), gender);
+                User user = new User(tbName.getText(), tbAdress.getText(), tbMail.getText(), Hash.SHA256(tbPassword.getText()), gender);
                 if (ResourceHandler.getContainer().register(user) != null) {
                     UITools.UIManager uiManager = new UITools.UIManager();
                     uiManager.loadFXML("menu.fxml", "Menu");
