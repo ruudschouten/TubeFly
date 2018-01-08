@@ -72,20 +72,56 @@ public class DatabasePlaylistContext implements IPlaylistContext {
 
     @Override
     public List<User> getFollowers(UUID id) throws SQLException, RemoteException {
-        //TODO: Implement
-        return new ArrayList<>();
+        ArrayList<User> followers = new ArrayList<>();
+        PreparedStatement statement = null;
+        try {
+            statement = Database.getCon().prepareStatement("SELECT * FROM playlist p " +
+                    "INNER JOIN playlist_follower pf ON p.ID = pf.PlaylistID " +
+                    "INNER JOIN user u ON pf.UserID = u.ID " +
+                    "WHERE p.ID = ?");
+            statement.setString(1, id.toString());
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    followers.add(new UserRepository(new DatabaseUserContext()).getFromResultSet(rs));
+                }
+            }
+        } finally {
+            if (statement != null) statement.close();
+        }
+        return followers;
     }
 
     @Override
     public boolean addSong(Song song, UUID id) throws SQLException, RemoteException {
-        //TODO: Implement
+        if (new SongRepository(new DatabaseSongContext()).insert(song)) {
+            boolean success;
+            PreparedStatement statement = null;
+            try {
+                statement = Database.getCon().prepareStatement("INSERT INTO playlist_song(SongURL, PlaylistID) VALUES(?, ?)");
+                statement.setString(1, song.getURL());
+                statement.setString(2, id.toString());
+                success = statement.execute();
+            } finally {
+                if (statement != null) statement.close();
+            }
+            return success;
+        }
         return false;
     }
 
     @Override
     public boolean removeSong(Song song, UUID id) throws SQLException, RemoteException {
-        //TODO: Implement
-        return false;
+        boolean success;
+        PreparedStatement statement = null;
+        try {
+            statement = Database.getCon().prepareStatement("DELETE FROM playlist_song WHERE SongURL = ? AND PlaylistID = ?");
+            statement.setString(1, song.getURL());
+            statement.setString(2, id.toString());
+            success = statement.execute();
+        } finally {
+            if (statement != null) statement.close();
+        }
+        return success;
     }
 
     @Override
@@ -107,20 +143,47 @@ public class DatabasePlaylistContext implements IPlaylistContext {
 
     @Override
     public boolean update(UUID id, String name, String description) throws SQLException, RemoteException {
-        //TODO: Implement
-        return false;
+        boolean success;
+        PreparedStatement statement = null;
+        try {
+            statement = Database.getCon().prepareStatement("UPDATE playlist SET Name = ?, Description = ? WHERE ID = ?");
+            statement.setString(1, name);
+            statement.setString(2, description);
+            statement.setString(3, id.toString());
+            success = statement.execute();
+        } finally {
+            if (statement != null) statement.close();
+        }
+        return success;
     }
 
     @Override
     public boolean follow(Playlist playlist, User user) throws SQLException, RemoteException {
-        //TODO: Implement
-        return false;
+        boolean success;
+        PreparedStatement statement = null;
+        try {
+            statement = Database.getCon().prepareStatement("INSERT INTO playlist_follower (PlaylistID,  UserID) VALUES (?, ?)");
+            statement.setString(1, playlist.getId().toString());
+            statement.setString(2, user.getId().toString());
+            success = statement.execute();
+        } finally {
+            if (statement != null) statement.close();
+        }
+        return success;
     }
 
     @Override
-    public boolean unfollow(Playlist playlist, User user) throws SQLException, RemoteException {
-        //TODO: Implement
-        return false;
+    public boolean unfollow(Playlist playlist, User user) throws SQLException, RemoteException {boolean success;
+        PreparedStatement statement = null;
+        try {
+            statement = Database.getCon().prepareStatement("DELETE FROM playlist_follower WHERE PlaylistID = ? AND USerID = ?");
+            statement.setString(1, playlist.getId().toString());
+            statement.setString(2, user.getId().toString());
+            success = statement.execute();
+        } finally {
+            if (statement != null) statement.close();
+        }
+        return success;
     }
 
     @Override
