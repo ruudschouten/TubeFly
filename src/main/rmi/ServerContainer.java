@@ -2,8 +2,6 @@ package rmi;
 
 import database.logic.DatabasePlaylistContext;
 import database.logic.DatabaseUserContext;
-import database.logic.MockPlaylistContext;
-import database.logic.MockUserContext;
 import database.repositories.PlaylistRepository;
 import database.repositories.UserRepository;
 import fontyspublisher.RemotePublisher;
@@ -31,7 +29,6 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     transient PlaylistRepository playlistRepo;
 
     private ArrayList<User> activeUsers = new ArrayList<>();
-    private List<Playlist> playlists = null;
 
     public ServerContainer(RemotePublisher publisher) throws RemoteException {
         this.publisher = publisher;
@@ -39,7 +36,6 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
 //        Change this to DatabaseContext
         userRepo = new UserRepository(new DatabaseUserContext());
         playlistRepo = new PlaylistRepository(new DatabasePlaylistContext());
-        playlists = playlistRepo.getAll();
     }
 
     @Override
@@ -84,11 +80,12 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
 
     @Override
     public List<Playlist> getPlaylists() {
-        return playlists;
+        return playlistRepo.getAll();
     }
 
     @Override
     public List<Playlist> getPlaylists(int limit) {
+        List<Playlist> playlists = playlistRepo.getAll();
         if (limit >= playlists.size()) return getPlaylists();
         return new ArrayList<>(playlists.subList(playlists.size() - limit, playlists.size()));
     }
@@ -100,6 +97,7 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
 
     @Override
     public List<Playlist> getPlaylists(String searchCriteria) {
+        List<Playlist> playlists = playlistRepo.getAll();
         ArrayList<Playlist> filteredPlaylists = new ArrayList<>();
         for (Playlist p : playlists) {
             if (p.getName().contains(searchCriteria)) {
@@ -118,7 +116,6 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     @Override
     public boolean uploadPlaylist(Playlist playlist) {
         if (playlist != null) {
-            playlists.add(playlist);
             return playlistRepo.insert(playlist);
         }
         return false;
