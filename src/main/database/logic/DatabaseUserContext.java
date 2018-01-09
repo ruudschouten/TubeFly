@@ -57,7 +57,7 @@ public class DatabaseUserContext implements IUserContext {
         try {
             statement = Database.getCon().prepareStatement("SELECT * FROM User");
             try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     users.add(getFromResultSet(rs));
                 }
             }
@@ -69,34 +69,34 @@ public class DatabaseUserContext implements IUserContext {
 
     @Override
     public boolean insert(User user) throws SQLException {
-        boolean success;
         PreparedStatement statement = null;
         try {
-            statement = Database.getCon().prepareStatement("INSERT INTO user (ID, Name, Password, Address, Gender) VALUES (?, ?, ? ,?, ?)");
+            statement = Database.getCon().prepareStatement("INSERT INTO user (ID, Name, Mail, Password, Address, Gender) " +
+                    "VALUES (?, ?, ?, ? ,?, ?)");
             statement.setString(1, user.getId().toString());
             statement.setString(2, user.getName());
-            statement.setString(3, user.getPassword()); //TODO: Hash this
-            statement.setString(4, user.getAddress());
-            statement.setString(5, user.getGender().toString());
-            success = statement.execute();
+            statement.setString(3, user.getMail());
+            statement.setString(4, user.getPassword());
+            statement.setString(5, user.getAddress());
+            statement.setString(6, user.getGender().toString());
+            statement.execute();
+            return true;
         } finally {
             if (statement != null) statement.close();
         }
-        return success;
     }
 
     @Override
     public boolean delete(UUID id) throws SQLException {
-        boolean success;
         PreparedStatement statement = null;
         try {
             statement = Database.getCon().prepareStatement("DELETE FROM user WHERE ID = ?");
             statement.setString(1, id.toString());
-            success = statement.execute();
+            statement.execute();
+            return true;
         } finally {
             if (statement != null) statement.close();
         }
-        return success;
     }
 
     @Override

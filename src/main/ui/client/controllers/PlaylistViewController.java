@@ -26,18 +26,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class PlaylistViewController implements IController {
-    @FXML
-    private Button btnFollow;
-    @FXML
-    private VBox songContainer;
-    @FXML
-    private Label playlistName;
-    @FXML
-    private TextField tbSearch;
-    @FXML
-    private Label currentSongInfo;
-    @FXML
-    private ProgressBar songTimeProgress;
+    @FXML private Button btnAdd;
+    @FXML private Button btnFollow;
+    @FXML private VBox songContainer;
+    @FXML private Label playlistName;
+    @FXML private TextField tbSearch;
+    @FXML private Label currentSongInfo;
+    @FXML private ProgressBar songTimeProgress;
 
     private ClientContainer container;
     private UITools.UIManager uiManager;
@@ -54,9 +49,14 @@ public class PlaylistViewController implements IController {
         container.setController(this);
         playlist = container.getSelectedPlaylist();
         playlistName.setText(playlist.getName());
+
+        if(!playlist.getCreator().equals(container.getUser())) {
+            btnAdd.setVisible(false);
+        }
         //Admin
         if (container.getUser() == null) {
             btnFollow.setVisible(false);
+            btnAdd.setVisible(true);
         }
         displaySongs();
     }

@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class Song implements ISong, Serializable {
-    private int id;
     private String youtubeURL;
     private String name;
     private String artist;
@@ -22,8 +21,7 @@ public class Song implements ISong, Serializable {
         artist = youTube.getArtist();
     }
 
-    public Song(int id, String youtubeURL, String name, String artist) {
-        this.id = id;
+    public Song(String youtubeURL, String name, String artist) {
         this.youtubeURL = youtubeURL;
         this.name = name;
         this.artist = artist;
@@ -34,10 +32,6 @@ public class Song implements ISong, Serializable {
     @Override
     public String getURL() {
         return youtubeURL;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getName() {
@@ -77,11 +71,11 @@ public class Song implements ISong, Serializable {
         if (obj == null || this.getClass() != obj.getClass()) {
             return false;
         }
-        return ((Song) obj).getId() == getId();
+        return Objects.equals(((Song) obj).getURL(), getURL());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.getId(), this.getName());
+        return Objects.hash(this.getURL(), this.getName());
     }
 }

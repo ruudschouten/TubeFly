@@ -39,7 +39,7 @@ public class DatabaseSongContext implements ISongContext {
             statement = Database.getCon().prepareStatement("SELECT * FROM Song s WHERE s.Name = ?");
             statement.setString(1, name);
             try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     song = getFromResultSet(rs);
                 }
             }
@@ -74,7 +74,7 @@ public class DatabaseSongContext implements ISongContext {
         try {
             statement = Database.getCon().prepareStatement("SELECT * FROM Song s ");
             try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     songs.add(getFromResultSet(rs));
                 }
             }
@@ -90,10 +90,10 @@ public class DatabaseSongContext implements ISongContext {
         PreparedStatement statement = null;
         try {
             statement = Database.getCon().prepareStatement("SELECT * FROM Song s " +
-                    "INNER JOIN playlist_song ps ON s.ID = ps.SongID" +
+                    "INNER JOIN playlist_song ps ON s.URL = ps.SongURL " +
                     "INNER JOIN playlist p ON p.ID = ps.PlaylistID");
             try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     songs.add(getFromResultSet(rs));
                 }
             }
@@ -108,10 +108,10 @@ public class DatabaseSongContext implements ISongContext {
         ArrayList<Song> songs = new ArrayList<>();
         PreparedStatement statement = null;
         try {
-            statement = Database.getCon().prepareStatement("SELECT * FROM Song s WHERE ArtistID = ?");
+            statement = Database.getCon().prepareStatement("SELECT * FROM Song WHERE ArtistID = ?");
             statement.setString(1, artist);
             try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     songs.add(getFromResultSet(rs));
                 }
             }
@@ -128,41 +128,66 @@ public class DatabaseSongContext implements ISongContext {
             artistRepository.insert(song.getArtist());
         }
 
-        boolean success;
+        if (!songExists(song.getURL())) return true;
+
         PreparedStatement statement = null;
         try {
-            statement = Database.getCon().prepareStatement("INSERT INTO song (ID, ArtistID, URL, Name) VALUES (?, ?, ? ,?)");
-            statement.setInt(1, song.getId());
-            statement.setInt(2, artistRepository.getFromName(song.getName()));
-            statement.setString(3, song.getURL());
-            statement.setString(4, song.getName());
-            success = statement.execute();
+            statement = Database.getCon().prepareStatement("INSERT INTO song (URL, Title) VALUES (?, ?)");
+            statement.setString(1, song.getURL());
+            statement.setString(2, song.getName());
+            statement.execute();
+            addArtistID(song);
+            return true;
         } finally {
             if (statement != null) statement.close();
         }
-        return success;
+    }
+
+    public boolean songExists(String url) throws SQLException {
+        PreparedStatement statement = null;
+        try {
+            statement = Database.getCon().prepareStatement("SELECT EXISTS(SELECT 1 FROM song WHERE URL = ?)");
+            statement.setString(1, url);
+            return statement.execute();
+        } finally {
+            if (statement != null) statement.close();
+        }
+    }
+
+    public boolean addArtistID(Song song) throws SQLException {
+        ArtistRepository artistRepository = new ArtistRepository(new DatabaseArtistContext());
+
+        int artistID = artistRepository.getFromName(song.getArtist());
+        PreparedStatement statement = null;
+        try {
+            statement = Database.getCon().prepareStatement("UPDATE song SET ArtistID = ? WHERE URL = ?");
+            statement.setInt(1, artistID);
+            statement.setString(2, song.getURL());
+            statement.execute();
+            return true;
+        } finally {
+            if (statement != null) statement.close();
+        }
     }
 
     @Override
     public boolean delete(int id) throws SQLException {
-        boolean success;
         PreparedStatement statement = null;
         try {
             statement = Database.getCon().prepareStatement("DELETE FROM song WHERE ID = ?");
             statement.setInt(1, id);
-            success = statement.execute();
+            statement.execute();
+            return true;
         } finally {
             if (statement != null) statement.close();
         }
-        return success;
     }
 
     @Override
     public Song getFromResultSet(ResultSet rs) throws SQLException {
-        int id = rs.getInt("ID");
         String artist = new ArtistRepository(new DatabaseArtistContext()).getFromId(rs.getInt("ArtistID"));
         String url = rs.getString("URL");
-        String name = rs.getString("Name");
-        return new Song(id, url, name, artist);
+        String name = rs.getString("Title");
+        return new Song(url, name, artist);
     }
 }

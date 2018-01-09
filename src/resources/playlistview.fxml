@@ -39,7 +39,7 @@
                                 <Insets left="5.0" right="5.0" />
                             </padding>
                         </ScrollPane>
-                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#showAddSong" text="Add" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0" />
+                  <Button fx:id="btnAdd" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#showAddSong" text="Add" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="20.0" />
                     </children>
                 </AnchorPane>
             </children>
