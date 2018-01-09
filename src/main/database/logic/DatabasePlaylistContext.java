@@ -42,7 +42,7 @@ public class DatabasePlaylistContext implements IPlaylistContext {
         try {
             statement = Database.getCon().prepareStatement("SELECT * FROM playlist p");
             try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     playlists.add(getFromResultSet(rs));
                 }
             }
@@ -60,7 +60,7 @@ public class DatabasePlaylistContext implements IPlaylistContext {
             statement = Database.getCon().prepareStatement("SELECT * FROM playlist p WHERE CreatorID = ?");
             statement.setString(1, user.getId().toString());
             try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     playlists.add(getFromResultSet(rs));
                 }
             }
@@ -81,7 +81,7 @@ public class DatabasePlaylistContext implements IPlaylistContext {
                     "WHERE p.ID = ?");
             statement.setString(1, id.toString());
             try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     followers.add(new UserRepository(new DatabaseUserContext()).getFromResultSet(rs));
                 }
             }

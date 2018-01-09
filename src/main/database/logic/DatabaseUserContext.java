@@ -57,7 +57,7 @@ public class DatabaseUserContext implements IUserContext {
         try {
             statement = Database.getCon().prepareStatement("SELECT * FROM User");
             try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     users.add(getFromResultSet(rs));
                 }
             }

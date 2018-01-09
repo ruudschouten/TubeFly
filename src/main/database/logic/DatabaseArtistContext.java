@@ -59,7 +59,7 @@ public class DatabaseArtistContext implements IArtistContext {
                     "WHERE a.Name LIKE ?");
             statement.setString(1, artist);
             try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
+                while (rs.next()) {
                     users.add(new UserRepository(new DatabaseUserContext()).getFromResultSet(rs));
                 }
             }
