@@ -23,17 +23,17 @@ import java.util.logging.Level;
 public class ServerContainer extends UnicastRemoteObject implements IContainer {
     private RemotePublisher publisher;
 
-    transient Logger logger;
+    private transient Logger logger;
 
-    transient UserRepository userRepo;
-    transient PlaylistRepository playlistRepo;
+    private transient UserRepository userRepo;
+    private transient PlaylistRepository playlistRepo;
 
     private ArrayList<User> activeUsers = new ArrayList<>();
 
     public ServerContainer(RemotePublisher publisher) throws RemoteException {
         this.publisher = publisher;
         logger = new Logger("ServerContainer", Level.ALL, Level.ALL);
-//        Change this to DatabaseContext
+
         userRepo = new UserRepository(new DatabaseUserContext());
         playlistRepo = new PlaylistRepository(new DatabasePlaylistContext());
     }
@@ -86,7 +86,7 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     @Override
     public List<Playlist> getPlaylists(int limit) {
         List<Playlist> playlists = playlistRepo.getAll();
-        if (limit >= playlists.size()) return getPlaylists();
+        if (limit >= playlists.size()) return playlists;
         return new ArrayList<>(playlists.subList(playlists.size() - limit, playlists.size()));
     }
 
