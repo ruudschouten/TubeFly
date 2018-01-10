@@ -37,7 +37,6 @@ public class EditPlaylistController implements IController {
             playlist = new Playlist("", container.getUser());
             container.uploadPlaylist(playlist);
             container.setSelectedPlaylist(playlist);
-            container.setController(this);
         } else {
             playlist = container.getSelectedPlaylist();
             tbName.setText(playlist.getName());
@@ -46,6 +45,7 @@ public class EditPlaylistController implements IController {
                 addSongUI(s);
             }
         }
+        container.setController(this);
     }
 
     public void addSong(ActionEvent actionEvent) {
