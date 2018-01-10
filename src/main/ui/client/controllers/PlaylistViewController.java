@@ -20,6 +20,12 @@ import ui.ResourceHandler;
 import ui.SongButton;
 import ui.UITools;
 
+import uk.co.caprica.vlcj.binding.internal.libvlc_media_t;
+import uk.co.caprica.vlcj.discovery.NativeDiscovery;
+import uk.co.caprica.vlcj.player.MediaPlayer;
+import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
+import uk.co.caprica.vlcj.player.MediaPlayerFactory;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
@@ -40,6 +46,7 @@ public class PlaylistViewController implements IController {
     private Timer timer;
     private Playlist playlist;
     private Song currentSong;
+    private MediaPlayer player;
 
     private boolean isPaused;
 
@@ -69,10 +76,34 @@ public class PlaylistViewController implements IController {
     }
 
     private void startSong(Song s) {
-        timer.cancel();
-        songTimeProgress.setProgress(0);
-        currentSongInfo.setText(s.getName());
-        setupTimer(s);
+//        timer.cancel();
+
+        (new NativeDiscovery()).discover();
+        if(player == null) setupVLC();
+        player.prepareMedia(s.getURL());
+        player.play();
+//        songTimeProgress.setProgress(0);
+//        currentSongInfo.setText(s.getName());
+        //setupTimer(s);
+    }
+
+    private void setupVLC() {
+        MediaPlayerFactory factory = new MediaPlayerFactory();
+        player = factory.newEmbeddedMediaPlayer();
+        player.setPlaySubItems(true); // <--- This is very important for YouTube media
+
+        player.addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
+            @Override
+            public void buffering(MediaPlayer mediaPlayer, float newCache) {
+                System.out.println("Buffering " + newCache);
+            }
+
+            @Override
+            public void mediaSubItemAdded(MediaPlayer mediaPlayer, libvlc_media_t subItem) {
+                List<String> items = mediaPlayer.subItems();
+                System.out.println(items);
+            }
+        });
     }
 
     private void setupTimer(Song s) {
@@ -120,19 +151,21 @@ public class PlaylistViewController implements IController {
     public void songPlayPause(ActionEvent actionEvent) {
         SongButton btn = (SongButton) actionEvent.getSource();
         Song newSong = btn.getSong();
-        if (currentSong == null || !currentSong.equals(newSong)) {
-            currentSong = newSong;
-            startSong(currentSong);
-            isPaused = false;
-        } else {
-            if (isPaused) {
-                btn.setText(" ▶ ");
-                isPaused = false;
-            } else {
-                btn.setText(" \u23F8 ");
-                isPaused = true;
-            }
-        }
+        currentSong = newSong;
+        startSong(currentSong);
+//        if (currentSong == null || !currentSong.equals(newSong)) {
+//            startSong(currentSong);
+//            isPaused = false;
+//        }
+//        else {
+//            if (isPaused) {
+//                btn.setText(" ▶ ");
+//                isPaused = false;
+//            } else {
+//                btn.setText(" \u23F8 ");
+//                isPaused = true;
+//            }
+//        }
     }
 
     public void previousSong(ActionEvent actionEvent) {
@@ -151,6 +184,7 @@ public class PlaylistViewController implements IController {
     }
 
     public void toMenu(ActionEvent actionEvent) {
+        player.stop();
         uiManager.loadFXML("menu.fxml", "Menu");
     }
 
