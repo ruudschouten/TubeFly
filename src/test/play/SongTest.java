@@ -67,5 +67,7 @@ public class SongTest {
         Song song1 = new Song(youtubeURL, name, artist);
         Song song2 = new Song("https://www.youtube.com/watch?v=FTQbiNvZqaY", name, artist);
         Assert.assertEquals(true, song.equals(song1));
+        Assert.assertEquals(false, song.equals(null));
+        Assert.assertNotEquals(null, song.hashCode());
     }
 }

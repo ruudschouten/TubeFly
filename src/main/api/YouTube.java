@@ -36,7 +36,7 @@ public class YouTube {
         }
     }
 
-    private String getTitleFromURL(String youtubeUrl) throws IOException {
+    public String getTitleFromURL(String youtubeUrl) throws IOException {
         if (youtubeUrl != null) {
             URL embededURL = new URL("http://www.youtube.com/oembed?url=" +
                     youtubeUrl + "&format=json"

@@ -1,8 +1,13 @@
 package api;
 
 import api.YouTube;
+import com.sun.xml.internal.ws.policy.AssertionSet;
 import org.junit.Assert;
 import org.junit.Test;
+import play.Playlist;
+
+import java.io.IOException;
+import java.rmi.RemoteException;
 
 public class YouTubeTest {
     private String youtubeTitle = "Emmanuel & The Fear - Jimme's Song";
@@ -21,10 +26,10 @@ public class YouTubeTest {
         String name = "Jimme's Song";
         Assert.assertEquals(name, yt.getName());
     }
-    @Test
-    public void getArtist() {
-        YouTube yt = new YouTube(youtubeURL);
-        String artist = "Emmanuel & The Fear";
-        Assert.assertEquals(artist, yt.getArtist());
+
+    @Test(expected = IOException.class)
+    public void setFakeURL() throws IOException {
+        YouTube yt = new YouTube("haha hallo");
+        Assert.assertEquals(yt.getTitleFromURL(null), null);
     }
 }

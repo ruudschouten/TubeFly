@@ -69,4 +69,11 @@ public class UserTest {
         User u = new User(name, mail, pass, address, gender);
         Assert.assertEquals(u.getGender(), gender);
     }
+
+    @Test
+    public void getEquals() {
+        User u = new User(name, mail, pass, address, gender);
+        Assert.assertEquals(u.equals(null), false);
+        Assert.assertNotEquals(u.hashCode(), null);
+    }
 }

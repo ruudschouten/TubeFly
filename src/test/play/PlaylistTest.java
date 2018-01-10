@@ -155,10 +155,12 @@ public class PlaylistTest {
      * @throws RemoteException the exception which can be thrown by RMI
      */
     @Test
-    public void addAndGetSong() throws RemoteException {
+    public void addGetAdnRemoveSong() throws RemoteException {
         Playlist p = new Playlist(name, creator);
         p.addSong(song1);
         Assert.assertEquals(1, p.getSongs().size());
+        p.removeSong(song1);
+        Assert.assertEquals(0, p.getSongs().size());
     }
 
     @Test
