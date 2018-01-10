@@ -91,7 +91,9 @@ public class DatabaseSongContext implements ISongContext {
         try {
             statement = Database.getCon().prepareStatement("SELECT * FROM Song s " +
                     "INNER JOIN playlist_song ps ON s.URL = ps.SongURL " +
-                    "INNER JOIN playlist p ON p.ID = ps.PlaylistID");
+                    "INNER JOIN playlist p ON p.ID = ps.PlaylistID " +
+                    "WHERE p.ID = ?");
+            statement.setString(1, id.toString());
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
                     songs.add(getFromResultSet(rs));
