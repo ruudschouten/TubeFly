@@ -13,6 +13,7 @@ import java.util.UUID;
 public interface IPlaylistContext {
     Playlist getById(UUID id) throws SQLException, RemoteException;
     List<Playlist> getAll() throws SQLException, RemoteException;
+    List<Playlist> getAll(String searchCriteria) throws SQLException, RemoteException;
     List<Playlist> getFromCreator(User user) throws SQLException, RemoteException;
     List<User> getFollowers(UUID id) throws SQLException, RemoteException;
     boolean addSong(Song song, UUID id) throws SQLException, RemoteException;

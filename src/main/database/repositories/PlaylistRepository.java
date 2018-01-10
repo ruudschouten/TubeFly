@@ -44,6 +44,17 @@ public class PlaylistRepository implements IPlaylistContext {
     }
 
     @Override
+    public List<Playlist> getAll(String searchCriteria) throws SQLException, RemoteException {
+
+        try {
+            return context.getAll(searchCriteria);
+        } catch (SQLException | RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
     public List<Playlist> getFromCreator(User user) {
         try {
             return context.getFromCreator(user);
@@ -105,12 +116,22 @@ public class PlaylistRepository implements IPlaylistContext {
 
     @Override
     public boolean follow(Playlist playlist, User user) throws SQLException, RemoteException {
-        return context.follow(playlist, user);
+        try {
+            return context.follow(playlist, user);
+        } catch (SQLException | RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return false;
     }
 
     @Override
     public boolean unfollow(Playlist playlist, User user) throws SQLException, RemoteException {
-        return context.unfollow(playlist, user);
+        try {
+            return context.unfollow(playlist, user);
+        } catch (SQLException | RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return false;
     }
 
     @Override
@@ -125,6 +146,11 @@ public class PlaylistRepository implements IPlaylistContext {
 
     @Override
     public Playlist getFromResultSet(ResultSet rs) throws SQLException, RemoteException {
-        return context.getFromResultSet(rs);
+        try {
+            return context.getFromResultSet(rs);
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 }
