@@ -53,6 +53,24 @@ public class DatabasePlaylistContext implements IPlaylistContext {
     }
 
     @Override
+    public List<Playlist> getAll(String searchCriteria) throws SQLException, RemoteException {
+        ArrayList<Playlist> playlists = new ArrayList<>();
+        PreparedStatement statement = null;
+        try {
+            statement = Database.getCon().prepareStatement("SELECT * FROM playlist p WHERE p.Name like ?");
+            statement.setString(1, "%"+searchCriteria+"%");
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    playlists.add(getFromResultSet(rs));
+                }
+            }
+        } finally {
+            if (statement != null) statement.close();
+        }
+        return playlists;
+    }
+
+    @Override
     public List<Playlist> getFromCreator(User user) throws SQLException, RemoteException {
         ArrayList<Playlist> playlists = new ArrayList<>();
         PreparedStatement statement = null;
