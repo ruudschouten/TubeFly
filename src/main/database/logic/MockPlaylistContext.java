@@ -56,6 +56,18 @@ public class MockPlaylistContext implements IPlaylistContext {
     }
 
     @Override
+    public List<Playlist> getAll(String searchCriteria) throws SQLException, RemoteException {
+        if(!initialized) initialize();
+        ArrayList<Playlist> lists = new ArrayList<>();
+        for (Playlist p : playlists) {
+            if(p.getName().contains(searchCriteria)) {
+                lists.add(p);
+            }
+        }
+        return lists;
+    }
+
+    @Override
     public List<Playlist> getFromCreator(User user) throws SQLException, RemoteException {
         if(!initialized) initialize();
         ArrayList<Playlist> lists = new ArrayList<>();
