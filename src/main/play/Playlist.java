@@ -121,7 +121,7 @@ public class Playlist implements Serializable {
                 filteredSongs.add(s);
             }
         }
-        if (!filteredSongs.isEmpty()) return songs;
+        if (filteredSongs.isEmpty()) return songs;
         return filteredSongs;
     }
 
