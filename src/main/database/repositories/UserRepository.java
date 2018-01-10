@@ -22,7 +22,12 @@ public class UserRepository implements IUserContext {
 
     @Override
     public User login(String mail, String password) throws SQLException {
-        return context.login(mail, password);
+        try {
+            return context.login(mail, password);
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 
     @Override
@@ -67,6 +72,11 @@ public class UserRepository implements IUserContext {
 
     @Override
     public User getFromResultSet(ResultSet rs) throws SQLException {
-        return context.getFromResultSet(rs);
+        try {
+            return context.getFromResultSet(rs);
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 }

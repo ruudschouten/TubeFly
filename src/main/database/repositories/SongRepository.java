@@ -22,17 +22,32 @@ public class SongRepository implements ISongContext {
 
     @Override
     public Song getById(int id) throws SQLException {
-        return context.getById(id);
+        try {
+            return context.getById(id);
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 
     @Override
     public Song getByName(String name) throws SQLException {
-        return context.getByName(name);
+        try {
+            return context.getByName(name);
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 
     @Override
     public Song getByURL(String url) throws SQLException {
-        return context.getByURL(url);
+        try {
+            return context.getByURL(url);
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 
     @Override
@@ -47,7 +62,12 @@ public class SongRepository implements ISongContext {
 
     @Override
     public List<Song> getAllFromPlaylist(UUID id) throws SQLException {
-        return context.getAllFromPlaylist(id);
+        try {
+            return context.getAllFromPlaylist(id);
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return new ArrayList<>();
     }
 
     @Override
@@ -82,6 +102,11 @@ public class SongRepository implements ISongContext {
 
     @Override
     public Song getFromResultSet(ResultSet rs) throws SQLException {
-        return context.getFromResultSet(rs);
+        try {
+            return context.getFromResultSet(rs);
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return null;
     }
 }
