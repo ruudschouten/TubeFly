@@ -17,7 +17,7 @@ public interface IPlaylistContainer extends Remote {
 
     public List<Playlist> getPlaylists(User user) throws RemoteException;
 
-    public List<Playlist> getPlaylists(String searchCriteria) throws RemoteException;
+    public List<Playlist> getPlaylists(String searchCriteria) throws RemoteException, SQLException;
 
     public Playlist getPlaylist(UUID id) throws RemoteException;
 
@@ -32,5 +32,6 @@ public interface IPlaylistContainer extends Remote {
     public boolean follow(Playlist playlist, User user) throws RemoteException, SQLException;
 
     public boolean unfollow(Playlist playlist, User user) throws RemoteException, SQLException;
+
     public void registerProperty(Playlist playlist) throws RemoteException;
 }

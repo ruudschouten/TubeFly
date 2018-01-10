@@ -153,7 +153,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
     public List<Playlist> getPlaylists(String searchCriteria) {
         try {
             return server.getPlaylists(searchCriteria);
-        } catch (RemoteException e) {
+        } catch (RemoteException | SQLException e) {
             logger.log(Level.SEVERE, e.toString());
         }
         return new ArrayList<>();

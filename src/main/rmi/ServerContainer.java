@@ -96,16 +96,10 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     }
 
     @Override
-    public List<Playlist> getPlaylists(String searchCriteria) {
-        List<Playlist> playlists = playlistRepo.getAll();
-        ArrayList<Playlist> filteredPlaylists = new ArrayList<>();
-        for (Playlist p : playlists) {
-            if (p.getName().contains(searchCriteria)) {
-                filteredPlaylists.add(p);
-            }
-        }
-        if (!filteredPlaylists.isEmpty()) return playlists;
-        return filteredPlaylists;
+    public List<Playlist> getPlaylists(String searchCriteria) throws SQLException, RemoteException {
+        List<Playlist> playlists = playlistRepo.getAll(searchCriteria);
+        if (!playlists.isEmpty()) return playlists;
+        return getPlaylists(10);
     }
 
     @Override
