@@ -27,9 +27,9 @@ public class YouTubeTest {
         Assert.assertEquals(name, yt.getName());
     }
 
-    @Test(expected = IOException.class)
+    @Test
     public void setFakeURL() throws IOException {
         YouTube yt = new YouTube("haha hallo");
-        Assert.assertEquals(yt.getTitleFromURL(null), null);
+        Assert.assertEquals(null, yt.getTitleFromURL(null));
     }
 }

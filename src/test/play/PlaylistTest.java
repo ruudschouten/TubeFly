@@ -43,6 +43,7 @@ public class PlaylistTest {
     public void getId() throws RemoteException {
         Playlist p = new Playlist(name, creator);
         Assert.assertNotEquals(p.getId(), UUID.randomUUID());
+        Assert.assertEquals(p.getFollowId(), p.getId().toString() + "follow");
     }
 
     /**
