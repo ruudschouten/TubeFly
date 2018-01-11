@@ -80,6 +80,18 @@ public class MockPlaylistContext implements IPlaylistContext {
     }
 
     @Override
+    public List<Playlist> getFromFollower(User user) throws SQLException, RemoteException {
+        if(!initialized) initialize();
+        ArrayList<Playlist> lists = new ArrayList<>();
+        for (Playlist p : playlists) {
+            if(p.getFollowers().contains(user)) {
+                lists.add(p);
+            }
+        }
+        return lists;
+    }
+
+    @Override
     public List<User> getFollowers(UUID id) throws SQLException, RemoteException {
         for (Playlist p : playlists) {
             if(p.getId().equals(id)) {

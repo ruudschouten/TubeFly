@@ -65,6 +65,16 @@ public class PlaylistRepository implements IPlaylistContext {
     }
 
     @Override
+    public List<Playlist> getFromFollower(User user) throws SQLException, RemoteException {
+        try {
+            return context.getFromFollower(user);
+        } catch (SQLException | RemoteException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
     public List<User> getFollowers(UUID id) throws SQLException, RemoteException {
         try {
             return context.getFollowers(id);

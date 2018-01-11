@@ -89,6 +89,27 @@ public class DatabasePlaylistContext implements IPlaylistContext {
     }
 
     @Override
+    public List<Playlist> getFromFollower(User user) throws SQLException, RemoteException {
+        ArrayList<Playlist> playlists = new ArrayList<>();
+        PreparedStatement statement = null;
+        try {
+            statement = Database.getCon().prepareStatement("SELECT p.* FROM playlist p " +
+                    "INNER JOIN playlist_follower pw ON p.ID = pw.PlaylistID " +
+                    "INNER JOIN user u ON u.ID = pw.UserID " +
+                    "WHERE u.ID = ?");
+            statement.setString(1, user.getId().toString());
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    playlists.add(getFromResultSet(rs));
+                }
+            }
+        } finally {
+            if (statement != null) statement.close();
+        }
+        return playlists;
+    }
+
+    @Override
     public List<User> getFollowers(UUID id) throws SQLException, RemoteException {
         ArrayList<User> followers = new ArrayList<>();
         PreparedStatement statement = null;
