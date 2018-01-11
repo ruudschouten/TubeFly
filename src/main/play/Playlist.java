@@ -50,6 +50,10 @@ public class Playlist implements Serializable {
         return id;
     }
 
+    public String getFollowId() {
+        return id.toString() + "follow";
+    }
+
     public String getName() {
         return name;
     }
