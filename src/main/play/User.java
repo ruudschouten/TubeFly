@@ -59,7 +59,7 @@ public class User implements Serializable {
         if (obj == null || this.getClass() != obj.getClass()) {
             return false;
         }
-        return ((User) obj).getId() == getId();
+        return ((User) obj).getId().equals(getId());
     }
 
     @Override
