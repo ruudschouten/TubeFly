@@ -19,6 +19,8 @@ public interface IPlaylistContainer extends Remote {
 
     public List<Playlist> getPlaylists(String searchCriteria) throws RemoteException, SQLException;
 
+    public List<Playlist> getPlaylistsByFollower(User user) throws RemoteException, SQLException;
+
     public Playlist getPlaylist(UUID id) throws RemoteException;
 
     public boolean uploadPlaylist(Playlist playlist) throws RemoteException;

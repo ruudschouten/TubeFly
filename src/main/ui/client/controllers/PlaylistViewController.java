@@ -44,7 +44,6 @@ public class PlaylistViewController implements IController {
     private UITools.UIManager uiManager;
 
     private Playlist playlist;
-    private Song currentSong;
     private MediaPlayer player;
 
     public void initialize() {
@@ -53,6 +52,11 @@ public class PlaylistViewController implements IController {
         container.setController(this);
         playlist = container.getSelectedPlaylist();
         playlistName.setText(playlist.getName());
+
+        //Follow button
+        if(playlist.getFollowers().contains(container.getUser())) {
+            btnFollow.setText("Unfollow");
+        }
 
         if(!playlist.getCreator().equals(container.getUser())) {
             btnAdd.setVisible(false);
@@ -149,12 +153,8 @@ public class PlaylistViewController implements IController {
 
     public void songPlayPause(ActionEvent actionEvent) {
         SongButton btn = (SongButton) actionEvent.getSource();
-        currentSong = btn.getSong();
-        startSong(currentSong);
+        startSong(btn.getSong());
         btnPlayer.setText("\u23F8");
-    }
-
-    public void previousSong(ActionEvent actionEvent) {
     }
 
     public void currentSongPlayPause(ActionEvent actionEvent) {
@@ -168,17 +168,8 @@ public class PlaylistViewController implements IController {
         }
     }
 
-    public void nextSong(ActionEvent actionEvent) {
-    }
-
-    public void toggleShuffle(ActionEvent actionEvent) {
-    }
-
-    public void toggleLoop(ActionEvent actionEvent) {
-    }
-
     public void toMenu(ActionEvent actionEvent) {
-        player.stop();
+        if(player != null) player.stop();
         uiManager.loadFXML("menu.fxml", "Menu");
     }
 
@@ -196,14 +187,14 @@ public class PlaylistViewController implements IController {
         }
     }
 
+    public void showAddSong(ActionEvent actionEvent) {
+        uiManager.openInNewWindow("newsong.fxml", "Add Song");
+    }
+
     @Override
     public void update() {
         playlist = container.getSelectedPlaylist();
         playlistName.setText(playlist.getName());
         Platform.runLater(this::displaySongs);
-    }
-
-    public void showAddSong(ActionEvent actionEvent) {
-        uiManager.openInNewWindow("newsong.fxml", "Add Song");
     }
 }

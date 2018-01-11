@@ -36,6 +36,10 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
 
         userRepo = new UserRepository(new DatabaseUserContext());
         playlistRepo = new PlaylistRepository(new DatabasePlaylistContext());
+        logger.log(Level.INFO, "Registering playlists in publisher");
+        for (Playlist p : playlistRepo.getAll()) {
+            publisher.registerProperty(p.getFollowId());
+        }
     }
 
     @Override
@@ -95,6 +99,11 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     }
 
     @Override
+    public List<Playlist> getPlaylistsByFollower(User user) throws RemoteException, SQLException {
+        return playlistRepo.getFromFollower(user);
+    }
+
+    @Override
     public Playlist getPlaylist(UUID id) {
         return playlistRepo.getById(id);
     }
@@ -120,8 +129,9 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     @Override
     public boolean addSong(Playlist playlist, Song song) throws RemoteException, SQLException {
         boolean success = playlistRepo.addSong(song, playlist.getId());
-        logger.log(Level.INFO, String.format("%s added to Playlist ID: %s", song.getName(), playlist.getId()));
         publisher.inform(playlist.getId().toString(), null, playlistRepo.getById(playlist.getId()));
+        logger.log(Level.INFO, String.format("%s added to Playlist ID: %s", song.getName(), playlist.getId()));
+        publisher.inform(playlist.getId().toString() + "follow", null,  String.format("Playlist %s, has been updated!%n%s has been added!", playlist.getName(), song.getName()));
         return success;
     }
 
@@ -135,12 +145,13 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
 
     @Override
     public boolean follow(Playlist playlist, User user) throws SQLException, RemoteException {
-        publisher.registerProperty(playlist.getId().toString() + "follow");
+        publisher.registerProperty(playlist.getFollowId());
         return playlistRepo.follow(playlist, user);
     }
 
     @Override
     public boolean unfollow(Playlist playlist, User user) throws SQLException, RemoteException {
+        publisher.unregisterProperty(playlist.getFollowId());
         return playlistRepo.unfollow(playlist, user);
     }
 

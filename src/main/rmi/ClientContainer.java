@@ -2,10 +2,12 @@ package rmi;
 
 import fontyspublisher.IRemotePropertyListener;
 import fontyspublisher.IRemotePublisherForListener;
+import javafx.application.Platform;
 import log.Logger;
 import play.Playlist;
 import play.Song;
 import play.User;
+import ui.Message;
 import ui.client.controllers.IController;
 
 import java.beans.PropertyChangeEvent;
@@ -40,6 +42,14 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
         if (Objects.equals(evt.getPropertyName(), selectedPlaylist.getId().toString())) {
             selectedPlaylist = (Playlist) evt.getNewValue();
+        }
+        if(evt.getPropertyName().endsWith("follow")) {
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    Message.show("Playlist updated" ,(String) evt.getNewValue());
+                }
+            });
         }
         if (controller != null) controller.update();
     }
@@ -86,6 +96,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
             if (user != null) {
                 loggedIn = true;
                 logger.log(Level.FINE, String.format("%s logged in", user.getName()));
+                followPlaylists();
             } else {
                 logger.log(Level.WARNING, "Login details don't match");
             }
@@ -93,6 +104,16 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
             logger.log(Level.SEVERE, e.toString());
         }
         return user;
+    }
+
+    private void followPlaylists() {
+        try {
+            for (Playlist playlist : server.getPlaylistsByFollower(user)) {
+                follow(playlist);
+            }
+        } catch (RemoteException | SQLException e) {
+            logger.log(Level.SEVERE, e.toString());
+        }
     }
 
     public boolean logout() {
@@ -106,12 +127,6 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
             logger.log(Level.SEVERE, e.toString());
         }
         return false;
-    }
-
-    public boolean subscribeToArtist(String artist) throws RemoteException {
-        publisher.subscribeRemoteListener(this, Properties.ARTIST_PROPERTY);
-        logger.log(Level.FINE, String.format("%s subscribed to artist:%s", user.getName(), artist));
-        return server.subscribeToArtist(user, artist);
     }
 
     public boolean notifyUser() {
@@ -206,7 +221,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
 
     public boolean follow(Playlist playlist) {
         try {
-            publisher.subscribeRemoteListener(this, playlist.getId().toString());
+            publisher.subscribeRemoteListener(this, playlist.getFollowId());
             logger.log(Level.FINE, String.format("%s started following %s", user.getName(), playlist.getName()));
             return server.follow(playlist, user);
         } catch (RemoteException | SQLException e) {
@@ -217,7 +232,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
 
     public boolean unfollow(Playlist playlist) {
         try {
-            publisher.unsubscribeRemoteListener(this, playlist.getId().toString());
+            publisher.unsubscribeRemoteListener(this, playlist.getFollowId());
             logger.log(Level.FINE, String.format("%s stopped following %s", user.getName(), playlist.getName()));
             return server.unfollow(playlist, user);
         } catch (RemoteException | SQLException e) {
