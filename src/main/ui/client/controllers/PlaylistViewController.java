@@ -1,13 +1,13 @@
 package ui.client.controllers;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -28,10 +28,10 @@ import uk.co.caprica.vlcj.player.MediaPlayerFactory;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class PlaylistViewController implements IController {
+    @FXML private Slider volumeSlider;
+    @FXML private Button btnPlayer;
     @FXML private Button btnAdd;
     @FXML private Button btnFollow;
     @FXML private VBox songContainer;
@@ -43,12 +43,9 @@ public class PlaylistViewController implements IController {
     private ClientContainer container;
     private UITools.UIManager uiManager;
 
-    private Timer timer;
     private Playlist playlist;
     private Song currentSong;
     private MediaPlayer player;
-
-    private boolean isPaused;
 
     public void initialize() {
         uiManager = new UITools.UIManager();
@@ -66,6 +63,7 @@ public class PlaylistViewController implements IController {
             btnAdd.setVisible(true);
         }
         displaySongs();
+        (new NativeDiscovery()).discover();
     }
 
     private void displaySongs() {
@@ -76,26 +74,31 @@ public class PlaylistViewController implements IController {
     }
 
     private void startSong(Song s) {
-//        timer.cancel();
 
-        (new NativeDiscovery()).discover();
         if(player == null) setupVLC();
         player.prepareMedia(s.getURL());
         player.play();
-//        songTimeProgress.setProgress(0);
-//        currentSongInfo.setText(s.getName());
-        //setupTimer(s);
     }
 
     private void setupVLC() {
-        MediaPlayerFactory factory = new MediaPlayerFactory();
+        String[] VLC_ARGS = {
+                "--vout", "dummy",          // we don't want video (output)
+                };
+        MediaPlayerFactory factory = new MediaPlayerFactory(VLC_ARGS);
         player = factory.newEmbeddedMediaPlayer();
         player.setPlaySubItems(true); // <--- This is very important for YouTube media
+        player.setVolume(50);
 
         player.addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
             @Override
             public void buffering(MediaPlayer mediaPlayer, float newCache) {
-                System.out.println("Buffering " + newCache);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        currentSongInfo.setText("Buffering " + newCache);
+                    }
+                });
+                songTimeProgress.setProgress(newCache);
             }
 
             @Override
@@ -104,16 +107,12 @@ public class PlaylistViewController implements IController {
                 System.out.println(items);
             }
         });
-    }
-
-    private void setupTimer(Song s) {
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
-            public void run() {
-                songTimeProgress.setProgress(s.getCurrentTime().getMillis() / 100);
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                player.setVolume(newValue.intValue());
             }
-        }, 0, 1000);
+        });
     }
 
     private void addSongUI(Song s) {
@@ -150,28 +149,23 @@ public class PlaylistViewController implements IController {
 
     public void songPlayPause(ActionEvent actionEvent) {
         SongButton btn = (SongButton) actionEvent.getSource();
-        Song newSong = btn.getSong();
-        currentSong = newSong;
+        currentSong = btn.getSong();
         startSong(currentSong);
-//        if (currentSong == null || !currentSong.equals(newSong)) {
-//            startSong(currentSong);
-//            isPaused = false;
-//        }
-//        else {
-//            if (isPaused) {
-//                btn.setText(" ▶ ");
-//                isPaused = false;
-//            } else {
-//                btn.setText(" \u23F8 ");
-//                isPaused = true;
-//            }
-//        }
+        btnPlayer.setText("\u23F8");
     }
 
     public void previousSong(ActionEvent actionEvent) {
     }
 
     public void currentSongPlayPause(ActionEvent actionEvent) {
+        if(player.isPlaying()) {
+            player.pause();
+            btnPlayer.setText("▶");
+        }
+        else if(!player.isPlaying()) {
+            player.play();
+            btnPlayer.setText("\u23F8");
+        }
     }
 
     public void nextSong(ActionEvent actionEvent) {
