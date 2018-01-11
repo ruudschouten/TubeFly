@@ -47,10 +47,8 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     public User login(String mail, String password) throws SQLException, RemoteException {
         User u = userRepo.login(mail, password);
         if (u != null) {
-            publisher.registerProperty(Properties.USER_PROPERTY);
             logger.log(Level.FINE, String.format("Added %s to activeUsers", u.getName()));
             activeUsers.add(u);
-            publisher.inform(Properties.USER_PROPERTY, null, u);
             return u;
         }
         logger.log(Level.INFO, String.format("User with %s - %s not found in database", mail, password));
@@ -65,12 +63,6 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
         }
         logger.log(Level.INFO, String.format("Couldn't find %s in activeUsers", user.getName()));
         return false;
-    }
-
-    @Override
-    public boolean subscribeToArtist(User user, String artist) throws RemoteException {
-        publisher.registerProperty(artist);
-        throw new NotImplementedException();
     }
 
     @Override
@@ -143,6 +135,7 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
 
     @Override
     public boolean follow(Playlist playlist, User user) throws SQLException, RemoteException {
+        publisher.registerProperty(playlist.getId().toString() + "follow");
         return playlistRepo.follow(playlist, user);
     }
 
