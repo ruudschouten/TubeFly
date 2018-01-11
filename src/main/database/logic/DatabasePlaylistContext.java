@@ -93,7 +93,7 @@ public class DatabasePlaylistContext implements IPlaylistContext {
         ArrayList<User> followers = new ArrayList<>();
         PreparedStatement statement = null;
         try {
-            statement = Database.getCon().prepareStatement("SELECT * FROM playlist p " +
+            statement = Database.getCon().prepareStatement("SELECT u.* FROM playlist p " +
                     "INNER JOIN playlist_follower pf ON p.ID = pf.PlaylistID " +
                     "INNER JOIN user u ON pf.UserID = u.ID " +
                     "WHERE p.ID = ?");
