@@ -88,10 +88,10 @@ public class PlaylistViewController implements IController {
     }
 
     private void setupVLC() {
-        String[] VLC_ARGS = {
+        String[] args = {
                 "--vout", "dummy",          // we don't want video (output)
                 };
-        MediaPlayerFactory factory = new MediaPlayerFactory(VLC_ARGS);
+        MediaPlayerFactory factory = new MediaPlayerFactory(args);
         player = factory.newEmbeddedMediaPlayer();
         player.setPlaySubItems(true); // <--- This is very important for YouTube media
         player.setVolume(50);
@@ -99,27 +99,16 @@ public class PlaylistViewController implements IController {
         player.addMediaPlayerEventListener(new MediaPlayerEventAdapter() {
             @Override
             public void buffering(MediaPlayer mediaPlayer, float newCache) {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        currentSongInfo.setText("Buffering " + newCache + "\n" + currentSong.getName() + " - " + currentSong.getArtist());
-                    }
-                });
+                Platform.runLater(() -> currentSongInfo.setText("Buffering " + newCache + "\n" + currentSong.getName() + " - " + currentSong.getArtist()));
                 songTimeProgress.setProgress(newCache);
             }
 
             @Override
             public void mediaSubItemAdded(MediaPlayer mediaPlayer, libvlc_media_t subItem) {
-                List<String> items = mediaPlayer.subItems();
-                System.out.println(items);
-            }
+                //This is empty because it works when it's empty
+                }
         });
-        volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                player.setVolume(newValue.intValue());
-            }
-        });
+        volumeSlider.valueProperty().addListener((observable, oldValue, newValue) -> player.setVolume(newValue.intValue()));
     }
 
     private void addSongUI(Song s) {
@@ -133,7 +122,7 @@ public class PlaylistViewController implements IController {
         SongButton playBtn = new SongButton(s);
         playBtn.setOnAction(this::songPlayPause);
         playBtn.getStyleClass().add("musicbutton");
-        playBtn.setText(" ▶ ");
+        playBtn.setText(ResourceHandler.PLAY_CHAR);
         pane.getChildren().addAll(songInfo, playBtn);
         root.getChildren().add(pane);
         HBox.setHgrow(pane, Priority.ALWAYS);
@@ -153,21 +142,21 @@ public class PlaylistViewController implements IController {
     public void songPlayPause(ActionEvent actionEvent) {
         SongButton btn = (SongButton) actionEvent.getSource();
         startSong(btn.getSong());
-        btnPlayer.setText("\u23F8");
+        btnPlayer.setText(ResourceHandler.PAUSE_CHAR);
     }
 
     public void currentSongPlayPause(ActionEvent actionEvent) {
         if(player == null) {
             startSong(playlist.getSongs().get(0));
-            btnPlayer.setText("\u23F8");
+            btnPlayer.setText(ResourceHandler.PAUSE_CHAR);
         }
         if(player.isPlaying()) {
             player.pause();
-            btnPlayer.setText("▶");
+            btnPlayer.setText(ResourceHandler.PLAY_CHAR);
         }
         else if(!player.isPlaying()) {
             player.play();
-            btnPlayer.setText("\u23F8");
+            btnPlayer.setText(ResourceHandler.PAUSE_CHAR);
         }
     }
 
