@@ -43,6 +43,8 @@ public class PlaylistViewController implements IController {
     private ClientContainer container;
     private UITools.UIManager uiManager;
 
+    private Song currentSong;
+
     private Playlist playlist;
     private MediaPlayer player;
 
@@ -66,6 +68,7 @@ public class PlaylistViewController implements IController {
             btnFollow.setVisible(false);
             btnAdd.setVisible(true);
         }
+
         displaySongs();
         (new NativeDiscovery()).discover();
     }
@@ -78,8 +81,8 @@ public class PlaylistViewController implements IController {
     }
 
     private void startSong(Song s) {
-
         if(player == null) setupVLC();
+        currentSong = s;
         player.prepareMedia(s.getURL());
         player.play();
     }
@@ -99,7 +102,7 @@ public class PlaylistViewController implements IController {
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
-                        currentSongInfo.setText("Buffering " + newCache);
+                        currentSongInfo.setText("Buffering " + newCache + "\n" + currentSong.getName() + " - " + currentSong.getArtist());
                     }
                 });
                 songTimeProgress.setProgress(newCache);
@@ -124,18 +127,14 @@ public class PlaylistViewController implements IController {
         root.getStyleClass().add("playlist");
         AnchorPane pane = new AnchorPane();
         Label songInfo = new Label(String.format("%s - %s", s.getName(), s.getArtist()));
-        Label songTime = new Label(String.format("%s", s.getLengthString()));
         AnchorPane.setBottomAnchor(songInfo, 5.0);
         AnchorPane.setLeftAnchor(songInfo, 35.0);
         AnchorPane.setTopAnchor(songInfo, 5.0);
-        AnchorPane.setBottomAnchor(songTime, 5.0);
-        AnchorPane.setRightAnchor(songTime, 0.0);
-        AnchorPane.setTopAnchor(songTime, 5.0);
         SongButton playBtn = new SongButton(s);
         playBtn.setOnAction(this::songPlayPause);
         playBtn.getStyleClass().add("musicbutton");
         playBtn.setText(" ▶ ");
-        pane.getChildren().addAll(songInfo, songTime, playBtn);
+        pane.getChildren().addAll(songInfo, playBtn);
         root.getChildren().add(pane);
         HBox.setHgrow(pane, Priority.ALWAYS);
         VBox.setMargin(root, new Insets(10, 0, 10, 0));
@@ -158,6 +157,10 @@ public class PlaylistViewController implements IController {
     }
 
     public void currentSongPlayPause(ActionEvent actionEvent) {
+        if(player == null) {
+            startSong(playlist.getSongs().get(0));
+            btnPlayer.setText("\u23F8");
+        }
         if(player.isPlaying()) {
             player.pause();
             btnPlayer.setText("▶");

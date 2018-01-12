@@ -77,7 +77,7 @@ public class EditPlaylistController implements IController {
         HBox root = new HBox();
         root.getStyleClass().add("playlist");
         AnchorPane pane = new AnchorPane();
-        Label songInfo = new Label(String.format("%s %s (%s)", s.getName(), s.getArtist(), s.getLength()));
+        Label songInfo = new Label(String.format("%s %s", s.getName(), s.getArtist()));
         SongButton btn = new SongButton(s);
         btn.getStyleClass().addAll("deletebutton");
         btn.setText("x");
