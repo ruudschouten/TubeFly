@@ -231,4 +231,13 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
         }
         return false;
     }
+
+    public SessionManager.SessionStatus getSessionStatus() {
+        try {
+            return server.getSessionStatus();
+        } catch (RemoteException e) {
+            logger.logE(Level.SEVERE, e);
+        }
+        return SessionManager.SessionStatus.DEFAULT;
+    }
 }

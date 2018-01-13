@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import database.data.Database;
 import play.User;
 import rmi.ClientContainer;
+import rmi.SessionManager;
 import security.Hash;
 import ui.Message;
 import ui.ResourceHandler;
@@ -42,8 +43,13 @@ public class LoginController {
         if (user != null) {
             uiManager.loadFXML("menu.fxml", "Menu");
         } else {
-            Message.show("Invalid login", "Username and password did not match\nPlease try again.");
-            ResourceHandler.getLogger().log(Level.WARNING, "Username and password did not match");
+            if(ResourceHandler.getContainer().getSessionStatus() == SessionManager.SessionStatus.ALREADY_LOGGED_IN) {
+                Message.show("Already logged in", "User is already logged in");
+                ResourceHandler.getLogger().log(Level.WARNING, "User was already logged in");
+            } else {
+                Message.show("Invalid login", "Username and password did not match\nPlease try again.");
+                ResourceHandler.getLogger().log(Level.WARNING, "Username and password did not match");
+            }
         }
     }
 

@@ -52,7 +52,7 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
         User u = userRepo.login(mail, password);
         if (u != null) {
             logger.log(Level.FINE, String.format("Added %s to activeUsers", u.getName()));
-            if(SessionManager.get(u)) return u;
+            if (SessionManager.get(u)) return u;
             logger.log(Level.WARNING, String.format("%s was already logged in", u));
             return null;
         }
@@ -127,7 +127,7 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
         boolean success = playlistRepo.addSong(song, playlist.getId());
         publisher.inform(playlist.getId().toString(), null, playlistRepo.getById(playlist.getId()));
         logger.log(Level.INFO, String.format("%s added to Playlist ID: %s", song.getName(), playlist.getId()));
-        publisher.inform(playlist.getId().toString() + "follow", null,  String.format("Playlist %s, has been updated!%n%s has been added!", playlist.getName(), song.getName()));
+        publisher.inform(playlist.getId().toString() + "follow", null, String.format("Playlist %s, has been updated!%n%s has been added!", playlist.getName(), song.getName()));
         return success;
     }
 
@@ -154,5 +154,10 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     @Override
     public void registerProperty(Playlist playlist) throws RemoteException {
         publisher.registerProperty(playlist.getId().toString());
+    }
+
+    @Override
+    public SessionManager.SessionStatus getSessionStatus() {
+        return SessionManager.getStatus();
     }
 }
