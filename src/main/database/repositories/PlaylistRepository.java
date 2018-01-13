@@ -28,7 +28,7 @@ public class PlaylistRepository implements IPlaylistContext {
         try {
             return context.getById(id);
         } catch (SQLException | RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return null;
     }
@@ -38,7 +38,7 @@ public class PlaylistRepository implements IPlaylistContext {
         try {
             return context.getAll();
         } catch (SQLException | RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return new ArrayList<>();
     }
@@ -49,7 +49,7 @@ public class PlaylistRepository implements IPlaylistContext {
         try {
             return context.getAll(searchCriteria);
         } catch (SQLException | RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return new ArrayList<>();
     }
@@ -59,7 +59,7 @@ public class PlaylistRepository implements IPlaylistContext {
         try {
             return context.getFromCreator(user);
         } catch (SQLException | RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return new ArrayList<>();
     }
@@ -69,7 +69,7 @@ public class PlaylistRepository implements IPlaylistContext {
         try {
             return context.getFromFollower(user);
         } catch (SQLException | RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return new ArrayList<>();
     }
@@ -79,7 +79,7 @@ public class PlaylistRepository implements IPlaylistContext {
         try {
             return context.getFollowers(id);
         } catch (SQLException | RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return new ArrayList<>();
     }
@@ -89,7 +89,7 @@ public class PlaylistRepository implements IPlaylistContext {
         try {
             return context.addSong(song, id);
         } catch (SQLException | RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -99,7 +99,7 @@ public class PlaylistRepository implements IPlaylistContext {
         try {
             return context.removeSong(song, id);
         } catch (SQLException | RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -109,7 +109,7 @@ public class PlaylistRepository implements IPlaylistContext {
         try {
             return context.insert(playlist);
         } catch (SQLException | RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -119,7 +119,7 @@ public class PlaylistRepository implements IPlaylistContext {
         try {
             return context.update(id, name, description);
         } catch (SQLException | RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -129,7 +129,7 @@ public class PlaylistRepository implements IPlaylistContext {
         try {
             return context.follow(playlist, user);
         } catch (SQLException | RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -139,7 +139,7 @@ public class PlaylistRepository implements IPlaylistContext {
         try {
             return context.unfollow(playlist, user);
         } catch (SQLException | RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -149,7 +149,7 @@ public class PlaylistRepository implements IPlaylistContext {
         try {
             return context.delete(id);
         } catch (SQLException | RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -159,7 +159,7 @@ public class PlaylistRepository implements IPlaylistContext {
         try {
             return context.getFromResultSet(rs);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return null;
     }

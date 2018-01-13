@@ -54,7 +54,7 @@ public class SharedData {
             if (logger == null) {
                 logger = new Logger("SharedData", Level.SEVERE, Level.SEVERE);
             }
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
     }
 }

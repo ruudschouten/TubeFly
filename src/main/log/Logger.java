@@ -32,4 +32,7 @@ public class Logger {
     public void log(Level level, String message){
         javaLogger.log(level, message);
     }
+    public void logE(Level level, Exception e){
+        javaLogger.log(level, e.toString(), e);
+    }
 }

@@ -48,7 +48,7 @@ public class TubeServer {
             logger.log(Level.INFO, "Server name bound to registry");
             return true;
         } catch (RemoteException e) {
-            logger.log(Level.WARNING, e.getMessage());
+            logger.logE(Level.SEVERE, e);
             return false;
         }
     }

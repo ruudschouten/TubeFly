@@ -28,7 +28,7 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
     private transient UserRepository userRepo;
     private transient PlaylistRepository playlistRepo;
 
-    private ArrayList<User> activeUsers = new ArrayList<>();
+    private SessionManager sessionManager;
 
     public ServerContainer(RemotePublisher publisher) throws RemoteException {
         this.publisher = publisher;
@@ -52,8 +52,9 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
         User u = userRepo.login(mail, password);
         if (u != null) {
             logger.log(Level.FINE, String.format("Added %s to activeUsers", u.getName()));
-            activeUsers.add(u);
-            return u;
+            if(SessionManager.get(u)) return u;
+            logger.log(Level.WARNING, String.format("%s was already logged in", u));
+            return null;
         }
         logger.log(Level.INFO, String.format("User with %s - %s not found in database", mail, password));
         return null;
@@ -61,17 +62,12 @@ public class ServerContainer extends UnicastRemoteObject implements IContainer {
 
     @Override
     public boolean logout(User user) {
-        if (activeUsers.size() > 1) {
+        if (SessionManager.release(user)) {
             logger.log(Level.FINE, String.format("Removed %s from activeUsers", user.getName()));
-            return activeUsers.remove(user);
+            return true;
         }
         logger.log(Level.INFO, String.format("Couldn't find %s in activeUsers", user.getName()));
         return false;
-    }
-
-    @Override
-    public boolean notifyUser() {
-        throw new NotImplementedException();
     }
 
     @Override

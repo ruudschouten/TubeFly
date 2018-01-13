@@ -37,7 +37,7 @@ public class UITools {
         try {
             root = loader.load();
         } catch (IOException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
@@ -73,7 +73,7 @@ public class UITools {
             try {
                 root = loader.load();
             } catch (IOException e) {
-                logger.log(Level.SEVERE, e.toString());
+                logger.logE(Level.SEVERE, e);
             }
             currentRoot = root;
             Scene scene = new Scene(root);
@@ -118,7 +118,7 @@ public class UITools {
                 stage.show();
             }
             catch (IOException e) {
-                logger.log(Level.SEVERE, e.toString());
+                logger.logE(Level.SEVERE, e);
             }
         }
 

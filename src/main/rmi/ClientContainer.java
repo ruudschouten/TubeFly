@@ -65,7 +65,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
             server.registerProperty(playlist);
             publisher.subscribeRemoteListener(this, playlist.getId().toString());
         } catch (RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
     }
 
@@ -85,7 +85,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
                 return user;
             }
         } catch (RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return null;
     }
@@ -101,7 +101,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
                 logger.log(Level.WARNING, "Login details don't match");
             }
         } catch (SQLException | RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return user;
     }
@@ -112,7 +112,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
                 follow(playlist);
             }
         } catch (RemoteException | SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
     }
 
@@ -124,16 +124,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
             }
             logger.log(Level.WARNING, "User isn't logged in");
         } catch (RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
-        }
-        return false;
-    }
-
-    public boolean notifyUser() {
-        try {
-            return server.notifyUser();
-        } catch (RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -142,7 +133,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
         try {
             return server.getPlaylists();
         } catch (RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return new ArrayList<>();
     }
@@ -151,7 +142,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
         try {
             return server.getPlaylists(limit);
         } catch (RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return new ArrayList<>();
     }
@@ -160,7 +151,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
         try {
             return server.getPlaylist(id);
         } catch (RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return null;
     }
@@ -169,7 +160,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
         try {
             return server.getPlaylists(searchCriteria);
         } catch (RemoteException | SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return new ArrayList<>();
     }
@@ -178,7 +169,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
         try {
             return server.getPlaylists(user);
         } catch (RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return new ArrayList<>();
     }
@@ -187,7 +178,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
         try {
             return server.uploadPlaylist(playlist);
         } catch (RemoteException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -196,7 +187,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
         try {
             return server.updatePlaylist(selectedPlaylist, name, description);
         } catch (RemoteException | SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -205,7 +196,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
         try {
             return server.addSong(playlist, song);
         } catch (RemoteException | SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -214,7 +205,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
         try {
             return server.removeSong(playlist, song);
         } catch (RemoteException | SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -225,7 +216,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
             logger.log(Level.FINE, String.format("%s started following %s", user.getName(), playlist.getName()));
             return server.follow(playlist, user);
         } catch (RemoteException | SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -236,7 +227,7 @@ public class ClientContainer extends UnicastRemoteObject implements IRemotePrope
             logger.log(Level.FINE, String.format("%s stopped following %s", user.getName(), playlist.getName()));
             return server.unfollow(playlist, user);
         } catch (RemoteException | SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }

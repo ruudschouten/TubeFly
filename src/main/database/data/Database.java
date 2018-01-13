@@ -24,7 +24,7 @@ public class Database {
                 setupProperty();
                 initConnection();
             } catch (IOException | SQLException e) {
-                logger.log(Level.SEVERE, e.toString());
+                logger.logE(Level.SEVERE, e);
             }
         }
         return con;

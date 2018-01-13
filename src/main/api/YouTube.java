@@ -32,7 +32,7 @@ public class YouTube {
                 }
             }
         } catch (IOException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
     }
 

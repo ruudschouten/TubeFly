@@ -33,7 +33,7 @@ public class ArtistRepository implements IArtistContext {
         try {
             return context.getSubscribersAll(artist);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return new ArrayList<>();
     }
@@ -43,7 +43,7 @@ public class ArtistRepository implements IArtistContext {
         try {
             return context.insert(artistName);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -53,7 +53,7 @@ public class ArtistRepository implements IArtistContext {
         try {
             return context.delete(artistName);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }

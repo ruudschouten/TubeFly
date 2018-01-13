@@ -25,7 +25,7 @@ public class UserRepository implements IUserContext {
         try {
             return context.login(mail, password);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return null;
     }
@@ -35,7 +35,7 @@ public class UserRepository implements IUserContext {
         try {
             return context.getById(id);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return null;
     }
@@ -45,7 +45,7 @@ public class UserRepository implements IUserContext {
         try {
             return context.getAll();
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return new ArrayList<>();
     }
@@ -55,7 +55,7 @@ public class UserRepository implements IUserContext {
         try {
             return context.insert(user);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -65,7 +65,7 @@ public class UserRepository implements IUserContext {
         try {
             return context.delete(id);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -75,7 +75,7 @@ public class UserRepository implements IUserContext {
         try {
             return context.getFromResultSet(rs);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return null;
     }

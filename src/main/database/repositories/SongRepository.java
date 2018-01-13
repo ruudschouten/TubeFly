@@ -25,7 +25,7 @@ public class SongRepository implements ISongContext {
         try {
             return context.getById(id);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return null;
     }
@@ -35,7 +35,7 @@ public class SongRepository implements ISongContext {
         try {
             return context.getByName(name);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return null;
     }
@@ -45,7 +45,7 @@ public class SongRepository implements ISongContext {
         try {
             return context.getByURL(url);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return null;
     }
@@ -55,7 +55,7 @@ public class SongRepository implements ISongContext {
         try {
             return context.getAll();
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return new ArrayList<>();
     }
@@ -65,7 +65,7 @@ public class SongRepository implements ISongContext {
         try {
             return context.getAllFromPlaylist(id);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return new ArrayList<>();
     }
@@ -75,7 +75,7 @@ public class SongRepository implements ISongContext {
         try {
             return context.getByArtist(artist);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return new ArrayList<>();
     }
@@ -85,7 +85,7 @@ public class SongRepository implements ISongContext {
         try {
             return context.insert(song);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -95,7 +95,7 @@ public class SongRepository implements ISongContext {
         try {
             return context.delete(id);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return false;
     }
@@ -105,7 +105,7 @@ public class SongRepository implements ISongContext {
         try {
             return context.getFromResultSet(rs);
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, e.toString());
+            logger.logE(Level.SEVERE, e);
         }
         return null;
     }
