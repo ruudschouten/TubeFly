@@ -1,7 +1,9 @@
 package ui;
 
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.beans.property.*;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -13,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import log.Logger;
 
 import java.io.IOException;
@@ -83,6 +86,13 @@ public class UITools {
                 stage.setScene(scene);
                 stage.show();
                 stage.setResizable(false);
+                stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                    @Override
+                    public void handle(WindowEvent event) {
+                        ResourceHandler.getContainer().logout();
+                        Platform.exit();
+                    }
+                });
             }
             stage.setScene(scene);
             if (windowName != "") stage.setTitle(windowName);
